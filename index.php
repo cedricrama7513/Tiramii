@@ -4,21 +4,26 @@
  */
 declare(strict_types=1);
 
-require_once __DIR__ . '/includes/init_public.php';
-require_once __DIR__ . '/includes/catalog_render.php';
-
 try {
+    $init = __DIR__ . '/includes/init_public.php';
+    if (!is_readable($init)) {
+        throw new RuntimeException('includes/init_public.php introuvable (déploiement incomplet ?).');
+    }
+    require_once $init;
+
+    $catalog = __DIR__ . '/includes/catalog_render.php';
+    if (!is_readable($catalog)) {
+        throw new RuntimeException('includes/catalog_render.php introuvable (déploiement incomplet ?).');
+    }
+    require_once $catalog;
+
     $pdo = require __DIR__ . '/config/db.php';
-} catch (Throwable $e) {
-    http_response_code(500);
-    echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Configuration</title></head><body>';
-    echo '<p>Configurer <code>config/config.php</code> (copie de <code>config.example.php</code>) et importer <code>database.sql</code>.</p>';
-    echo '</body></html>';
-    exit;
-}
 
-try {
-    $imgs = require __DIR__ . '/includes/product_images.php';
+    $imgsPath = __DIR__ . '/includes/product_images.php';
+    if (!is_readable($imgsPath)) {
+        throw new RuntimeException('includes/product_images.php introuvable ou illisible (fichier ~400 Ko requis).');
+    }
+    $imgs = require $imgsPath;
     if (!is_array($imgs)) {
         $imgs = [];
     }
@@ -59,7 +64,7 @@ try {
 
     $tplPath = __DIR__ . '/templates/index_base.html';
     if (!is_readable($tplPath)) {
-        throw new RuntimeException('Template manquant');
+        throw new RuntimeException('templates/index_base.html manquant.');
     }
 
     $html = file_get_contents($tplPath);
@@ -77,16 +82,20 @@ try {
 
     header('Content-Type: text/html; charset=UTF-8');
     echo $html;
-} catch (Throwable $e) {
-    // Erreur fréquente sur Hostinger : tables absentes, mauvaise base, product_images.php manquant ou tronqué.
+} catch (Throwable) {
     http_response_code(500);
-    echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Erreur TIRA’MII</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem">';
-    echo '<h1>Site en cours de configuration</h1>';
-    echo '<p>Une erreur empêche l’affichage de la boutique. Vérifiez :</p><ul>';
-    echo '<li>Import de <code>database.sql</code> dans la <strong>même</strong> base que celle indiquée dans <code>config/config.php</code></li>';
-    echo '<li>Présence et taille de <code>includes/product_images.php</code> (upload complet, ~400 Ko)</li>';
-    echo '<li>Dossiers <code>templates/</code>, <code>includes/</code>, <code>assets/</code> au bon niveau (souvent tout dans <code>public_html</code>)</li>';
+    header('Content-Type: text/html; charset=UTF-8');
+    echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>TIRA’MII — configuration</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem">';
+    echo '<h1>Le site ne peut pas s’afficher</h1>';
+    echo '<p><strong>À vérifier sur Hostinger :</strong></p><ul>';
+    echo '<li>Tout le projet est dans le dossier du domaine (souvent <code>public_html</code>), pas seulement <code>index.php</code>.</li>';
+    echo '<li>Fichier <code>config/config.php</code> créé sur le serveur (il n’est pas sur Git) avec les identifiants MySQL.</li>';
+    echo '<li>Hôte MySQL : essayez <code>localhost</code> si <code>127.0.0.1</code> échoue (ou l’inverse).</li>';
+    echo '<li>Import de <code>database.sql</code> dans la même base que dans <code>config.php</code>.</li>';
+    echo '<li>Fichier <code>includes/product_images.php</code> uploadé en entier (~400 Ko).</li>';
     echo '</ul>';
-    echo '<p>Ouvrez une fois <a href="verification-installation.php">verification-installation.php</a> pour un diagnostic, puis <strong>supprimez ce fichier</strong> sur le serveur.</p>';
+    echo '<p>Uploadez aussi <code>verification-installation.php</code> depuis le dépôt, ouvrez-le une fois dans le navigateur, puis supprimez-le.</p>';
+    echo '<p>Test minimal : <a href="ping.php">ping.php</a> doit afficher « ok ».</p>';
+    echo '<p style="color:#555;font-size:.9rem">Logs PHP : hPanel → Avancé → journaux d’erreurs (ou équivalent).</p>';
     echo '</body></html>';
 }

@@ -91,7 +91,12 @@ if (!is_readable($cfgPath)) {
             line('Lignes dans products', $n > 0, "Nombre : {$n}");
         }
     } catch (Throwable $e) {
-        line('Connexion MySQL', false, 'Vérifiez hôte (souvent localhost ou celui indiqué dans hPanel), nom de base, utilisateur, mot de passe.');
+        line(
+            'Connexion MySQL',
+            false,
+            'Vérifiez hôte (souvent <code>localhost</code> sur Hostinger), base, utilisateur, mot de passe. Message : '
+                . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8')
+        );
     }
 }
 
