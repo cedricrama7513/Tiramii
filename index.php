@@ -4,6 +4,10 @@
  */
 declare(strict_types=1);
 
+if (function_exists('ini_set')) {
+    @ini_set('memory_limit', '256M');
+}
+
 try {
     $init = __DIR__ . '/includes/init_public.php';
     if (!is_readable($init)) {
@@ -18,6 +22,10 @@ try {
     require_once $catalog;
 
     $pdo = require __DIR__ . '/config/db.php';
+
+    if (function_exists('ini_set')) {
+        @ini_set('memory_limit', '256M');
+    }
 
     $imgsPath = __DIR__ . '/includes/product_images.php';
     if (!is_readable($imgsPath)) {
@@ -95,7 +103,8 @@ try {
     echo '<li>Fichier <code>includes/product_images.php</code> uploadé en entier (~400 Ko).</li>';
     echo '</ul>';
     echo '<p>Uploadez aussi <code>verification-installation.php</code> depuis le dépôt, ouvrez-le une fois dans le navigateur, puis supprimez-le.</p>';
-    echo '<p>Test minimal : <a href="ping.php">ping.php</a> doit afficher « ok ».</p>';
+    echo '<p>Tests : <a href="ping.php">ping.php</a> → <code>ok</code> ; <a href="health.php">health.php</a> → liste des fichiers.</p>';
+    echo '<p><strong>Si ping.php et health.php sont en 404</strong>, le déploiement Git (ou les fichiers) n’est pas dans le dossier racine du domaine (hPanel → Fichiers → <code>public_html</code> pour ce site, ou chemin indiqué pour tiramii.fr).</p>';
     echo '<p style="color:#555;font-size:.9rem">Logs PHP : hPanel → Avancé → journaux d’erreurs (ou équivalent).</p>';
     echo '</body></html>';
 }
