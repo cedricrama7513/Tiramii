@@ -7,6 +7,7 @@ return [
     'db' => [
         'host' => 'localhost',
         'name' => 'votre_base_mysql',
+        // Hostinger : l’utilisateur affiché dans « Bases de données » (ex. u123_nomquevousavezchoisi), pas seulement le préfixe du compte.
         'user' => 'votre_utilisateur',
         'pass' => 'votre_mot_de_passe',
         'charset' => 'utf8mb4',
