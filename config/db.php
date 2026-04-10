@@ -13,6 +13,11 @@ if (!is_readable($configFile)) {
 /** @var array $cfg */
 $cfg = require $configFile;
 $db = $cfg['db'];
+foreach (['host', 'name', 'user', 'pass'] as $k) {
+    if (isset($db[$k]) && is_string($db[$k])) {
+        $db[$k] = trim($db[$k]);
+    }
+}
 
 $dsn = sprintf(
     'mysql:host=%s;dbname=%s;charset=%s',
