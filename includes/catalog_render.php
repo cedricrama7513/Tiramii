@@ -21,7 +21,6 @@ function tiramii_render_product_grid(array $products, array $stockMap, array $im
         $imgSrc = $imgs[$imgKey] ?? ($imgs['oreo'] ?? '');
         $price = number_format((float) $p['price_eur'], 2, ',', '');
         $name = (string) $p['name'];
-        $desc = (string) $p['description'];
         $badgeClass = (string) $p['badge_class'];
         $badgeText = (string) $p['badge_text'];
 
@@ -40,7 +39,6 @@ function tiramii_render_product_grid(array $products, array $stockMap, array $im
         $html .= '</div>';
         $html .= '<div class="product-info">';
         $html .= '<div class="product-name">' . h($name) . '</div>';
-        $html .= '<div class="product-desc">' . h($desc) . '</div>';
         $html .= '<div class="product-footer">';
         $html .= '<div class="product-price">' . h($price) . '€</div>';
         $html .= '<button class="add-to-cart" id="btn-' . h($id) . '" onclick="addToCart(\'' . h($id) . '\')"' . $disabled . '>';

@@ -50,8 +50,7 @@ nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(243,234,252,.96)
 .sold-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:white;letter-spacing:.1em;text-transform:uppercase}
 .stock-badge{position:absolute;bottom:12px;left:12px;background:rgba(251,191,36,.9);color:#333;font-size:.72rem;padding:3px 10px;border-radius:50px;font-weight:600}
 .product-info{padding:1.3rem}
-.product-name{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--vk);margin-bottom:.3rem}
-.product-desc{font-size:.82rem;color:#8a7090;line-height:1.55;margin-bottom:1.2rem}
+.product-name{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--vk);margin-bottom:1.1rem}
 .product-footer{display:flex;align-items:center;justify-content:space-between;gap:.8rem}
 .product-price{font-size:1.2rem;font-weight:700;color:var(--vk);white-space:nowrap}
 .add-to-cart{flex:1;background:var(--vd);color:white;border:none;border-radius:50px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
@@ -673,7 +672,6 @@ function renderProducts() {
       </div>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
-        <div class="product-desc">${p.desc}</div>
         <div class="product-footer">
           <div class="product-price">${p.price.toFixed(2).replace('.',',')}€</div>
           <button class="add-to-cart" id="btn-${p.id}" onclick="addToCart('${p.id}')" ${!available ? 'disabled' : ''}>
