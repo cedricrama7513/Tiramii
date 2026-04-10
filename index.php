@@ -36,10 +36,14 @@ try {
         $imgs = [];
     }
 
-    $products = $pdo->query(
-        'SELECT id, name, price_eur, description, badge_class, badge_text, img_key, sort_order
-         FROM products WHERE is_active = 1 ORDER BY sort_order ASC, id ASC'
-    )->fetchAll(PDO::FETCH_ASSOC);
+    $retiredProductIds = ['box2'];
+    $notIn = implode(',', array_fill(0, count($retiredProductIds), '?'));
+    $stmtProducts = $pdo->prepare(
+        "SELECT id, name, price_eur, description, badge_class, badge_text, img_key, sort_order
+         FROM products WHERE is_active = 1 AND id NOT IN ($notIn) ORDER BY sort_order ASC, id ASC"
+    );
+    $stmtProducts->execute($retiredProductIds);
+    $products = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
 
     $stockMap = [];
     foreach ($pdo->query('SELECT product_id, quantity FROM stock_levels')->fetchAll(PDO::FETCH_ASSOC) as $r) {
@@ -78,6 +82,26 @@ try {
     }
 
     $html = file_get_contents($tplPath);
+
+    $boxPath = __DIR__ . '/includes/box_section_fragment.html';
+    $boxHtml = is_readable($boxPath) ? (string) file_get_contents($boxPath) : '';
+    if ($boxHtml !== '') {
+        if (str_contains($html, '__BOX_SECTION__')) {
+            $html = str_replace('__BOX_SECTION__', $boxHtml, $html);
+        } else {
+            $replaced = preg_replace(
+                '/<section\s[^>]*\bid="box"\b[^>]*>[\s\S]*?<\/section>/iu',
+                $boxHtml,
+                $html,
+                1,
+                $boxCount
+            );
+            if ($boxCount > 0) {
+                $html = $replaced;
+            }
+        }
+    }
+
     $navHtml = is_readable(__DIR__ . '/includes/nav_fragment.html')
         ? (string) file_get_contents(__DIR__ . '/includes/nav_fragment.html')
         : '';

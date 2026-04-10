@@ -32,10 +32,11 @@ if (!is_array($items)) {
     tiramii_json_response(['ok' => false, 'error' => 'items invalide'], 400);
 }
 
+$retiredIds = ['box2'];
 $clean = [];
 foreach ($items as $k => $v) {
     $key = preg_replace('/[^a-z0-9_]/i', '', (string) $k);
-    if ($key === '') {
+    if ($key === '' || in_array($key, $retiredIds, true)) {
         continue;
     }
     $n = (int) $v;

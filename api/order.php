@@ -62,6 +62,7 @@ if (!is_array($cart) || $cart === []) {
     tiramii_json_response(['ok' => false, 'error' => 'Panier vide.'], 422);
 }
 
+$retiredProductIds = ['box2'];
 $lines = [];
 $total = 0.0;
 foreach ($cart as $row) {
@@ -69,6 +70,9 @@ foreach ($cart as $row) {
         continue;
     }
     $pid = isset($row['id']) ? (string) $row['id'] : '';
+    if (in_array($pid, $retiredProductIds, true)) {
+        tiramii_json_response(['ok' => false, 'error' => 'Un article du panier n’est plus disponible. Videz le panier et rechargez la page.'], 422);
+    }
     $qty = isset($row['qty']) ? (int) $row['qty'] : 0;
     $price = isset($row['price']) ? (float) $row['price'] : 0.0;
     $name = isset($row['name']) ? (string) $row['name'] : '';
