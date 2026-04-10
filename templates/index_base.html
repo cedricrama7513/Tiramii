@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="csrf-token" content="__CSRF__">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIRA'MII — Les desserts qui régalent !</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--v:#c8a8e9;--vd:#7c4daa;--vk:#3d1f6e;--bg:#f3eafc}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--vk);overflow-x:hidden}
+nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(243,234,252,.96);backdrop-filter:blur(14px);border-bottom:1px solid rgba(200,168,233,.4);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--vk);text-decoration:none;font-weight:600;letter-spacing:.04em}
+.logo-circle{width:38px;height:38px;border:2.5px solid var(--vd);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative}
+.logo-circle::before{content:'';position:absolute;width:32px;height:32px;border:1.5px solid var(--v);border-radius:50%;border-top-color:transparent;transform:rotate(-30deg)}
+.logo-circle span{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--vd)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--vd);font-size:.88rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--vk)}
+.cart-btn{display:flex;align-items:center;gap:8px;background:var(--vd);color:white;border:none;padding:8px 18px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.84rem;cursor:pointer;transition:background .2s}
+.cart-btn:hover{background:var(--vk)}
+.cart-count{background:white;color:var(--vd);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700}
+.hero{min-height:100vh;background:linear-gradient(135deg,#e8d5f5 0%,#d4b8ee 40%,#c8a8e9 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:90px 2rem 4rem;position:relative;overflow:hidden}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(4rem,12vw,8rem);line-height:1;color:var(--vk);letter-spacing:-.02em;animation:fadeUp .7s .12s ease both}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.7);color:var(--vk);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:6px 20px;border-radius:50px;margin-bottom:1.5rem;border:1px solid rgba(124,77,170,.3);animation:fadeUp .7s ease both;backdrop-filter:blur(8px)}
+.hero-tagline{display:inline-block;background:var(--vd);color:white;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 22px;border-radius:4px;margin:1.2rem 0 1.5rem;animation:fadeUp .7s .24s ease both}
+.hero-sub{font-size:1rem;color:var(--vk);font-weight:300;margin-bottom:2rem;animation:fadeUp .7s .36s ease both;opacity:.75}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .7s .48s ease both;margin-bottom:2.5rem}
+.btn-primary{background:var(--vk);color:white;padding:14px 32px;border-radius:50px;text-decoration:none;font-size:.9rem;font-weight:500;letter-spacing:.04em;transition:all .3s}
+.btn-primary:hover{background:var(--vd);transform:translateY(-2px)}
+.btn-outline{background:rgba(255,255,255,.5);color:var(--vk);padding:14px 32px;border-radius:50px;text-decoration:none;font-size:.9rem;font-weight:500;transition:all .3s;border:2px solid var(--vd);backdrop-filter:blur(8px)}
+.btn-outline:hover{background:var(--vd);color:white;transform:translateY(-2px)}
+.promo-banner{background:var(--vk);color:white;border-radius:18px;padding:1.4rem 2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .7s .6s ease both;max-width:520px;margin:0 auto}
+.price-big{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--v);line-height:1}
+.promo-text{font-size:.9rem;line-height:1.5}.promo-text strong{display:block;font-size:1rem;margin-bottom:2px}
+.section-title{text-align:center;padding:5rem 2rem 3rem}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--vd);margin-bottom:.8rem}
+.section-title h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);color:var(--vk)}
+.catalogue{padding:0 2rem 5rem;max-width:1200px;margin:0 auto}
+.catalogue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.8rem}
+.product-card{background:white;border-radius:22px;overflow:hidden;box-shadow:0 4px 24px rgba(124,77,170,.1);transition:all .35s}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(124,77,170,.2)}
+.product-img{height:240px;position:relative;overflow:hidden;background:#e8d5f5}
+.product-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.product-card:hover .product-img img{transform:scale(1.05)}
+.product-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(61,31,110,.2) 0%,transparent 60%)}
+.badge{position:absolute;top:12px;right:12px;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:50px;font-weight:600}
+.badge-hot{background:#e05252;color:white}.badge-new{background:var(--vk);color:white}.badge-sup{background:#f5a623;color:#333}
+.sold-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:white;letter-spacing:.1em;text-transform:uppercase}
+.stock-badge{position:absolute;bottom:12px;left:12px;background:rgba(251,191,36,.9);color:#333;font-size:.72rem;padding:3px 10px;border-radius:50px;font-weight:600}
+.product-info{padding:1.3rem}
+.product-name{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--vk);margin-bottom:.3rem}
+.product-desc{font-size:.82rem;color:#8a7090;line-height:1.55;margin-bottom:1.2rem}
+.product-footer{display:flex;align-items:center;justify-content:space-between;gap:.8rem}
+.product-price{font-size:1.2rem;font-weight:700;color:var(--vk);white-space:nowrap}
+.add-to-cart{flex:1;background:var(--vd);color:white;border:none;border-radius:50px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.add-to-cart:hover{background:var(--vk);transform:translateY(-1px)}
+.add-to-cart:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.add-to-cart.added{background:#2e7d32}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-sidebar{position:fixed;top:0;right:-420px;width:420px;max-width:100vw;height:100vh;background:white;z-index:400;display:flex;flex-direction:column;box-shadow:-8px 0 40px rgba(61,31,110,.15);transition:right .35s cubic-bezier(.4,0,.2,1)}
+.cart-sidebar.open{right:0}
+.cart-header{padding:1.5rem;border-bottom:1px solid #f0e8f8;display:flex;align-items:center;justify-content:space-between}
+.cart-header h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--vk)}
+.close-btn{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--vd);padding:4px}
+.cart-items{flex:1;overflow-y:auto;padding:1rem 1.5rem}
+.cart-empty{text-align:center;padding:3rem 1rem;color:#b09ab8}
+.cart-empty div{font-size:3rem;margin-bottom:.8rem}
+.cart-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid #f5f0fa;align-items:center}
+.cart-item-img{width:70px;height:70px;border-radius:12px;object-fit:cover;flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-name{font-weight:600;font-size:.9rem;color:var(--vk);margin-bottom:.3rem}
+.cart-item-price{color:var(--vd);font-weight:700;font-size:.95rem}
+.cart-item-controls{display:flex;align-items:center;gap:.5rem;margin-top:.5rem}
+.qty-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--v);background:var(--bg);color:var(--vd);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.qty-btn:hover{background:var(--vd);color:white;border-color:var(--vd)}
+.qty-num{font-weight:600;font-size:.9rem;min-width:20px;text-align:center;color:var(--vk)}
+.remove-item{background:none;border:none;color:#c9a0ac;cursor:pointer;font-size:1.1rem;margin-left:.5rem}
+.remove-item:hover{color:#e05252}
+.cart-footer{padding:1.5rem;border-top:1px solid #f0e8f8;background:#faf7fd}
+.cart-promo{background:linear-gradient(135deg,var(--vk),var(--vd));color:white;border-radius:12px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.82rem;text-align:center;display:none}
+.cart-promo strong{display:block;font-size:.9rem}
+.cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.cart-total span{font-size:1rem;color:#8a7090}
+.cart-total strong{font-size:1.4rem;font-weight:700;color:var(--vk)}
+.checkout-btn{width:100%;background:var(--vk);color:white;border:none;border-radius:50px;padding:15px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s}
+.checkout-btn:hover{background:var(--vd);transform:translateY(-1px)}
+.checkout-btn:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:white;border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(61,31,110,.25);transform:translateY(20px);transition:transform .3s}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{padding:1.8rem 2rem 1rem;border-bottom:1px solid #f0e8f8;display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--vk)}
+.modal-body{padding:1.5rem 2rem}
+.form-group{margin-bottom:1.2rem}
+.form-group label{display:block;font-size:.82rem;font-weight:500;color:var(--vd);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid #e0d0f0;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--vk);outline:none;transition:border .2s;background:white}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--vd)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.order-summary{background:#faf7fd;border-radius:16px;padding:1.2rem;margin:1.5rem 0}
+.order-summary h4{font-size:.85rem;font-weight:600;color:var(--vd);margin-bottom:.8rem;letter-spacing:.06em;text-transform:uppercase}
+.summary-item{display:flex;justify-content:space-between;font-size:.88rem;color:var(--vk);padding:.3rem 0}
+.summary-total{display:flex;justify-content:space-between;font-weight:700;font-size:1.05rem;color:var(--vk);padding-top:.8rem;margin-top:.5rem;border-top:1px solid #e0d0f0}
+.summary-free{color:#2e7d32;font-weight:600}
+.payment-methods{display:flex;gap:.8rem;margin:.8rem 0 1.5rem;flex-wrap:wrap}
+.pay-method{flex:1;min-width:80px;border:2px solid #e0d0f0;border-radius:12px;padding:.8rem;text-align:center;cursor:pointer;transition:all .2s;font-size:.82rem;color:var(--vd)}
+.pay-method.active{border-color:var(--vd);background:#f5effe}
+.pay-method div{font-size:1.4rem;margin-bottom:.3rem}
+.place-order-btn{width:100%;background:var(--vk);color:white;border:none;border-radius:50px;padding:16px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;margin-top:.5rem}
+.place-order-btn:hover{background:var(--vd)}
+.success-screen{display:none;text-align:center;padding:3rem 2rem}
+.success-screen.show{display:block}
+.success-icon{font-size:4rem;margin-bottom:1rem}
+.success-screen h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--vk);margin-bottom:.8rem}
+.success-screen p{color:#8a7090;font-size:.9rem;line-height:1.6}
+.special-offer{background:linear-gradient(135deg,var(--vk),var(--vd));color:white;margin:0 auto 4rem;border-radius:24px;padding:3rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem;max-width:1160px}
+.offer-text h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.5rem);margin-bottom:.5rem}
+.offer-text h2 em{font-style:italic;color:var(--v)}
+.offer-text p{color:rgba(255,255,255,.75);font-size:.95rem;max-width:420px;line-height:1.6}
+.offer-drinks{display:flex;gap:.5rem;flex-wrap:wrap}
+.drink-pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:6px 16px;font-size:.82rem}
+.perks-section{padding:4rem 2rem 5rem;background:white}
+.perks-grid{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;max-width:900px;margin:0 auto}
+.perk{display:flex;flex-direction:column;align-items:center;gap:.6rem;text-align:center;max-width:180px}
+.perk-icon{font-size:2rem;background:var(--bg);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--v)}
+.perk strong{color:var(--vk);font-size:.9rem}.perk span{font-size:.78rem;color:#8a7090}
+.newsletter{background:linear-gradient(135deg,#e8d5f5,#d4b8ee);padding:4rem 2rem;text-align:center}
+.newsletter h2{font-family:'Playfair Display',serif;font-size:2rem;color:var(--vk);margin-bottom:.5rem}
+.newsletter p{color:var(--vd);margin-bottom:1.5rem;font-size:.95rem;opacity:.85}
+.newsletter-form{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.newsletter-form input{padding:12px 20px;border-radius:50px;border:1.5px solid var(--v);background:white;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--vk);outline:none;width:280px}
+.snap-badge{display:inline-flex;align-items:center;gap:10px;background:#FFFC00;color:#333;padding:10px 22px;border-radius:12px;font-weight:700;font-size:1rem;margin-top:2rem;text-decoration:none;transition:transform .2s}
+.snap-badge:hover{transform:scale(1.05)}
+footer{background:var(--vk);color:rgba(255,255,255,.5);text-align:center;padding:2rem;font-size:.8rem}
+footer a{color:var(--v);text-decoration:none}
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#e05252;color:white;padding:12px 24px;border-radius:50px;font-size:.9rem;font-weight:500;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:600px){.nav-links{display:none}.form-row{grid-template-columns:1fr}.cart-sidebar{width:100vw}}
+
+.offer-visual{display:flex;justify-content:center;align-items:center;flex:1;min-width:280px}
+.offer-image-card{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:24px;padding:14px;backdrop-filter:blur(8px);max-width:360px;box-shadow:0 18px 40px rgba(0,0,0,.15)}
+.offer-image-card img{display:block;width:100%;height:auto;border-radius:18px}
+.offer-caption{margin-top:.8rem;font-size:.82rem;color:rgba(255,255,255,.82);text-align:center;letter-spacing:.08em;text-transform:uppercase}
+.social-links{display:flex;flex-direction:column;align-items:center;gap:1rem;margin-top:1rem}
+.insta-badge{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);color:white;padding:10px 22px;border-radius:12px;font-weight:700;font-size:1rem;text-decoration:none;transition:transform .2s}
+.insta-badge:hover{transform:scale(1.05)}
+.ferrero-section{padding:0 2rem 5rem;max-width:1200px;margin:0 auto}
+.ferrero-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;align-items:center;background:white;border-radius:28px;padding:1.6rem;box-shadow:0 16px 48px rgba(124,77,170,.14)}
+.ferrero-media img{display:block;width:100%;height:auto;border-radius:22px;box-shadow:0 14px 34px rgba(61,31,110,.18)}
+.ferrero-info .eyebrow{margin-bottom:.4rem}
+.ferrero-info h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);color:var(--vk);margin-bottom:.8rem}
+.ferrero-info p{color:#8a7090;line-height:1.7;margin-bottom:1rem}
+.ferrero-pills{display:flex;gap:.65rem;flex-wrap:wrap;margin:1rem 0 1.2rem}
+.ferrero-pill{background:#f5effe;border:1px solid #e0d0f0;color:var(--vd);padding:7px 14px;border-radius:999px;font-size:.82rem;font-weight:600}
+.ferrero-price{font-size:2rem;font-weight:800;color:var(--vk);margin:1rem 0}
+.ferrero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+@media(max-width:900px){.ferrero-wrap{grid-template-columns:1fr}}
+
+
+.hold-banner{display:none;background:linear-gradient(135deg,var(--vk),var(--vd));color:white;border-radius:12px;padding:.85rem 1rem;margin-bottom:1rem;font-size:.84rem;text-align:center}
+.hold-banner strong{display:block;font-size:.95rem;margin-bottom:2px}
+.box-section{padding:0 2rem 5rem;max-width:1200px;margin:0 auto}
+.box-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.8rem}
+.box-card{background:white;border-radius:22px;overflow:hidden;box-shadow:0 4px 24px rgba(124,77,170,.1);transition:all .35s;padding:1.4rem}
+.box-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(124,77,170,.2)}
+.box-badge{display:inline-block;background:#f1e7fb;color:var(--vd);padding:5px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;margin-bottom:1rem}
+.box-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--vk);margin-bottom:.4rem}
+.box-price{font-size:1.6rem;font-weight:800;color:var(--vk);margin:.8rem 0}
+.box-list{list-style:none;display:grid;gap:.45rem;margin:1rem 0 1.2rem}
+.box-list li{font-size:.92rem;color:#6f5b7f;padding:8px 12px;background:#faf7fd;border:1px solid #eee3f8;border-radius:12px}
+.box-note{font-size:.82rem;color:#8a7090;line-height:1.5;margin-bottom:1rem}
+.delivery-note{margin-top:.55rem;font-size:.8rem;color:#8a7090;line-height:1.5}
+
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+__NAV__
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>🛒 Mon panier</h3><button class="close-btn" onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><div>🍮</div>Votre panier est vide.</div></div>
+  <div class="cart-footer">
+    <div class="hold-banner" id="holdBanner"></div>
+    <div class="cart-promo" id="cartPromo"><strong>🥤 Boisson offerte !</strong>2 tiramisus achetés</div>
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">0,00€</strong></div>
+    <button class="checkout-btn" onclick="openCheckout()" id="checkoutBtn" disabled>Commander →</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal">
+    <div id="checkoutForm">
+      <div class="modal-header"><h3>Finaliser la commande</h3><button class="close-btn" onclick="closeCheckout()">✕</button></div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group"><label>Prénom</label><input type="text" id="firstName" placeholder="Mohamed"></div>
+          <div class="form-group"><label>Nom</label><input type="text" id="lastName" placeholder="Dupont"></div>
+        </div>
+        <div class="form-group"><label>Téléphone</label><input type="tel" id="phone" placeholder="06 12 34 56 78"></div>
+        <div class="form-group"><label>Adresse de livraison</label><input type="text" id="address" placeholder="12 rue de la Paix"><div class="delivery-note">🚚 Livraison disponible uniquement dans un rayon de 10 km autour du Paris 13.</div></div>
+        <div class="form-row">
+          <div class="form-group"><label>Code postal</label><input type="text" id="zip" placeholder="75013"></div>
+          <div class="form-group"><label>Ville</label><input type="text" id="city" placeholder="Paris"></div>
+        </div>
+        <div class="form-group"><label>Heure souhaitée</label>
+          <select id="delivTime"><option>21h30</option><option>22h00</option><option>22h30</option><option>23h00</option><option>23h30</option><option>00h00</option><option>00h30</option><option>01h00</option><option>01h30</option><option>02h00</option></select>
+        </div>
+        <div class="form-group"><label>Note (optionnel)</label><textarea id="note" rows="2" placeholder="Interphone, étage..." style="resize:none"></textarea></div>
+        <div class="order-summary">
+          <h4>Récapitulatif</h4>
+          <div id="summaryItems"></div>
+          <div class="summary-total"><span>Total</span><span id="summaryTotal">0,00€</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-top:.5rem;color:#2e7d32"><span>🚚 Livraison</span><span>Offerte (Paris 13)</span></div>
+        </div>
+        <label style="font-size:.82rem;font-weight:500;color:var(--vd);letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:.6rem">Paiement</label>
+        <div class="payment-methods">
+          <div class="pay-method active" onclick="selectPay(this,'cash')"><div>💵</div>Espèces</div>
+          <div class="pay-method" onclick="selectPay(this,'virement')"><div>🏦</div>Virement</div>
+          <div class="pay-method" onclick="selectPay(this,'wero')"><div>📱</div>Wero</div>
+        </div>
+        <button class="place-order-btn" onclick="placeOrder()">✅ Confirmer la commande</button>
+      </div>
+    </div>
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🎉</div>
+      <h3>Commande confirmée !</h3>
+      <p>Merci <strong id="successName"></strong> !<br>Livraison prévue à <strong id="successTime"></strong>.<br>On vous contacte au <strong id="successPhone"></strong>.</p>
+      <br><button class="place-order-btn" onclick="closeCheckout()" style="max-width:200px;margin:0 auto">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-badge">✨ Artisanal &amp; fait maison</div>
+  <h1>TIRA'MII</h1>
+  <div class="hero-tagline">Les desserts qui régalent !</div>
+  <p class="hero-sub">Des barquettes généreuses, des saveurs qui font voyager.</p>
+  <div class="hero-cta">
+    <a href="#catalogue" class="btn-primary">Voir les saveurs</a>
+    <a href="#box" class="btn-outline">Voir les box</a>
+  </div>
+  <div class="promo-banner">
+    <div class="price-big">5€</div>
+    <div class="promo-text"><strong>Toutes les barquettes à 5€</strong>2 tiramisus achetés = 1 boisson offerte 🥤</div>
+  </div>
+</section>
+
+<section id="catalogue">
+  <div class="section-title reveal"><div class="eyebrow">Nos créations</div><h2>Toutes les saveurs</h2></div>
+  <div class="catalogue"><div class="catalogue-grid" id="productGrid">__PRODUCT_GRID__</div></div>
+</section>
+
+
+
+<section id="box" class="box-section">
+  <div class="section-title reveal">
+    <div class="eyebrow">Nos box</div>
+    <h2>Box gourmandes à 10€</h2>
+  </div>
+  <div class="box-grid">
+    <div class="box-card reveal">
+      <span class="box-badge">Box 1</span>
+      <div class="box-title">Box gourmande</div>
+      <div class="box-note">4 saveurs imposées prêtes à commander.</div>
+      <ul class="box-list">
+        <li>🥥 Rafaelo</li>
+        <li>🍫 Kitkatt</li>
+        <li>🍪 Oreo</li>
+        <li>🍫 Bueno</li>
+      </ul>
+      <div class="box-price">10,00€</div>
+      <button class="add-to-cart" onclick="addFixedBox('box1')">🛒 Ajouter la box</button>
+    </div>
+    <div class="box-card reveal">
+      <span class="box-badge">Box 2</span>
+      <div class="box-title">Box suprême</div>
+      <div class="box-note">4 saveurs imposées prêtes à commander.</div>
+      <ul class="box-list">
+        <li>🍫 Daim</li>
+        <li>🤍 Bueno White</li>
+        <li>🍪 Spéculos</li>
+        <li>🍫 Shokobon</li>
+      </ul>
+      <div class="box-price">10,00€</div>
+      <button class="add-to-cart" onclick="addFixedBox('box2')">🛒 Ajouter la box</button>
+    </div>
+  </div>
+</section>
+
+<section class="perks-section">
+  <div class="section-title reveal" style="padding-top:2rem"><div class="eyebrow">Pourquoi TIRA'MII ?</div><h2>Fait avec passion</h2></div>
+  <div class="perks-grid">
+    <div class="perk reveal"><div class="perk-icon">🍮</div><strong>100% fait maison</strong><span>Préparé à la commande</span></div>
+    <div class="perk reveal"><div class="perk-icon">🚚</div><strong>Livraison offerte</strong><span>À moins de 10 km du Paris 13</span></div>
+    <div class="perk reveal"><div class="perk-icon">🌙</div><strong>Livraison nocturne</strong><span>De 21h30 jusqu'à 2h du matin</span></div>
+  </div>
+</section>
+
+
+<section id="contact" class="newsletter">
+  <div class="eyebrow" style="margin-bottom:.5rem">Retrouvez-nous</div>
+  <h2>Suivez TIRA'MII 🍮</h2>
+  <p>Rejoins-nous sur Snapchat et Instagram pour voir les nouveautés, les offres et les prochaines saveurs.</p>
+  <div class="social-links">
+    <a href="https://snapchat.com/t/R9JbSvWF" target="_blank" rel="noopener noreferrer" class="snap-badge" style="margin-top:0">👻 Tiramii sur Snapchat</a>
+    <a href="https://instagram.com/tiramii__" target="_blank" rel="noopener noreferrer" class="insta-badge">📸 Tiramii sur Instagram</a>
+  </div>
+</section>
+
+
+__FOOTER_MAIN__
+
+__APP_SCRIPT__
+
+<footer style="text-align:center;padding:20px 0;font-size:0.8rem;color:#777">
+  <a href="mentions-legales.php" style="color:#777;text-decoration:none">Mentions légales</a>
+</footer>
+
+</body>
+</html>
