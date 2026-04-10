@@ -36,13 +36,14 @@ try {
         $imgs = [];
     }
 
-    $retiredProductIds = ['box2'];
-    $notIn = implode(',', array_fill(0, count($retiredProductIds), '?'));
+    // box1 / box2 : vendues via la section « Box », pas comme barquettes dans la grille catalogue.
+    $excludeFromCatalog = ['box1', 'box2'];
+    $notIn = implode(',', array_fill(0, count($excludeFromCatalog), '?'));
     $stmtProducts = $pdo->prepare(
         "SELECT id, name, price_eur, description, badge_class, badge_text, img_key, sort_order
          FROM products WHERE is_active = 1 AND id NOT IN ($notIn) ORDER BY sort_order ASC, id ASC"
     );
-    $stmtProducts->execute($retiredProductIds);
+    $stmtProducts->execute($excludeFromCatalog);
     $products = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
 
     $stockMap = [];
