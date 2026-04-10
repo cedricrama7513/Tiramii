@@ -9,14 +9,7 @@ const FIXED_BOXES = {
     stockId: 'box1',
     name: 'Box gourmande',
     price: 10,
-    displayFlavors: ['Rafaelo', 'Kitkatt', 'Oreo', 'Bueno'],
-  },
-  box2: {
-    id: 'box2',
-    stockId: 'box2',
-    name: 'Box suprême',
-    price: 10,
-    displayFlavors: ['Daim', 'Bueno White', 'Spéculos', 'Shokobon'],
+    displayFlavors: ['Bueno', 'Oreo', 'Speculos', 'Kinder Bueno White'],
   },
 };
 

@@ -167,6 +167,7 @@ footer a{color:var(--v);text-decoration:none}
 .hold-banner strong{display:block;font-size:.95rem;margin-bottom:2px}
 .box-section{padding:0 2rem 5rem;max-width:1200px;margin:0 auto}
 .box-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.8rem}
+.box-grid-single{justify-items:center;grid-template-columns:minmax(280px,400px);max-width:440px;margin:0 auto}
 .box-card{background:white;border-radius:22px;overflow:hidden;box-shadow:0 4px 24px rgba(124,77,170,.1);transition:all .35s;padding:1.4rem}
 .box-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(124,77,170,.2)}
 .box-badge{display:inline-block;background:#f1e7fb;color:var(--vd);padding:5px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;margin-bottom:1rem}
@@ -266,32 +267,19 @@ __NAV__
     <div class="eyebrow">Nos box</div>
     <h2>Box gourmandes à 10€</h2>
   </div>
-  <div class="box-grid">
+  <div class="box-grid box-grid-single">
     <div class="box-card reveal">
       <span class="box-badge">Box 1</span>
       <div class="box-title">Box gourmande</div>
       <div class="box-note">4 saveurs imposées prêtes à commander.</div>
       <ul class="box-list">
-        <li>🥥 Rafaelo</li>
-        <li>🍫 Kitkatt</li>
-        <li>🍪 Oreo</li>
         <li>🍫 Bueno</li>
+        <li>🍪 Oreo</li>
+        <li>🍪 Speculos</li>
+        <li>🤍 Kinder Bueno White</li>
       </ul>
       <div class="box-price">10,00€</div>
       <button class="add-to-cart" onclick="addFixedBox('box1')">🛒 Ajouter la box</button>
-    </div>
-    <div class="box-card reveal">
-      <span class="box-badge">Box 2</span>
-      <div class="box-title">Box suprême</div>
-      <div class="box-note">4 saveurs imposées prêtes à commander.</div>
-      <ul class="box-list">
-        <li>🍫 Daim</li>
-        <li>🤍 Bueno White</li>
-        <li>🍪 Spéculos</li>
-        <li>🍫 Shokobon</li>
-      </ul>
-      <div class="box-price">10,00€</div>
-      <button class="add-to-cart" onclick="addFixedBox('box2')">🛒 Ajouter la box</button>
     </div>
   </div>
 </section>
