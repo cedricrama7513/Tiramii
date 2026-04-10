@@ -67,7 +67,9 @@ try {
         'products' => $productsJson,
     ];
 
-    $appScript = '<script type="module" src="assets/js/shop.js"></script>' . "\n";
+    $shopJsPath = __DIR__ . '/assets/js/shop.js';
+    $shopJsV = is_readable($shopJsPath) ? (string) filemtime($shopJsPath) : (string) time();
+    $appScript = '<script type="module" src="assets/js/shop.js?v=' . h($shopJsV) . '"></script>' . "\n";
     $appScript .= '<script>window.__TIRAMII__ = ' . json_encode($tiramiiBoot, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) . ";</script>\n";
 
     $tplPath = __DIR__ . '/templates/index_base.html';

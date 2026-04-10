@@ -28,7 +28,8 @@
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/css "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
+  # Durée modérée : index.php ajoute ?v=filemtime sur shop.js pour forcer le rechargement après déploiement.
+  ExpiresByType application/javascript "access plus 1 day"
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/webp "access plus 30 days"
