@@ -269,21 +269,34 @@ footer a{color:var(--v);text-decoration:none}
 <section id="box" class="box-section">
   <div class="section-title reveal">
     <div class="eyebrow">Nos box</div>
-    <h2>Box gourmandes à 10€</h2>
+    <h2>Box à 10€</h2>
   </div>
-  <div class="box-grid box-grid-single">
+  <div class="box-grid">
     <div class="box-card reveal">
-      <span class="box-badge">Box 1</span>
+      <span class="box-badge">Gourmande</span>
       <div class="box-title">Box gourmande</div>
       <div class="box-note">4 saveurs imposées prêtes à commander.</div>
       <ul class="box-list">
         <li>🍫 Bueno</li>
-        <li>🍫 Daim</li>
+        <li>🍪 Oreo</li>
         <li>🍪 Speculos</li>
-        <li>🤍 Kinder Bueno White</li>
+        <li>🍫 KitKat</li>
       </ul>
       <div class="box-price">10,00€</div>
       <button class="add-to-cart" onclick="addFixedBox('box1')">🛒 Ajouter la box</button>
+    </div>
+    <div class="box-card reveal">
+      <span class="box-badge">Suprême</span>
+      <div class="box-title">Box suprême</div>
+      <div class="box-note">4 saveurs premium prêtes à commander.</div>
+      <ul class="box-list">
+        <li>🍬 M&amp;M's</li>
+        <li>🥥 Raffaello</li>
+        <li>🍫 Daim</li>
+        <li>🤍 Kinder Bueno White</li>
+      </ul>
+      <div class="box-price">10,00€</div>
+      <button class="add-to-cart" onclick="addFixedBox('box_supreme')">🛒 Ajouter la box</button>
     </div>
   </div>
 </section>
@@ -364,7 +377,16 @@ const FIXED_BOXES = {
     stockId: 'box1',
     name: 'Box gourmande',
     price: 10,
-    displayFlavors: ['Bueno', 'Daim', 'Speculos', 'Kinder Bueno White']
+    displayFlavors: ['Bueno', 'Oreo', 'Speculos', 'KitKat'],
+    cartImgKey: 'oreo'
+  },
+  box_supreme: {
+    id: 'box_supreme',
+    stockId: 'box_supreme',
+    name: 'Box suprême',
+    price: 10,
+    displayFlavors: ["M&M's", 'Raffaello', 'Daim', 'Kinder Bueno White'],
+    cartImgKey: 'kw'
   }
 };
 
@@ -389,7 +411,7 @@ function loadCartFromStorage() {
           name: box.name,
           price: box.price,
           qty: Math.max(1, parseInt(item.qty || 1, 10)),
-          imgSrc: IMGS.daim,
+          imgSrc: IMGS[box.cartImgKey] || IMGS.oreo,
           boxLabel: box.displayFlavors.join(' · ')
         };
       }
@@ -675,7 +697,7 @@ window.addFixedBox = async function(boxKey) {
     name: box.name,
     price: box.price,
     qty: 1,
-    imgSrc: IMGS.daim,
+    imgSrc: IMGS[box.cartImgKey] || IMGS.oreo,
     boxLabel: box.displayFlavors.join(' · ')
   });
 
@@ -686,7 +708,7 @@ window.addFixedBox = async function(boxKey) {
     updateCart();
     document.getElementById('cartSidebar').classList.add('open');
     document.getElementById('cartOverlay').classList.add('open');
-    showToast('✅ Box ajoutée au panier');
+    showToast('✅ ' + box.name + ' ajoutée au panier');
   } catch (e) {
     showToast(e.message || 'Impossible de réserver cette box.');
   }

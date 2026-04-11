@@ -9,7 +9,16 @@ const FIXED_BOXES = {
     stockId: 'box1',
     name: 'Box gourmande',
     price: 10,
-    displayFlavors: ['Bueno', 'Daim', 'Speculos', 'Kinder Bueno White'],
+    displayFlavors: ['Bueno', 'Oreo', 'Speculos', 'KitKat'],
+    cartImgKey: 'oreo',
+  },
+  box_supreme: {
+    id: 'box_supreme',
+    stockId: 'box_supreme',
+    name: 'Box suprême',
+    price: 10,
+    displayFlavors: ["M&M's", 'Raffaello', 'Daim', 'Kinder Bueno White'],
+    cartImgKey: 'kw',
   },
 };
 
@@ -58,7 +67,7 @@ function loadCartFromStorage() {
             name: box.name,
             price: box.price,
             qty: Math.max(1, parseInt(item.qty || 1, 10)),
-            imgSrc: imgSrcForProduct('daim'),
+            imgSrc: imgSrcForProduct(box.cartImgKey || 'oreo'),
             boxLabel: box.displayFlavors.join(' · '),
           };
         }
@@ -386,7 +395,7 @@ window.addFixedBox = async function (boxKey) {
       name: box.name,
       price: box.price,
       qty: 1,
-      imgSrc: imgSrcForProduct('daim'),
+      imgSrc: imgSrcForProduct(box.cartImgKey || 'oreo'),
       boxLabel: box.displayFlavors.join(' · '),
     });
   }
@@ -397,7 +406,7 @@ window.addFixedBox = async function (boxKey) {
     updateCart();
     document.getElementById('cartSidebar')?.classList.add('open');
     document.getElementById('cartOverlay')?.classList.add('open');
-    showToast('✅ Box ajoutée au panier');
+    showToast('✅ ' + box.name + ' ajoutée au panier');
     startHoldWatcher();
   } catch (e) {
     showToast(e.message || 'Impossible de réserver cette box.');

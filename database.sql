@@ -80,7 +80,8 @@ INSERT INTO products (id, name, price_eur, description, badge_class, badge_text,
 ('daim', 'Saveur Daim', 5.00, 'Crème mascarpone, éclats de Daim & noisettes torréfiées.', 'badge-new', 'Coup de cœur', 'daim', 3),
 ('kn', 'Kinder Bueno Nutella', 5.00, 'Nutella coulant, barres Kinder Bueno & mascarpone chocolat.', 'badge-hot', '🔥 Favori', 'kn', 4),
 ('kw', 'Kinder Bueno White', 6.00, 'Crème vanille intense, Kinder White fondant. (+1€ supplément)', 'badge-sup', '+1€ supplément', 'kw', 5),
-('box1', 'Box gourmande', 10.00, 'Box imposée 4 saveurs.', 'badge-hot', '📦 Box', 'daim', 6);
+('box1', 'Box gourmande', 10.00, 'Bueno, Oreo, Speculos, KitKat.', 'badge-hot', '📦 Box', 'oreo', 6),
+('box_supreme', 'Box suprême', 10.00, 'Box premium 4 saveurs.', 'badge-hot', '✨ Suprême', 'kw', 7);
 
 -- Quantité 999 = illimité (aucune décrémentation à la commande). Valeurs < 999 = stock géré.
 INSERT INTO stock_levels (product_id, quantity) VALUES
@@ -89,7 +90,8 @@ INSERT INTO stock_levels (product_id, quantity) VALUES
 ('daim', 50),
 ('kn', 50),
 ('kw', 50),
-('box1', 20);
+('box1', 20),
+('box_supreme', 20);
 
 -- Déjà en prod avec 999 (illimité) partout ? Pour que le stock baisse à chaque commande, passez à des quantités < 999, ex. :
 -- UPDATE stock_levels SET quantity = 50 WHERE quantity = 999 AND product_id IN ('oreo','spec','daim','kn','kw');
@@ -100,6 +102,11 @@ VALUES ('Test', 'Client', '0612345678', '1 rue de Test', '75013', 'Paris', '22h0
 
 INSERT INTO order_items (order_id, product_id, product_label, quantity, unit_price_eur, box_label)
 VALUES (1, 'oreo', 'Saveur Oreo', 2, 5.00, NULL), (1, 'kw', 'Kinder Bueno White', 1, 6.00, NULL);
+
+-- Bases déjà en production : ajouter la Box suprême + mettre à jour la gourmande (une fois) :
+-- UPDATE products SET description = 'Bueno, Oreo, Speculos, KitKat.', img_key = 'oreo' WHERE id = 'box1';
+-- INSERT INTO products (id, name, price_eur, description, badge_class, badge_text, img_key, sort_order) VALUES ('box_supreme', 'Box suprême', 10.00, 'M&M''s, Raffaello, Daim, Kinder Bueno White.', 'badge-hot', '✨ Suprême', 'kw', 7);
+-- INSERT INTO stock_levels (product_id, quantity) VALUES ('box_supreme', 20);
 
 -- Bases déjà en production : ajouter la validation commande (une seule fois, si la colonne n’existe pas)
 -- ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL COMMENT 'Rempli depuis admin quand la commande est traitée' AFTER created_at;
