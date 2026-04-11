@@ -9,7 +9,7 @@ const FIXED_BOXES = {
     stockId: 'box1',
     name: 'Box gourmande',
     price: 10,
-    displayFlavors: ['Bueno', 'Oreo', 'Speculos', 'Kinder Bueno White'],
+    displayFlavors: ['Bueno', 'Daim', 'Speculos', 'Kinder Bueno White'],
   },
 };
 
@@ -58,7 +58,7 @@ function loadCartFromStorage() {
             name: box.name,
             price: box.price,
             qty: Math.max(1, parseInt(item.qty || 1, 10)),
-            imgSrc: imgSrcForProduct('oreo'),
+            imgSrc: imgSrcForProduct('daim'),
             boxLabel: box.displayFlavors.join(' · '),
           };
         }
@@ -386,7 +386,7 @@ window.addFixedBox = async function (boxKey) {
       name: box.name,
       price: box.price,
       qty: 1,
-      imgSrc: imgSrcForProduct('oreo'),
+      imgSrc: imgSrcForProduct('daim'),
       boxLabel: box.displayFlavors.join(' · '),
     });
   }

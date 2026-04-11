@@ -278,7 +278,7 @@ footer a{color:var(--v);text-decoration:none}
       <div class="box-note">4 saveurs imposées prêtes à commander.</div>
       <ul class="box-list">
         <li>🍫 Bueno</li>
-        <li>🍪 Oreo</li>
+        <li>🍫 Daim</li>
         <li>🍪 Speculos</li>
         <li>🤍 Kinder Bueno White</li>
       </ul>
@@ -364,7 +364,7 @@ const FIXED_BOXES = {
     stockId: 'box1',
     name: 'Box gourmande',
     price: 10,
-    displayFlavors: ['Bueno', 'Oreo', 'Speculos', 'Kinder Bueno White']
+    displayFlavors: ['Bueno', 'Daim', 'Speculos', 'Kinder Bueno White']
   }
 };
 
@@ -389,7 +389,7 @@ function loadCartFromStorage() {
           name: box.name,
           price: box.price,
           qty: Math.max(1, parseInt(item.qty || 1, 10)),
-          imgSrc: IMGS.oreo,
+          imgSrc: IMGS.daim,
           boxLabel: box.displayFlavors.join(' · ')
         };
       }
@@ -675,7 +675,7 @@ window.addFixedBox = async function(boxKey) {
     name: box.name,
     price: box.price,
     qty: 1,
-    imgSrc: IMGS.oreo,
+    imgSrc: IMGS.daim,
     boxLabel: box.displayFlavors.join(' · ')
   });
 
