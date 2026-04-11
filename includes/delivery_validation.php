@@ -1,11 +1,11 @@
 <?php
 /**
- * Livraison limitée aux départements 91, 92, 93 et 94 (code postal métropolitain, 5 chiffres).
+ * Livraison limitée aux départements 75, 91, 92, 93 et 94 (code postal métropolitain, 5 chiffres).
  */
 declare(strict_types=1);
 
 /** @var list<string> */
-const TIRAMII_DELIVERY_ALLOWED_DEPTS = ['91', '92', '93', '94'];
+const TIRAMII_DELIVERY_ALLOWED_DEPTS = ['75', '91', '92', '93', '94'];
 
 function tiramii_delivery_postal_department(string $zip): ?string
 {
@@ -28,7 +28,7 @@ function tiramii_validate_delivery_order(float $totalEur, string $address, strin
         return 'Code postal invalide. Indiquez un code postal français à 5 chiffres.';
     }
     if (!in_array($dept, TIRAMII_DELIVERY_ALLOWED_DEPTS, true)) {
-        return 'La livraison est limitée aux départements 91, 92, 93 et 94. Votre commande ne peut pas être livrée à cette adresse.';
+        return 'La livraison est limitée aux départements 75, 91, 92, 93 et 94. Votre commande ne peut pas être livrée à cette adresse.';
     }
 
     return null;

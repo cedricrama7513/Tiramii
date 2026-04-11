@@ -16,7 +16,7 @@ const FIXED_BOXES = {
 const HOLD_MS = 5 * 60 * 1000;
 const SESSION_KEY = 'tiramii_session_id';
 const CART_KEY = 'tiramii_cart';
-const DELIVERY_ALLOWED_DEPTS = ['91', '92', '93', '94'];
+const DELIVERY_ALLOWED_DEPTS = ['75', '91', '92', '93', '94'];
 /** Libellé enregistré en base et affiché au client (pas de créneau au quart d’heure). */
 const DELIVERY_TIME_LABEL = 'Après 21h30';
 
@@ -230,7 +230,7 @@ async function validateDeliveryForOrder(_address, zip, _city, _cartTotalEur) {
   const dept = digits.slice(0, 2);
   if (!DELIVERY_ALLOWED_DEPTS.includes(dept)) {
     throw new Error(
-      '📍 La livraison est limitée aux départements 91, 92, 93 et 94. Votre commande ne peut pas être livrée à cette adresse.'
+      '📍 La livraison est limitée aux départements 75, 91, 92, 93 et 94. Votre commande ne peut pas être livrée à cette adresse.'
     );
   }
 }
@@ -347,7 +347,7 @@ window.openCheckout = function () {
         )
         .join('') +
       (count >= 2 ? '<div class="summary-item"><span>🥤 Boisson</span><span class="summary-free">Offerte</span></div>' : '') +
-      '<div class="summary-item"><span>🚚 Livraison</span><span>Zones 91, 92, 93, 94 uniquement</span></div>' +
+      '<div class="summary-item"><span>🚚 Livraison</span><span>Zones 75, 91, 92, 93, 94 uniquement</span></div>' +
       timerHtml;
   }
   const summaryTotal = document.getElementById('summaryTotal');
