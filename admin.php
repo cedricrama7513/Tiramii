@@ -96,6 +96,44 @@ $products = $pdo->query(
      ORDER BY p.sort_order ASC, p.id ASC'
 )->fetchAll(PDO::FETCH_ASSOC);
 
+$ordersList = [];
+$orderItemsByOrder = [];
+if ($loggedIn) {
+    $ordersList = $pdo
+        ->query(
+            'SELECT id, first_name, last_name, phone, address_line, zip, city, delivery_time, note,
+                    payment_method, total_eur, created_at
+             FROM orders
+             ORDER BY created_at DESC, id DESC
+             LIMIT 200'
+        )
+        ->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($ordersList !== []) {
+        $ids = array_map('intval', array_column($ordersList, 'id'));
+        $inList = implode(',', $ids);
+        $itemRows = $pdo
+            ->query(
+                "SELECT order_id, product_label, quantity, unit_price_eur, box_label
+                 FROM order_items WHERE order_id IN ($inList) ORDER BY id ASC"
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($itemRows as $r) {
+            $oid = (int) $r['order_id'];
+            if (!isset($orderItemsByOrder[$oid])) {
+                $orderItemsByOrder[$oid] = [];
+            }
+            $orderItemsByOrder[$oid][] = $r;
+        }
+    }
+}
+
+$payLabelsAdmin = [
+    'cash' => 'Espèces',
+    'virement' => 'Virement bancaire',
+    'wero' => 'Wero',
+];
+
 $csrf = csrf_token();
 ?>
 <!DOCTYPE html>
@@ -103,7 +141,7 @@ $csrf = csrf_token();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TIRA'MII — Admin stock</title>
+<title>TIRA'MII — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--v:#c8a8e9;--vd:#7c4daa;--vk:#3d1f6e;--bg:#f3eafc;--card:#ffffff;--ok:#2e7d32;--danger:#d64545}
@@ -137,6 +175,22 @@ button,.btn-link{border:none;border-radius:999px;padding:13px 18px;font-weight:7
 .small{font-size:.82rem;color:#836c91}
 code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 @media (max-width:640px){.topbar{align-items:flex-start} .actions button{width:100%} .qty{width:96px !important}}
+.stack{display:flex;flex-direction:column;gap:22px}
+.order-block{border:1px solid #eee3f8;border-radius:18px;margin-top:12px;overflow:hidden;background:#faf8fc}
+.order-block summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:600;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;background:#f3ebfb}
+.order-block summary::-webkit-details-marker{display:none}
+.order-block summary::after{content:'▾';margin-left:auto;color:var(--vd);font-size:.85rem}
+.order-block[open] summary::after{content:'▴'}
+.order-meta{font-size:.82rem;font-weight:500;color:#836c91}
+.order-body{padding:16px 18px 18px;border-top:1px solid #eee3f8}
+.dl-grid{display:grid;grid-template-columns:140px 1fr;gap:6px 14px;font-size:.9rem}
+.dl-grid dt{color:#836c91;font-weight:500}
+.dl-grid dd{word-break:break-word}
+.order-lines{width:100%;border-collapse:collapse;margin-top:14px;font-size:.86rem}
+.order-lines th,.order-lines td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee3f8}
+.order-lines th{color:#836c91;font-weight:600;background:#f9f5fc}
+.order-lines .num{text-align:right;white-space:nowrap}
+.empty-orders{color:#836c91;font-size:.92rem;padding:12px 0}
 </style>
 </head>
 <body>
@@ -144,8 +198,8 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 <?php if (!$loggedIn): ?>
 <div class="lock">
   <div class="card">
-    <h1>Admin stock</h1>
-    <p class="sub">Accès réservé à TIRA'MII. Entre le mot de passe pour gérer le stock.</p>
+    <h1>Connexion admin</h1>
+    <p class="sub">Accès réservé à TIRA'MII — stock et commandes.</p>
     <?php foreach ($errors as $err): ?>
       <p class="alert-bad"><?= h($err) ?></p>
     <?php endforeach; ?>
@@ -160,10 +214,10 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 <?php else: ?>
 <div class="header">
   <div class="brand"><div class="logo">T</div> TIRA'MII</div>
-  <p class="sub">Tableau de bord du stock (base MySQL).</p>
+  <p class="sub">Stock et commandes clients (MySQL).</p>
   <p class="small"><a class="btn-link secondary" href="index.php">← Site</a> &nbsp; <a class="btn-link secondary" href="admin.php?logout=1">Déconnexion</a></p>
 </div>
-<div class="wrap">
+<div class="wrap stack">
   <div class="card">
     <div class="topbar">
       <div>
@@ -192,6 +246,75 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
         <button type="submit" name="save_stock" value="1" class="primary">💾 Enregistrer</button>
       </div>
     </form>
+  </div>
+
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <div class="badge">📋 Commandes</div>
+        <p class="helper">Les <?= count($ordersList) ?> dernières commandes (max. 200), les plus récentes en premier. Clique sur une ligne pour voir le détail et les articles.</p>
+      </div>
+    </div>
+    <?php if ($ordersList === []): ?>
+      <p class="empty-orders">Aucune commande enregistrée pour l’instant.</p>
+    <?php else: ?>
+      <?php foreach ($ordersList as $o):
+          $oid = (int) $o['id'];
+          $items = $orderItemsByOrder[$oid] ?? [];
+          $pay = $payLabelsAdmin[(string) $o['payment_method']] ?? (string) $o['payment_method'];
+          $when = $o['created_at'] !== '' ? date('d/m/Y à H:i', strtotime((string) $o['created_at'])) : '—';
+          $fullName = trim((string) $o['first_name'] . ' ' . (string) $o['last_name']);
+          ?>
+      <details class="order-block">
+        <summary>
+          <span>#<?= (int) $oid ?></span>
+          <span><?= h($fullName !== '' ? $fullName : (string) $o['first_name']) ?></span>
+          <span class="order-meta"><?= h($when) ?></span>
+          <span class="order-meta"><?= h(number_format((float) $o['total_eur'], 2, ',', ' ')) ?> €</span>
+        </summary>
+        <div class="order-body">
+          <dl class="dl-grid">
+            <dt>Prénom</dt><dd><?= h((string) $o['first_name']) ?></dd>
+            <dt>Nom</dt><dd><?= h((string) $o['last_name'] !== '' ? (string) $o['last_name'] : '—') ?></dd>
+            <dt>Téléphone</dt><dd><a href="tel:<?= h(preg_replace('/\s+/', '', (string) $o['phone'])) ?>"><?= h((string) $o['phone']) ?></a></dd>
+            <dt>Adresse</dt><dd><?= h((string) $o['address_line']) ?></dd>
+            <dt>Code postal</dt><dd><?= h((string) $o['zip'] !== '' ? (string) $o['zip'] : '—') ?></dd>
+            <dt>Ville</dt><dd><?= h((string) $o['city'] !== '' ? (string) $o['city'] : '—') ?></dd>
+            <dt>Créneau livraison</dt><dd><?= h((string) $o['delivery_time'] !== '' ? (string) $o['delivery_time'] : '—') ?></dd>
+            <dt>Paiement</dt><dd><?= h($pay) ?></dd>
+            <dt>Note client</dt><dd><?= h((string) ($o['note'] ?? '') !== '' ? (string) $o['note'] : '—') ?></dd>
+            <dt>Total</dt><dd><strong><?= h(number_format((float) $o['total_eur'], 2, ',', ' ')) ?> €</strong></dd>
+          </dl>
+          <?php if ($items !== []): ?>
+          <table class="order-lines">
+            <thead>
+              <tr><th>Article</th><th class="num">Qté</th><th class="num">Prix u.</th><th class="num">Sous-total</th></tr>
+            </thead>
+            <tbody>
+              <?php foreach ($items as $it):
+                  $q = (int) $it['quantity'];
+                  $up = (float) $it['unit_price_eur'];
+                  $sub = $q * $up;
+                  $bl = isset($it['box_label']) && $it['box_label'] !== null && (string) $it['box_label'] !== ''
+                      ? ' — ' . (string) $it['box_label']
+                      : '';
+                  ?>
+              <tr>
+                <td><?= h((string) $it['product_label']) ?><?= h($bl) ?></td>
+                <td class="num"><?= (int) $q ?></td>
+                <td class="num"><?= h(number_format($up, 2, ',', ' ')) ?> €</td>
+                <td class="num"><?= h(number_format($sub, 2, ',', ' ')) ?> €</td>
+              </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+          <?php else: ?>
+            <p class="muted" style="margin-top:12px">Aucune ligne d’article (données anciennes ou anomalie).</p>
+          <?php endif; ?>
+        </div>
+      </details>
+      <?php endforeach; ?>
+    <?php endif; ?>
   </div>
 </div>
 <?php endif; ?>
