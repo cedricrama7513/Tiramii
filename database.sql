@@ -52,8 +52,10 @@ CREATE TABLE orders (
   payment_method VARCHAR(32) NOT NULL,
   total_eur DECIMAL(8,2) NOT NULL,
   created_at DATETIME NOT NULL,
+  validated_at DATETIME NULL DEFAULT NULL COMMENT 'Rempli depuis admin quand la commande est traitée',
   PRIMARY KEY (id),
-  KEY idx_created (created_at)
+  KEY idx_created (created_at),
+  KEY idx_validated (validated_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE order_items (
@@ -94,3 +96,7 @@ VALUES ('Test', 'Client', '0612345678', '1 rue de Test', '75013', 'Paris', '22h0
 
 INSERT INTO order_items (order_id, product_id, product_label, quantity, unit_price_eur, box_label)
 VALUES (1, 'oreo', 'Saveur Oreo', 2, 5.00, NULL), (1, 'kw', 'Kinder Bueno White', 1, 6.00, NULL);
+
+-- Bases déjà en production : ajouter la validation commande (une seule fois, si la colonne n’existe pas)
+-- ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL COMMENT 'Rempli depuis admin quand la commande est traitée' AFTER created_at;
+-- CREATE INDEX idx_validated ON orders (validated_at);

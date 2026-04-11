@@ -27,6 +27,10 @@ try {
 
 $errors = [];
 $success = '';
+if (!empty($_SESSION['admin_flash_success'])) {
+    $success = (string) $_SESSION['admin_flash_success'];
+    unset($_SESSION['admin_flash_success']);
+}
 
 // Déconnexion
 if (isset($_GET['logout'])) {
@@ -87,6 +91,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_stock'])) {
     }
 }
 
+// Marquer une commande comme validée (livraison / traitement terminé)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_order'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        http_response_code(403);
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } else {
+        $oid = (int) ($_POST['order_id'] ?? 0);
+        if ($oid < 1) {
+            $errors[] = 'Commande invalide.';
+        } else {
+            $st = $pdo->prepare('UPDATE orders SET validated_at = NOW() WHERE id = ? AND validated_at IS NULL');
+            $st->execute([$oid]);
+            if ($st->rowCount() === 0) {
+                $chk = $pdo->prepare('SELECT 1 FROM orders WHERE id = ?');
+                $chk->execute([$oid]);
+                if (!$chk->fetch()) {
+                    $errors[] = 'Commande introuvable.';
+                } else {
+                    $_SESSION['admin_flash_success'] = 'La commande #' . $oid . ' était déjà marquée comme validée.';
+                }
+            } else {
+                $_SESSION['admin_flash_success'] = 'Commande #' . $oid . ' marquée comme validée.';
+            }
+            if ($errors === []) {
+                header('Location: admin.php#order-' . $oid);
+                exit;
+            }
+        }
+    }
+}
+
 $loggedIn = !empty($_SESSION['admin_ok']);
 
 $products = $pdo->query(
@@ -102,7 +139,7 @@ if ($loggedIn) {
     $ordersList = $pdo
         ->query(
             'SELECT id, first_name, last_name, phone, address_line, zip, city, delivery_time, note,
-                    payment_method, total_eur, created_at
+                    payment_method, total_eur, created_at, validated_at
              FROM orders
              ORDER BY created_at DESC, id DESC
              LIMIT 200'
@@ -191,6 +228,12 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 .order-lines th{color:#836c91;font-weight:600;background:#f9f5fc}
 .order-lines .num{text-align:right;white-space:nowrap}
 .empty-orders{color:#836c91;font-size:.92rem;padding:12px 0}
+.status-pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.status-pending{background:#fff3e0;color:#e65100}
+.status-done{background:#e8f5e9;color:#2e7d32}
+.btn-small{padding:10px 16px;font-size:.86rem;border-radius:999px}
+.order-actions{margin-top:16px;padding-top:14px;border-top:1px dashed #e0d4ee}
+.summary-badges{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 </style>
 </head>
 <body>
@@ -264,10 +307,21 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
           $pay = $payLabelsAdmin[(string) $o['payment_method']] ?? (string) $o['payment_method'];
           $when = $o['created_at'] !== '' ? date('d/m/Y à H:i', strtotime((string) $o['created_at'])) : '—';
           $fullName = trim((string) $o['first_name'] . ' ' . (string) $o['last_name']);
+          $validatedRaw = $o['validated_at'] ?? null;
+          $isValidated = $validatedRaw !== null && $validatedRaw !== '' && (string) $validatedRaw !== '0000-00-00 00:00:00';
+          $validatedTs = $isValidated ? strtotime((string) $validatedRaw) : false;
+          $whenValidated = ($validatedTs !== false && $validatedTs > 0) ? date('d/m/Y à H:i', $validatedTs) : '';
           ?>
-      <details class="order-block">
+      <details class="order-block" id="order-<?= (int) $oid ?>">
         <summary>
-          <span>#<?= (int) $oid ?></span>
+          <span class="summary-badges">
+            <span>#<?= (int) $oid ?></span>
+            <?php if ($isValidated): ?>
+              <span class="status-pill status-done">Validée</span>
+            <?php else: ?>
+              <span class="status-pill status-pending">En attente</span>
+            <?php endif; ?>
+          </span>
           <span><?= h($fullName !== '' ? $fullName : (string) $o['first_name']) ?></span>
           <span class="order-meta"><?= h($when) ?></span>
           <span class="order-meta"><?= h(number_format((float) $o['total_eur'], 2, ',', ' ')) ?> €</span>
@@ -284,6 +338,7 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
             <dt>Paiement</dt><dd><?= h($pay) ?></dd>
             <dt>Note client</dt><dd><?= h((string) ($o['note'] ?? '') !== '' ? (string) $o['note'] : '—') ?></dd>
             <dt>Total</dt><dd><strong><?= h(number_format((float) $o['total_eur'], 2, ',', ' ')) ?> €</strong></dd>
+            <dt>État</dt><dd><?= $isValidated ? '<span class="status-pill status-done">Validée</span> le ' . h($whenValidated) : '<span class="status-pill status-pending">En attente de validation</span>' ?></dd>
           </dl>
           <?php if ($items !== []): ?>
           <table class="order-lines">
@@ -310,6 +365,16 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
           </table>
           <?php else: ?>
             <p class="muted" style="margin-top:12px">Aucune ligne d’article (données anciennes ou anomalie).</p>
+          <?php endif; ?>
+          <?php if (!$isValidated): ?>
+          <div class="order-actions">
+            <form method="post" action="admin.php#order-<?= (int) $oid ?>">
+              <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+              <input type="hidden" name="order_id" value="<?= (int) $oid ?>">
+              <button type="submit" name="validate_order" value="1" class="primary btn-small">✓ Commande validée (livrée / traitée)</button>
+            </form>
+            <p class="muted" style="margin-top:8px;font-size:.82rem">Une fois la livraison ou le retrait effectué, clique pour archiver l’état « validée ».</p>
+          </div>
           <?php endif; ?>
         </div>
       </details>

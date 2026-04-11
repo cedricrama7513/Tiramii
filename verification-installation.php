@@ -91,6 +91,15 @@ if (!is_readable($cfgPath)) {
             line('Lignes dans products', $n > 0, "Nombre : {$n}");
         }
 
+        if ($pdo->query("SHOW TABLES LIKE 'orders'")->fetch()) {
+            $colOk = $pdo->query("SHOW COLUMNS FROM orders LIKE 'validated_at'")->fetch() !== false;
+            line(
+                'Colonne orders.validated_at (bouton « validée » dans admin)',
+                $colOk,
+                $colOk ? '' : 'SQL : <code>ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL AFTER created_at;</code>'
+            );
+        }
+
         $adminHash = trim((string) (($cfg['admin_password_hash'] ?? '')));
         line(
             'Mot de passe admin (admin.php)',
