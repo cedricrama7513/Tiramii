@@ -25,6 +25,19 @@ try {
     exit;
 }
 
+/**
+ * True si la migration « validation commande » a été appliquée (colonne validated_at).
+ */
+function tiramii_admin_orders_has_validated_at(PDO $pdo): bool
+{
+    try {
+        $st = $pdo->query("SHOW COLUMNS FROM `orders` LIKE 'validated_at'");
+        return $st !== false && $st->fetch(PDO::FETCH_ASSOC) !== false;
+    } catch (Throwable) {
+        return false;
+    }
+}
+
 $errors = [];
 $success = '';
 if (!empty($_SESSION['admin_flash_success'])) {
@@ -102,6 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_order'])) {
         $oid = (int) ($_POST['order_id'] ?? 0);
         if ($oid < 1) {
             $errors[] = 'Commande invalide.';
+        } elseif (!tiramii_admin_orders_has_validated_at($pdo)) {
+            $errors[] = 'La colonne SQL validated_at est absente. Dans phpMyAdmin, exécutez : ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL AFTER created_at;';
         } else {
             $st = $pdo->prepare('UPDATE orders SET validated_at = NOW() WHERE id = ? AND validated_at IS NULL');
             $st->execute([$oid]);
@@ -135,16 +150,31 @@ $products = $pdo->query(
 
 $ordersList = [];
 $orderItemsByOrder = [];
+$ordersHasValidatedAt = false;
 if ($loggedIn) {
-    $ordersList = $pdo
-        ->query(
-            'SELECT id, first_name, last_name, phone, address_line, zip, city, delivery_time, note,
-                    payment_method, total_eur, created_at, validated_at
-             FROM orders
-             ORDER BY created_at DESC, id DESC
-             LIMIT 200'
-        )
-        ->fetchAll(PDO::FETCH_ASSOC);
+    $ordersHasValidatedAt = tiramii_admin_orders_has_validated_at($pdo);
+    $orderSelectCols = 'id, first_name, last_name, phone, address_line, zip, city, delivery_time, note,
+        payment_method, total_eur, created_at';
+    if ($ordersHasValidatedAt) {
+        $orderSelectCols .= ', validated_at';
+    }
+    try {
+        $ordersList = $pdo
+            ->query(
+                'SELECT ' . $orderSelectCols . '
+                 FROM orders
+                 ORDER BY created_at DESC, id DESC
+                 LIMIT 200'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $ordersList = [];
+    }
+    if (!$ordersHasValidatedAt) {
+        foreach ($ordersList as $k => $row) {
+            $ordersList[$k]['validated_at'] = null;
+        }
+    }
 
     if ($ordersList !== []) {
         $ids = array_map('intval', array_column($ordersList, 'id'));
@@ -298,6 +328,12 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
         <p class="helper">Les <?= count($ordersList) ?> dernières commandes (max. 200), les plus récentes en premier. Clique sur une ligne pour voir le détail et les articles.</p>
       </div>
     </div>
+    <?php if ($loggedIn && !$ordersHasValidatedAt): ?>
+      <p class="alert-bad" style="margin-bottom:14px;font-size:.9rem;line-height:1.45">
+        <strong>Migration SQL requise</strong> pour le bouton « validée » : dans phpMyAdmin, exécutez<br>
+        <code style="font-size:.78rem;word-break:break-all">ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL AFTER created_at;</code>
+      </p>
+    <?php endif; ?>
     <?php if ($ordersList === []): ?>
       <p class="empty-orders">Aucune commande enregistrée pour l’instant.</p>
     <?php else: ?>
@@ -366,7 +402,7 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
           <?php else: ?>
             <p class="muted" style="margin-top:12px">Aucune ligne d’article (données anciennes ou anomalie).</p>
           <?php endif; ?>
-          <?php if (!$isValidated): ?>
+          <?php if (!$isValidated && $ordersHasValidatedAt): ?>
           <div class="order-actions">
             <form method="post" action="admin.php#order-<?= (int) $oid ?>">
               <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
