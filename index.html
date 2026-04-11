@@ -225,7 +225,6 @@ footer a{color:var(--v);text-decoration:none}
           <h4>Récapitulatif</h4>
           <div id="summaryItems"></div>
           <div class="summary-total"><span>Total</span><span id="summaryTotal">0,00€</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-top:.5rem;color:#2e7d32"><span>🚚 Livraison</span><span>Zones 75, 91, 92, 93, 94 uniquement</span></div>
         </div>
         <label style="font-size:.82rem;font-weight:500;color:var(--vd);letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:.6rem">Paiement</label>
         <div class="payment-methods">
@@ -818,7 +817,6 @@ window.openCheckout = function() {
   document.getElementById('summaryItems').innerHTML =
     cart.map(i => `<div class="summary-item"><span>${i.name}${i.boxLabel ? ' (' + i.boxLabel + ')' : ''} x${i.qty}</span><span>${(i.price*i.qty).toFixed(2).replace('.',',')}€</span></div>`).join('') +
     (count >= 2 ? '<div class="summary-item"><span>🥤 Boisson</span><span class="summary-free">Offerte</span></div>' : '') +
-    '<div class="summary-item"><span>🚚 Livraison</span><span>Zones 75, 91, 92, 93, 94 uniquement</span></div>' +
     timerHtml;
   document.getElementById('summaryTotal').textContent = total.toFixed(2).replace('.',',') + ' €';
   document.getElementById('checkoutModal').classList.add('open');

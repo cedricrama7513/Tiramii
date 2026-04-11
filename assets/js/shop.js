@@ -347,7 +347,6 @@ window.openCheckout = function () {
         )
         .join('') +
       (count >= 2 ? '<div class="summary-item"><span>🥤 Boisson</span><span class="summary-free">Offerte</span></div>' : '') +
-      '<div class="summary-item"><span>🚚 Livraison</span><span>Zones 75, 91, 92, 93, 94 uniquement</span></div>' +
       timerHtml;
   }
   const summaryTotal = document.getElementById('summaryTotal');
