@@ -97,7 +97,7 @@ if (!is_readable($cfgPath)) {
             $adminHash !== '',
             $adminHash !== ''
                 ? 'Défini dans config.php — gérer le stock sur <a href="admin.php">admin.php</a>.'
-                : 'Renseignez <code>admin_password_hash</code> dans config.php (commande : <code>php tools/hash-password.php \"…\"</code>).'
+                : 'Uploadez <code>once-set-admin-password.php</code> à la racine, ouvrez-le une fois dans le navigateur, puis supprimez-le — ou renseignez <code>admin_password_hash</code> dans config.php.'
         );
     } catch (Throwable $e) {
         line(
