@@ -16,9 +16,7 @@ const FIXED_BOXES = {
 const HOLD_MS = 5 * 60 * 1000;
 const SESSION_KEY = 'tiramii_session_id';
 const CART_KEY = 'tiramii_cart';
-const DELIVERY_ORIGIN = 'Paris 13, France';
-const DELIVERY_FREE_RADIUS_KM = 10;
-const DELIVERY_MIN_ORDER_BEYOND_FREE_EUR = 15;
+const DELIVERY_ALLOWED_DEPTS = ['91', '92', '93', '94'];
 /** Libellé enregistré en base et affiché au client (pas de créneau au quart d’heure). */
 const DELIVERY_TIME_LABEL = 'Après 21h30';
 
@@ -224,41 +222,17 @@ function observeReveal() {
   document.querySelectorAll('.reveal:not(.visible)').forEach((el) => obs.observe(el));
 }
 
-async function geocodeAddress(query) {
-  const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=fr&q=${encodeURIComponent(query)}`;
-  const response = await fetch(url, {
-    headers: { Accept: 'application/json', 'Accept-Language': 'fr' },
-  });
-  if (!response.ok) throw new Error('Erreur de géocodage');
-  const data = await response.json();
-  if (!Array.isArray(data) || !data.length) throw new Error('Adresse introuvable');
-  return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-}
-
-function distanceKmBetween(a, b) {
-  const toRad = (deg) => (deg * Math.PI) / 180;
-  const R = 6371;
-  const dLat = toRad(b.lat - a.lat);
-  const dLon = toRad(b.lon - a.lon);
-  const lat1 = toRad(a.lat);
-  const lat2 = toRad(b.lat);
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(h));
-}
-
-async function validateDeliveryForOrder(address, zip, city, cartTotalEur) {
-  const destinationQuery = [address, zip, city, 'France'].filter(Boolean).join(', ');
-  const [origin, destination] = await Promise.all([geocodeAddress(DELIVERY_ORIGIN), geocodeAddress(destinationQuery)]);
-  const distanceKm = distanceKmBetween(origin, destination);
-  const total = Math.round(cartTotalEur * 100) / 100;
-  if (distanceKm > DELIVERY_FREE_RADIUS_KM && total < DELIVERY_MIN_ORDER_BEYOND_FREE_EUR) {
-    const kmStr = distanceKm.toFixed(1).replace('.', ',');
-    const totalStr = total.toFixed(2).replace('.', ',');
+async function validateDeliveryForOrder(_address, zip, _city, _cartTotalEur) {
+  const digits = String(zip).replace(/\D/g, '');
+  if (digits.length < 5) {
+    throw new Error('📍 Code postal invalide. Indiquez un code postal à 5 chiffres.');
+  }
+  const dept = digits.slice(0, 2);
+  if (!DELIVERY_ALLOWED_DEPTS.includes(dept)) {
     throw new Error(
-      `📍 Au-delà de ${DELIVERY_FREE_RADIUS_KM} km, le minimum de commande est de ${DELIVERY_MIN_ORDER_BEYOND_FREE_EUR} € (distance : ${kmStr} km, panier : ${totalStr} €).`
+      '📍 La livraison est limitée aux départements 91, 92, 93 et 94. Votre commande ne peut pas être livrée à cette adresse.'
     );
   }
-  return distanceKm;
 }
 
 function formatCountdown(ms) {
@@ -373,7 +347,7 @@ window.openCheckout = function () {
         )
         .join('') +
       (count >= 2 ? '<div class="summary-item"><span>🥤 Boisson</span><span class="summary-free">Offerte</span></div>' : '') +
-      '<div class="summary-item"><span>🚚 Livraison</span><span>Offerte ≤10 km · Min. 15 € au-delà</span></div>' +
+      '<div class="summary-item"><span>🚚 Livraison</span><span>Zones 91, 92, 93, 94 uniquement</span></div>' +
       timerHtml;
   }
   const summaryTotal = document.getElementById('summaryTotal');

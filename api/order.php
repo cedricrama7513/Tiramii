@@ -36,8 +36,8 @@ $deliveryTime = trim((string) ($data['delivery_time'] ?? ''));
 $note = trim((string) ($data['note'] ?? ''));
 $payment = trim((string) ($data['payment_method'] ?? ''));
 
-if ($first === '' || $phone === '' || $address === '') {
-    tiramii_json_response(['ok' => false, 'error' => 'Prénom, téléphone et adresse obligatoires.'], 422);
+if ($first === '' || $phone === '' || $address === '' || trim($zip) === '') {
+    tiramii_json_response(['ok' => false, 'error' => 'Prénom, téléphone, adresse et code postal obligatoires.'], 422);
 }
 
 if (mb_strlen($first) > 80 || mb_strlen($last) > 80) {

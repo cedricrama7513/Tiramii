@@ -214,9 +214,9 @@ footer a{color:var(--v);text-decoration:none}
           <div class="form-group"><label>Nom</label><input type="text" id="lastName" placeholder="Dupont"></div>
         </div>
         <div class="form-group"><label>Téléphone</label><input type="tel" id="phone" placeholder="06 12 34 56 78"></div>
-        <div class="form-group"><label>Adresse de livraison</label><input type="text" id="address" placeholder="12 rue de la Paix"><div class="delivery-note">🚚 Livraison offerte à moins de 10 km du Paris 13 ; au-delà, minimum de commande 15 €.</div></div>
+        <div class="form-group"><label>Adresse de livraison</label><input type="text" id="address" placeholder="12 rue de la Paix"><div class="delivery-note">🚚 Livraison uniquement dans les départements <strong>91, 92, 93 et 94</strong> (code postal à 5 chiffres).</div></div>
         <div class="form-row">
-          <div class="form-group"><label>Code postal</label><input type="text" id="zip" placeholder="75013"></div>
+          <div class="form-group"><label>Code postal</label><input type="text" id="zip" placeholder="93100"></div>
           <div class="form-group"><label>Ville</label><input type="text" id="city" placeholder="Paris"></div>
         </div>
         <div class="form-group"><label>Livraison</label><div class="delivery-note" style="margin-top:.35rem">🌙 Passage <strong>après 21h30</strong> (service nocturne).</div></div>
@@ -225,7 +225,7 @@ footer a{color:var(--v);text-decoration:none}
           <h4>Récapitulatif</h4>
           <div id="summaryItems"></div>
           <div class="summary-total"><span>Total</span><span id="summaryTotal">0,00€</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-top:.5rem;color:#2e7d32"><span>🚚 Livraison</span><span>Offerte ≤10 km · Min. 15 € au-delà</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-top:.5rem;color:#2e7d32"><span>🚚 Livraison</span><span>Zones 91, 92, 93, 94 uniquement</span></div>
         </div>
         <label style="font-size:.82rem;font-weight:500;color:var(--vd);letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:.6rem">Paiement</label>
         <div class="payment-methods">
@@ -293,7 +293,7 @@ footer a{color:var(--v);text-decoration:none}
   <div class="section-title reveal" style="padding-top:2rem"><div class="eyebrow">Pourquoi TIRA'MII ?</div><h2>Fait avec passion</h2></div>
   <div class="perks-grid">
     <div class="perk reveal"><div class="perk-icon">🍮</div><strong>100% fait maison</strong><span>Préparé à la commande</span></div>
-    <div class="perk reveal"><div class="perk-icon">🚚</div><strong>Livraison offerte</strong><span>Sous 10 km du Paris 13 · Min. 15 € au-delà</span></div>
+    <div class="perk reveal"><div class="perk-icon">🚚</div><strong>Livraison locale</strong><span>Départements 91, 92, 93 et 94</span></div>
     <div class="perk reveal"><div class="perk-icon">🌙</div><strong>Livraison nocturne</strong><span>De 21h30 jusqu'à 2h du matin</span></div>
   </div>
 </section>
@@ -312,7 +312,7 @@ footer a{color:var(--v);text-decoration:none}
 
 <footer>
   <p>© 2026 TIRA'MII &nbsp;·&nbsp; <a href="#">Mentions légales</a> &nbsp;·&nbsp; <a href="#">Instagram</a></p>
-  <p style="margin-top:.5rem;font-size:.75rem">Livraison offerte sous 10 km (Paris 13) · Au-delà : minimum 15 €</p>
+  <p style="margin-top:.5rem;font-size:.75rem">Livraison : départements 91, 92, 93 et 94 uniquement</p>
 </footer>
 
 <!-- Firebase + App Logic -->
@@ -353,9 +353,7 @@ const reservationsRef = doc(db, 'tiramii', 'reservations');
 const HOLD_MS = 5 * 60 * 1000;
 const SESSION_KEY = 'tiramii_session_id';
 const CART_KEY = 'tiramii_cart';
-const DELIVERY_ORIGIN = "Paris 13, France";
-const DELIVERY_FREE_RADIUS_KM = 10;
-const DELIVERY_MIN_ORDER_BEYOND_FREE_EUR = 15;
+const DELIVERY_ALLOWED_DEPTS = ['91', '92', '93', '94'];
 const DELIVERY_TIME_LABEL = 'Après 21h30';
 
 const sessionId = localStorage.getItem(SESSION_KEY) || crypto.randomUUID();
@@ -547,45 +545,15 @@ async function finalizeOrderStock(cartItems) {
   });
 }
 
-async function geocodeAddress(query) {
-  const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=fr&q=${encodeURIComponent(query)}`;
-  const response = await fetch(url, {
-    headers: {
-      'Accept': 'application/json',
-      'Accept-Language': 'fr'
-    }
-  });
-  if (!response.ok) throw new Error('Erreur de géocodage');
-  const data = await response.json();
-  if (!Array.isArray(data) || !data.length) throw new Error('Adresse introuvable');
-  return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-}
-
-function distanceKmBetween(a, b) {
-  const toRad = (deg) => (deg * Math.PI) / 180;
-  const R = 6371;
-  const dLat = toRad(b.lat - a.lat);
-  const dLon = toRad(b.lon - a.lon);
-  const lat1 = toRad(a.lat);
-  const lat2 = toRad(b.lat);
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(h));
-}
-
-async function validateDeliveryForOrder(address, zip, city, cartTotalEur) {
-  const destinationQuery = [address, zip, city, 'France'].filter(Boolean).join(', ');
-  const [origin, destination] = await Promise.all([
-    geocodeAddress(DELIVERY_ORIGIN),
-    geocodeAddress(destinationQuery)
-  ]);
-  const distanceKm = distanceKmBetween(origin, destination);
-  const total = Math.round(cartTotalEur * 100) / 100;
-  if (distanceKm > DELIVERY_FREE_RADIUS_KM && total < DELIVERY_MIN_ORDER_BEYOND_FREE_EUR) {
-    const kmStr = distanceKm.toFixed(1).replace('.', ',');
-    const totalStr = total.toFixed(2).replace('.', ',');
-    throw new Error(`📍 Au-delà de ${DELIVERY_FREE_RADIUS_KM} km, le minimum de commande est de ${DELIVERY_MIN_ORDER_BEYOND_FREE_EUR} € (distance : ${kmStr} km, panier : ${totalStr} €).`);
+async function validateDeliveryForOrder(_address, zip, _city, _cartTotalEur) {
+  const digits = String(zip).replace(/\D/g, '');
+  if (digits.length < 5) {
+    throw new Error('📍 Code postal invalide. Indiquez un code postal à 5 chiffres.');
   }
-  return distanceKm;
+  const dept = digits.slice(0, 2);
+  if (!DELIVERY_ALLOWED_DEPTS.includes(dept)) {
+    throw new Error('📍 La livraison est limitée aux départements 91, 92, 93 et 94. Votre commande ne peut pas être livrée à cette adresse.');
+  }
 }
 
 async function releaseMyReservationAndCart(showMsg = false) {
@@ -850,7 +818,7 @@ window.openCheckout = function() {
   document.getElementById('summaryItems').innerHTML =
     cart.map(i => `<div class="summary-item"><span>${i.name}${i.boxLabel ? ' (' + i.boxLabel + ')' : ''} x${i.qty}</span><span>${(i.price*i.qty).toFixed(2).replace('.',',')}€</span></div>`).join('') +
     (count >= 2 ? '<div class="summary-item"><span>🥤 Boisson</span><span class="summary-free">Offerte</span></div>' : '') +
-    '<div class="summary-item"><span>🚚 Livraison</span><span>Offerte ≤10 km · Min. 15 € au-delà</span></div>' +
+    '<div class="summary-item"><span>🚚 Livraison</span><span>Zones 91, 92, 93, 94 uniquement</span></div>' +
     timerHtml;
   document.getElementById('summaryTotal').textContent = total.toFixed(2).replace('.',',') + ' €';
   document.getElementById('checkoutModal').classList.add('open');
@@ -873,7 +841,7 @@ window.placeOrder = async function() {
   const zip   = document.getElementById('zip').value.trim();
   const city  = document.getElementById('city').value.trim();
   const note  = document.getElementById('note').value.trim();
-  if (!first || !phone || !addr) { alert('Merci de remplir prénom, téléphone et adresse.'); return; }
+  if (!first || !phone || !addr || !zip) { alert('Merci de remplir prénom, téléphone, adresse et code postal.'); return; }
   if (!cart.length) { showToast('Votre panier est vide.'); return; }
 
   const totalAmt  = cart.reduce((s,i) => s + i.price * i.qty, 0);

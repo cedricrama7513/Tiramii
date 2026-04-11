@@ -63,7 +63,7 @@ Vous pouvez décommenter la redirection **HTTP → HTTPS** dans `.htaccess` une 
 1. Ouvrir le site : le catalogue s’affiche avec images et prix.
 2. Ajouter un produit au panier : pas d’erreur toast ; vérifier dans les outils développeur (réseau) que `api/sync-reservation.php` répond `{"ok":true}`.
 3. Ouvrir `admin.php`, se connecter, modifier un stock (ex. box1 = 5), enregistrer, recharger la boutique : disponibilité cohérente.
-4. Passer une commande test (adresse dans la zone 10 km Paris 13 pour que le géocodage client accepte).
+4. Passer une commande test avec un code postal en 91, 92, 93 ou 94 (sinon la commande est refusée).
 5. Dans phpMyAdmin, vérifier une ligne dans `orders` et `order_items`.
 
 ## Dépannage
