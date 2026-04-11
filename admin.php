@@ -60,7 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_stock'])) {
     } else {
         $pdo->beginTransaction();
         try {
-            $upd = $pdo->prepare('UPDATE stock_levels SET quantity = ? WHERE product_id = ?');
+            $upd = $pdo->prepare(
+                'INSERT INTO stock_levels (product_id, quantity) VALUES (?, ?)
+                 ON DUPLICATE KEY UPDATE quantity = VALUES(quantity)'
+            );
             foreach ($_POST['stock'] ?? [] as $pid => $qty) {
                 $pid = preg_replace('/[^a-z0-9_]/i', '', (string) $pid);
                 if ($pid === '') {
@@ -73,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_stock'])) {
                 if ($q > 99999) {
                     $q = 99999;
                 }
-                $upd->execute([$q, $pid]);
+                $upd->execute([$pid, $q]);
             }
             $pdo->commit();
             $success = 'Stock enregistré.';

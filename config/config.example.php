@@ -12,6 +12,6 @@ return [
         'pass' => 'votre_mot_de_passe',
         'charset' => 'utf8mb4',
     ],
-    // Générez avec : php -r "echo password_hash('VotreMotDePasse', PASSWORD_DEFAULT);"
+    // Générez avec : php tools/hash-password.php "VotreMotDePasse"
     'admin_password_hash' => '',
 ];

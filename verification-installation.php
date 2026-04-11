@@ -90,6 +90,15 @@ if (!is_readable($cfgPath)) {
             $n = (int) $pdo->query('SELECT COUNT(*) FROM products')->fetchColumn();
             line('Lignes dans products', $n > 0, "Nombre : {$n}");
         }
+
+        $adminHash = trim((string) (($cfg['admin_password_hash'] ?? '')));
+        line(
+            'Mot de passe admin (admin.php)',
+            $adminHash !== '',
+            $adminHash !== ''
+                ? 'Défini dans config.php — gérer le stock sur <a href="admin.php">admin.php</a>.'
+                : 'Renseignez <code>admin_password_hash</code> dans config.php (commande : <code>php tools/hash-password.php \"…\"</code>).'
+        );
     } catch (Throwable $e) {
         line(
             'Connexion MySQL',
