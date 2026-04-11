@@ -95,6 +95,12 @@ if ($lines === []) {
     tiramii_json_response(['ok' => false, 'error' => 'Panier invalide.'], 422);
 }
 
+require_once dirname(__DIR__) . '/includes/delivery_validation.php';
+$deliveryErr = tiramii_validate_delivery_order($total, $address, $zip, $city);
+if ($deliveryErr !== null) {
+    tiramii_json_response(['ok' => false, 'error' => $deliveryErr], 422);
+}
+
 try {
     $pdo->beginTransaction();
     tiramii_cleanup_reservations($pdo);

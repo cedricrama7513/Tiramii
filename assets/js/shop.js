@@ -17,7 +17,8 @@ const HOLD_MS = 5 * 60 * 1000;
 const SESSION_KEY = 'tiramii_session_id';
 const CART_KEY = 'tiramii_cart';
 const DELIVERY_ORIGIN = 'Paris 13, France';
-const DELIVERY_RADIUS_KM = 10;
+const DELIVERY_FREE_RADIUS_KM = 10;
+const DELIVERY_MIN_ORDER_BEYOND_FREE_EUR = 15;
 
 const sessionId = localStorage.getItem(SESSION_KEY) || crypto.randomUUID();
 localStorage.setItem(SESSION_KEY, sessionId);
@@ -243,13 +244,16 @@ function distanceKmBetween(a, b) {
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 
-async function checkDeliveryLimit(address, zip, city) {
+async function validateDeliveryForOrder(address, zip, city, cartTotalEur) {
   const destinationQuery = [address, zip, city, 'France'].filter(Boolean).join(', ');
   const [origin, destination] = await Promise.all([geocodeAddress(DELIVERY_ORIGIN), geocodeAddress(destinationQuery)]);
   const distanceKm = distanceKmBetween(origin, destination);
-  if (distanceKm > DELIVERY_RADIUS_KM) {
+  const total = Math.round(cartTotalEur * 100) / 100;
+  if (distanceKm > DELIVERY_FREE_RADIUS_KM && total < DELIVERY_MIN_ORDER_BEYOND_FREE_EUR) {
+    const kmStr = distanceKm.toFixed(1).replace('.', ',');
+    const totalStr = total.toFixed(2).replace('.', ',');
     throw new Error(
-      `📍 Livraison uniquement dans un rayon de ${DELIVERY_RADIUS_KM} km. Adresse détectée à ${distanceKm.toFixed(1).replace('.', ',')} km.`
+      `📍 Au-delà de ${DELIVERY_FREE_RADIUS_KM} km, le minimum de commande est de ${DELIVERY_MIN_ORDER_BEYOND_FREE_EUR} € (distance : ${kmStr} km, panier : ${totalStr} €).`
     );
   }
   return distanceKm;
@@ -367,7 +371,7 @@ window.openCheckout = function () {
         )
         .join('') +
       (count >= 2 ? '<div class="summary-item"><span>🥤 Boisson</span><span class="summary-free">Offerte</span></div>' : '') +
-      '<div class="summary-item"><span>🚚 Livraison</span><span>Max 10 km</span></div>' +
+      '<div class="summary-item"><span>🚚 Livraison</span><span>Offerte ≤10 km · Min. 15 € au-delà</span></div>' +
       timerHtml;
   }
   const summaryTotal = document.getElementById('summaryTotal');
@@ -517,10 +521,11 @@ window.placeOrder = async function () {
     showToast('Votre panier est vide.');
     return;
   }
+  const cartTotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
   try {
-    await checkDeliveryLimit(addr, zip, city);
+    await validateDeliveryForOrder(addr, zip, city, cartTotal);
   } catch (e) {
-    showToast(e.message || 'Adresse hors zone de livraison.');
+    showToast(e.message || 'Adresse ou montant non conforme aux conditions de livraison.');
     return;
   }
 
