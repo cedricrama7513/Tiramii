@@ -915,7 +915,7 @@ window.placeOrder = async function() {
   updateCart();
 
   try {
-    emailjs.init("F4chQbhLI2lVC1o4U");
+    emailjs.init("F4chQbhLI2IVC1o4U");
     emailjs.send("service_1icn34h","template_8a6awel",{to_email:"cedricrama.pro@gmail.com",client_name:first+' '+last,client_phone:phone,client_address:addr+', '+zip+' '+city,delivery_time:time,order_items:itemsText+boissonText,order_total:totalAmt.toFixed(2)+'€',payment_method:payLabel,client_note:note||'Aucune'});
   } catch(e) {}
 };
