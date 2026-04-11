@@ -6,6 +6,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/smtp_send.php';
+require_once __DIR__ . '/emailjs_send.php';
 
 /**
  * @param array<string, mixed> $cfg
@@ -32,21 +33,29 @@ function tiramii_notify_new_order(
     }
 
     $payLabels = [
-        'cash' => 'Espèces',
-        'virement' => 'Virement bancaire',
-        'wero' => 'Wero',
+        'cash' => 'Espèces 💵',
+        'virement' => 'Virement bancaire 🏦',
+        'wero' => 'Wero 📱',
     ];
     $payLabel = $payLabels[$payment] ?? $payment;
 
     $linesText = '';
+    $qtySum = 0;
+    $emailjsItemLines = [];
     foreach ($lines as $line) {
         $name = (string) ($line['name'] ?? '');
         $qty = (int) ($line['qty'] ?? 0);
         $up = (float) ($line['unit_price'] ?? 0);
+        $qtySum += $qty;
         $bl = isset($line['box_label']) && $line['box_label'] !== null && $line['box_label'] !== ''
             ? ' (' . (string) $line['box_label'] . ')'
             : '';
         $linesText .= "  · {$name}{$bl} × {$qty} = " . number_format($up * $qty, 2, ',', ' ') . " €\n";
+        $emailjsItemLines[] = $name . $bl . ' x' . $qty . ' = ' . number_format($up * $qty, 2, '.', '') . '€';
+    }
+    $orderItemsEmailjs = implode("\n", $emailjsItemLines);
+    if ($qtySum >= 2) {
+        $orderItemsEmailjs .= "\n🥤 1 boisson offerte";
     }
 
     $fullAddress = trim($address . ', ' . $zip . ' ' . $city);
@@ -77,11 +86,30 @@ function tiramii_notify_new_order(
     $smtpUser = trim((string) ($n['smtp_user'] ?? ''));
     $smtpPass = (string) ($n['smtp_pass'] ?? '');
 
+    $ejKey = trim((string) ($n['emailjs_public_key'] ?? ''));
+    $ejService = trim((string) ($n['emailjs_service_id'] ?? ''));
+    $ejTemplate = trim((string) ($n['emailjs_template_id'] ?? ''));
+
     if ($ownerEmail !== '' && filter_var($ownerEmail, FILTER_VALIDATE_EMAIL)) {
         $subject = "Nouvelle commande #{$orderId} — TIRA'MII";
         $sent = false;
 
-        if ($smtpHost !== '' && $fromEmail !== '' && filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
+        if ($ejKey !== '' && $ejService !== '' && $ejTemplate !== '') {
+            $sent = tiramii_emailjs_send($ejKey, $ejService, $ejTemplate, [
+                'to_email' => $ownerEmail,
+                'client_name' => $clientName,
+                'client_phone' => $phone,
+                'client_address' => $fullAddress,
+                'delivery_time' => $deliveryTime,
+                'order_items' => $orderItemsEmailjs,
+                'order_total' => number_format($total, 2, '.', '') . '€',
+                'payment_method' => $payLabel,
+                'client_note' => $note !== '' ? $note : 'Aucune',
+                'order_id' => (string) $orderId,
+            ]);
+        }
+
+        if (!$sent && $smtpHost !== '' && $fromEmail !== '' && filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
             $sent = tiramii_send_mail_smtp(
                 $smtpHost,
                 $smtpPort,

@@ -16,12 +16,16 @@ return [
     'admin_password_hash' => '',
 
     /**
-     * Notification à chaque nouvelle commande (e-mail + SMS optionnel).
-     * E-mail : renseignez owner_email ; pour Hostinger utilisez SMTP (hPanel → E-mails → config. SMTP).
-     * SMS : compte Twilio (payant) — laissez les champs vides pour désactiver.
+     * Notification à chaque nouvelle commande.
+     * 1) EmailJS (recommandé) : Public Key + service_id + template_id (tableau EmailJS) + owner_email.
+     * 2) Sinon SMTP Hostinger, puis repli PHP mail().
+     * SMS Twilio : optionnel.
      */
     'notify' => [
         'owner_email' => 'vous@exemple.com',
+        'emailjs_public_key' => '',
+        'emailjs_service_id' => '',
+        'emailjs_template_id' => '',
         'from_email' => 'contact@votredomaine.fr',
         'from_name' => 'TIRA\'MII',
         'smtp_host' => 'smtp.hostinger.com',
