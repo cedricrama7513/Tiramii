@@ -19,6 +19,8 @@ const CART_KEY = 'tiramii_cart';
 const DELIVERY_ORIGIN = 'Paris 13, France';
 const DELIVERY_FREE_RADIUS_KM = 10;
 const DELIVERY_MIN_ORDER_BEYOND_FREE_EUR = 15;
+/** Libellé enregistré en base et affiché au client (pas de créneau au quart d’heure). */
+const DELIVERY_TIME_LABEL = 'Après 21h30';
 
 const sessionId = localStorage.getItem(SESSION_KEY) || crypto.randomUUID();
 localStorage.setItem(SESSION_KEY, sessionId);
@@ -511,7 +513,6 @@ window.placeOrder = async function () {
   const addr = document.getElementById('address')?.value.trim() || '';
   const zip = document.getElementById('zip')?.value.trim() || '';
   const city = document.getElementById('city')?.value.trim() || '';
-  const time = document.getElementById('delivTime')?.value || '';
   const note = document.getElementById('note')?.value.trim() || '';
   if (!first || !phone || !addr) {
     alert('Merci de remplir prénom, téléphone et adresse.');
@@ -554,7 +555,7 @@ window.placeOrder = async function () {
         address: addr,
         zip,
         city,
-        delivery_time: time,
+        delivery_time: DELIVERY_TIME_LABEL,
         note,
         payment_method: payMethod,
         cart: cartPayload,
@@ -574,7 +575,7 @@ window.placeOrder = async function () {
   const successTime = document.getElementById('successTime');
   const successPhone = document.getElementById('successPhone');
   if (successName) successName.textContent = first;
-  if (successTime) successTime.textContent = time;
+  if (successTime) successTime.textContent = DELIVERY_TIME_LABEL.toLowerCase();
   if (successPhone) successPhone.textContent = phone;
   const checkoutForm = document.getElementById('checkoutForm');
   if (checkoutForm) checkoutForm.style.display = 'none';

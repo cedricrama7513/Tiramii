@@ -219,9 +219,7 @@ footer a{color:var(--v);text-decoration:none}
           <div class="form-group"><label>Code postal</label><input type="text" id="zip" placeholder="75013"></div>
           <div class="form-group"><label>Ville</label><input type="text" id="city" placeholder="Paris"></div>
         </div>
-        <div class="form-group"><label>Heure souhaitée</label>
-          <select id="delivTime"><option>21h30</option><option>22h00</option><option>22h30</option><option>23h00</option><option>23h30</option><option>00h00</option><option>00h30</option><option>01h00</option><option>01h30</option><option>02h00</option></select>
-        </div>
+        <div class="form-group"><label>Livraison</label><div class="delivery-note" style="margin-top:.35rem">🌙 Passage <strong>après 21h30</strong> (service nocturne).</div></div>
         <div class="form-group"><label>Note (optionnel)</label><textarea id="note" rows="2" placeholder="Interphone, étage..." style="resize:none"></textarea></div>
         <div class="order-summary">
           <h4>Récapitulatif</h4>
@@ -241,7 +239,7 @@ footer a{color:var(--v);text-decoration:none}
     <div class="success-screen" id="successScreen">
       <div class="success-icon">🎉</div>
       <h3>Commande confirmée !</h3>
-      <p>Merci <strong id="successName"></strong> !<br>Livraison prévue à <strong id="successTime"></strong>.<br>On vous contacte au <strong id="successPhone"></strong>.</p>
+      <p>Merci <strong id="successName"></strong> !<br>Livraison <strong id="successTime"></strong>.<br>On vous contacte au <strong id="successPhone"></strong>.</p>
       <br><button class="place-order-btn" onclick="closeCheckout()" style="max-width:200px;margin:0 auto">Fermer</button>
     </div>
   </div>
@@ -358,6 +356,7 @@ const CART_KEY = 'tiramii_cart';
 const DELIVERY_ORIGIN = "Paris 13, France";
 const DELIVERY_FREE_RADIUS_KM = 10;
 const DELIVERY_MIN_ORDER_BEYOND_FREE_EUR = 15;
+const DELIVERY_TIME_LABEL = 'Après 21h30';
 
 const sessionId = localStorage.getItem(SESSION_KEY) || crypto.randomUUID();
 localStorage.setItem(SESSION_KEY, sessionId);
@@ -873,7 +872,6 @@ window.placeOrder = async function() {
   const addr  = document.getElementById('address').value.trim();
   const zip   = document.getElementById('zip').value.trim();
   const city  = document.getElementById('city').value.trim();
-  const time  = document.getElementById('delivTime').value;
   const note  = document.getElementById('note').value.trim();
   if (!first || !phone || !addr) { alert('Merci de remplir prénom, téléphone et adresse.'); return; }
   if (!cart.length) { showToast('Votre panier est vide.'); return; }
@@ -902,12 +900,12 @@ window.placeOrder = async function() {
   }
 
   document.getElementById('successName').textContent  = first;
-  document.getElementById('successTime').textContent  = time;
+  document.getElementById('successTime').textContent  = DELIVERY_TIME_LABEL.toLowerCase();
   document.getElementById('successPhone').textContent = phone;
   document.getElementById('checkoutForm').style.display = 'none';
   document.getElementById('successScreen').classList.add('show');
 
-  const order = {id: Date.now(), date: new Date().toLocaleString('fr-FR'), client: first+' '+last, phone, address: addr+', '+zip+' '+city, time, items: itemsText, total: totalAmt.toFixed(2)+'€', payment: payLabel, note: note||'Aucune', status:'En attente'};
+  const order = {id: Date.now(), date: new Date().toLocaleString('fr-FR'), client: first+' '+last, phone, address: addr+', '+zip+' '+city, time: DELIVERY_TIME_LABEL, items: itemsText, total: totalAmt.toFixed(2)+'€', payment: payLabel, note: note||'Aucune', status:'En attente'};
   try { await setDoc(doc(db, 'tiramii', 'orders_'+order.id), order); } catch(e) { console.log('Order save error:', e); }
 
   cart = [];
@@ -916,7 +914,7 @@ window.placeOrder = async function() {
 
   try {
     emailjs.init("F4chQbhLI2IVC1o4U");
-    emailjs.send("service_1icn34h","template_8a6awel",{to_email:"cedricrama.pro@gmail.com",client_name:first+' '+last,client_phone:phone,client_address:addr+', '+zip+' '+city,delivery_time:time,order_items:itemsText+boissonText,order_total:totalAmt.toFixed(2)+'€',payment_method:payLabel,client_note:note||'Aucune'});
+    emailjs.send("service_1icn34h","template_8a6awel",{to_email:"cedricrama.pro@gmail.com",client_name:first+' '+last,client_phone:phone,client_address:addr+', '+zip+' '+city,delivery_time:DELIVERY_TIME_LABEL,order_items:itemsText+boissonText,order_total:totalAmt.toFixed(2)+'€',payment_method:payLabel,client_note:note||'Aucune'});
   } catch(e) {}
 };
 
