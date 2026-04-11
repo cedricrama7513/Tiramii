@@ -82,13 +82,17 @@ INSERT INTO products (id, name, price_eur, description, badge_class, badge_text,
 ('kw', 'Kinder Bueno White', 6.00, 'Crème vanille intense, Kinder White fondant. (+1€ supplément)', 'badge-sup', '+1€ supplément', 'kw', 5),
 ('box1', 'Box gourmande', 10.00, 'Box imposée 4 saveurs.', 'badge-hot', '📦 Box', 'oreo', 6);
 
+-- Quantité 999 = illimité (aucune décrémentation à la commande). Valeurs < 999 = stock géré.
 INSERT INTO stock_levels (product_id, quantity) VALUES
-('oreo', 999),
-('spec', 999),
-('daim', 999),
-('kn', 999),
-('kw', 999),
+('oreo', 50),
+('spec', 50),
+('daim', 50),
+('kn', 50),
+('kw', 50),
 ('box1', 20);
+
+-- Déjà en prod avec 999 (illimité) partout ? Pour que le stock baisse à chaque commande, passez à des quantités < 999, ex. :
+-- UPDATE stock_levels SET quantity = 50 WHERE quantity = 999 AND product_id IN ('oreo','spec','daim','kn','kw');
 
 -- Exemple de commande (facultatif — commentez si vous voulez une base vide)
 INSERT INTO orders (first_name, last_name, phone, address_line, zip, city, delivery_time, note, payment_method, total_eur, created_at)

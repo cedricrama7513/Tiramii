@@ -64,10 +64,11 @@ Vous pouvez décommenter la redirection **HTTP → HTTPS** dans `.htaccess` une 
 2. Ajouter un produit au panier : pas d’erreur toast ; vérifier dans les outils développeur (réseau) que `api/sync-reservation.php` répond `{"ok":true}`.
 3. Ouvrir `admin.php`, se connecter, modifier un stock (ex. box1 = 5), enregistrer, recharger la boutique : disponibilité cohérente.
 4. Passer une commande test avec un code postal en 75, 91, 92, 93 ou 94 (sinon la commande est refusée).
-5. Dans phpMyAdmin, vérifier une ligne dans `orders` et `order_items`.
+5. Dans phpMyAdmin, vérifier une ligne dans `orders` et `order_items`, et que les quantités dans `stock_levels` ont bien diminué pour les articles commandés.
 
 ## Dépannage
 
 - **Page blanche** : activez l’affichage des erreurs temporairement ou consultez les logs PHP (hPanel).
 - **Erreur PDO** : vérifiez `DB_HOST` (souvent `localhost` ou un hôte fourni par Hostinger), nom de base, utilisateur, mot de passe.
 - **CSRF 403** sur l’API** : cookies de session bloqués ; vérifier même domaine, HTTPS cohérent, pas de navigation privée qui purge la session entre requêtes.
+- **Stock qui ne baisse pas après commande** : en admin, une quantité affichée « Illimité » correspond à **999** en base — dans ce cas le site ne déstocke pas. Pour suivre un stock réel, saisissez un nombre inférieur à 999 (ex. 50). Les nouvelles installations importées depuis `database.sql` utilisent des stocks finis par défaut.
