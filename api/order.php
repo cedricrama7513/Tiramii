@@ -184,6 +184,35 @@ try {
     }
 
     $pdo->commit();
+
+    $cfgPath = dirname(__DIR__) . '/config/config.php';
+    $appCfg = [];
+    if (is_readable($cfgPath)) {
+        /** @var array $loaded */
+        $loaded = require $cfgPath;
+        $appCfg = is_array($loaded) ? $loaded : [];
+    }
+    require_once dirname(__DIR__) . '/includes/order_notify.php';
+    try {
+        tiramii_notify_new_order(
+            $appCfg,
+            $orderId,
+            $first,
+            $last,
+            $phone,
+            $address,
+            $zip,
+            $city,
+            $deliveryTime,
+            $note,
+            $payment,
+            round($total, 2),
+            $lines
+        );
+    } catch (Throwable) {
+        /* ne pas faire échouer la commande si l’e-mail / SMS échoue */
+    }
+
     tiramii_json_response(['ok' => true, 'order_id' => $orderId]);
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) {
