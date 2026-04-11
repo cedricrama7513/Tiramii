@@ -81,7 +81,7 @@ INSERT INTO products (id, name, price_eur, description, badge_class, badge_text,
 ('kn', 'Kinder Bueno Nutella', 5.00, 'Nutella coulant, barres Kinder Bueno & mascarpone chocolat.', 'badge-hot', '🔥 Favori', 'kn', 4),
 ('kw', 'Kinder Bueno White', 6.00, 'Crème vanille intense, Kinder White fondant. (+1€ supplément)', 'badge-sup', '+1€ supplément', 'kw', 5),
 ('box1', 'Box gourmande', 10.00, 'Bueno, Oreo, Speculos, KitKat.', 'badge-hot', '📦 Box', 'oreo', 6),
-('box_supreme', 'Box suprême', 10.00, 'Box premium 4 saveurs.', 'badge-hot', '✨ Suprême', 'kw', 7);
+('box_supreme', 'Box suprême', 10.00, 'M&M''s, Raffaello, Daim, Kinder Bueno White.', 'badge-hot', '✨ Suprême', 'kw', 7);
 
 -- Quantité 999 = illimité (aucune décrémentation à la commande). Valeurs < 999 = stock géré.
 INSERT INTO stock_levels (product_id, quantity) VALUES

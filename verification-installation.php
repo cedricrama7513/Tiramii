@@ -89,6 +89,15 @@ if (!is_readable($cfgPath)) {
         if ($pdo->query("SHOW TABLES LIKE 'products'")->fetch()) {
             $n = (int) $pdo->query('SELECT COUNT(*) FROM products')->fetchColumn();
             line('Lignes dans products', $n > 0, "Nombre : {$n}");
+            $hasSupreme = $pdo->query("SELECT 1 FROM products WHERE id = 'box_supreme' LIMIT 1")->fetch() !== false;
+            $hasSupremeStock = $pdo->query("SELECT 1 FROM stock_levels WHERE product_id = 'box_supreme' LIMIT 1")->fetch() !== false;
+            line(
+                'Produit Box suprême (box_supreme) + stock',
+                $hasSupreme && $hasSupremeStock,
+                $hasSupreme && $hasSupremeStock
+                    ? 'OK — rechargez la boutique ou admin après déploiement du correctif auto.'
+                    : 'Rechargez une page du site ou admin.php : le script ensure_box_supreme.php crée les lignes manquantes. Sinon importez les INSERT depuis database.sql.'
+            );
         }
 
         if ($pdo->query("SHOW TABLES LIKE 'orders'")->fetch()) {

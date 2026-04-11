@@ -17,6 +17,9 @@ try {
     exit;
 }
 
+require_once dirname(__DIR__) . '/includes/ensure_box_supreme.php';
+tiramii_ensure_box_supreme($pdo);
+
 /**
  * @param mixed $data
  */

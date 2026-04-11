@@ -25,6 +25,9 @@ try {
     exit;
 }
 
+require_once __DIR__ . '/includes/ensure_box_supreme.php';
+tiramii_ensure_box_supreme($pdo);
+
 /**
  * True si la migration « validation commande » a été appliquée (colonne validated_at).
  */
