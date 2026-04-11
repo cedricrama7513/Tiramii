@@ -139,6 +139,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_order'])) {
     }
 }
 
+// Ajout colonne validated_at depuis l’admin (évite phpMyAdmin si les droits MySQL le permettent)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_validated_at_migration'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        http_response_code(403);
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } elseif (tiramii_admin_orders_has_validated_at($pdo)) {
+        $_SESSION['admin_flash_success'] = 'La colonne validated_at est déjà en place.';
+        header('Location: admin.php');
+        exit;
+    } else {
+        $alterOk = false;
+        try {
+            $pdo->exec('ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL AFTER created_at');
+            $alterOk = true;
+        } catch (Throwable) {
+            /* droits ALTER refusés sur certains hébergeurs */
+        }
+        if (!$alterOk) {
+            $errors[] = 'La migration automatique a échoué (droits MySQL ou hébergeur). Utilisez phpMyAdmin avec la commande ci-dessous.';
+        } else {
+            try {
+                $pdo->exec('CREATE INDEX idx_validated ON orders (validated_at)');
+            } catch (Throwable) {
+                /* index peut déjà exister */
+            }
+            $_SESSION['admin_flash_success'] = 'Base à jour : vous pouvez marquer les commandes comme validées.';
+            header('Location: admin.php');
+            exit;
+        }
+    }
+}
+
 $loggedIn = !empty($_SESSION['admin_ok']);
 
 $products = $pdo->query(
@@ -329,10 +363,15 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
       </div>
     </div>
     <?php if ($loggedIn && !$ordersHasValidatedAt): ?>
-      <p class="alert-bad" style="margin-bottom:14px;font-size:.9rem;line-height:1.45">
-        <strong>Migration SQL requise</strong> pour le bouton « validée » : dans phpMyAdmin, exécutez<br>
-        <code style="font-size:.78rem;word-break:break-all">ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL AFTER created_at;</code>
-      </p>
+      <div class="alert-bad" style="margin-bottom:14px;padding:14px;border-radius:14px;background:#ffebee;border:1px solid #ffcdd2;font-size:.9rem;line-height:1.45;color:#b71c1c">
+        <strong>Migration SQL requise</strong> pour activer le bouton « Commande validée ».
+        <form method="post" action="admin.php" style="margin:12px 0 8px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+          <button type="submit" name="apply_validated_at_migration" value="1" class="primary btn-small">Appliquer la mise à jour automatiquement</button>
+        </form>
+        <span style="opacity:.95">Sinon, dans phpMyAdmin → SQL :</span><br>
+        <code style="display:block;margin-top:6px;font-size:.78rem;word-break:break-all;color:#3d1f6e;background:#fff;padding:8px 10px;border-radius:10px">ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL AFTER created_at;</code>
+      </div>
     <?php endif; ?>
     <?php if ($ordersList === []): ?>
       <p class="empty-orders">Aucune commande enregistrée pour l’instant.</p>
