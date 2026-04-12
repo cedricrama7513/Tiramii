@@ -80,8 +80,11 @@ INSERT INTO products (id, name, price_eur, description, badge_class, badge_text,
 ('daim', 'Saveur Daim', 5.00, 'Crème mascarpone, éclats de Daim & noisettes torréfiées.', 'badge-new', 'Coup de cœur', 'daim', 3),
 ('kn', 'Kinder Bueno Nutella', 5.00, 'Nutella coulant, barres Kinder Bueno & mascarpone chocolat.', 'badge-hot', '🔥 Favori', 'kn', 4),
 ('kw', 'Kinder Bueno White', 6.00, 'Crème vanille intense, Kinder White fondant. (+1€ supplément)', 'badge-sup', '+1€ supplément', 'kw', 5),
-('box1', 'Box gourmande', 10.00, 'Bueno, Oreo, Speculos, KitKat.', 'badge-hot', '📦 Box', 'oreo', 6),
-('box_supreme', 'Box suprême', 10.00, 'M&M''s, Raffaello, Daim, Kinder Bueno White.', 'badge-hot', '✨ Suprême', 'kw', 7);
+('mms', 'Saveur M&M''s', 5.00, 'Mascarpone onctueux, M&M''s croquants et sauce chocolat.', 'badge-hot', 'Nouveau', 'mms', 6),
+('kitkat', 'Saveur KitKat', 5.00, 'Mascarpone, barres KitKat et chocolat au lait.', 'badge-new', 'Nouveau', 'kitkat', 7),
+('raffaello', 'Saveur Raffaello', 6.00, 'Crème coco-noisette, Raffaello et noix de coco. (+1€ supplément)', 'badge-sup', '+1€ supplément', 'raffaello', 8),
+('box1', 'Box gourmande', 10.00, 'Bueno, Oreo, Speculos, KitKat.', 'badge-hot', '📦 Box', 'oreo', 9),
+('box_supreme', 'Box suprême', 10.00, 'M&M''s, Raffaello, Daim, Kinder Bueno White.', 'badge-hot', '✨ Suprême', 'kw', 10);
 
 -- Quantité 999 = illimité (aucune décrémentation à la commande). Valeurs < 999 = stock géré.
 INSERT INTO stock_levels (product_id, quantity) VALUES
@@ -90,6 +93,9 @@ INSERT INTO stock_levels (product_id, quantity) VALUES
 ('daim', 50),
 ('kn', 50),
 ('kw', 50),
+('mms', 50),
+('kitkat', 50),
+('raffaello', 50),
 ('box1', 20),
 ('box_supreme', 20);
 
@@ -102,6 +108,14 @@ VALUES ('Test', 'Client', '0612345678', '1 rue de Test', '75013', 'Paris', '22h0
 
 INSERT INTO order_items (order_id, product_id, product_label, quantity, unit_price_eur, box_label)
 VALUES (1, 'oreo', 'Saveur Oreo', 2, 5.00, NULL), (1, 'kw', 'Kinder Bueno White', 1, 6.00, NULL);
+
+-- Bases déjà en production : nouvelles saveurs M&M's, KitKat, Raffaello (+1€) + réordonner sort_order des box :
+-- INSERT INTO products (id, name, price_eur, description, badge_class, badge_text, img_key, sort_order) VALUES
+-- ('mms', 'Saveur M&M''s', 5.00, 'Mascarpone onctueux, M&M''s croquants et sauce chocolat.', 'badge-hot', 'Nouveau', 'mms', 6),
+-- ('kitkat', 'Saveur KitKat', 5.00, 'Mascarpone, barres KitKat et chocolat au lait.', 'badge-new', 'Nouveau', 'kitkat', 7),
+-- ('raffaello', 'Saveur Raffaello', 6.00, 'Crème coco-noisette, Raffaello et noix de coco. (+1€ supplément)', 'badge-sup', '+1€ supplément', 'raffaello', 8);
+-- INSERT INTO stock_levels (product_id, quantity) VALUES ('mms', 50), ('kitkat', 50), ('raffaello', 50);
+-- UPDATE products SET sort_order = 9 WHERE id = 'box1'; UPDATE products SET sort_order = 10 WHERE id = 'box_supreme';
 
 -- Bases déjà en production : ajouter la Box suprême + mettre à jour la gourmande (une fois) :
 -- UPDATE products SET description = 'Bueno, Oreo, Speculos, KitKat.', img_key = 'oreo' WHERE id = 'box1';

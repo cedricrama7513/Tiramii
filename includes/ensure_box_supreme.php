@@ -31,7 +31,7 @@ function tiramii_ensure_box_supreme(PDO $pdo): void
                 'badge-hot',
                 '✨ Suprême',
                 'kw',
-                7,
+                10,
                 1,
             ]);
             $insS = $pdo->prepare('INSERT INTO stock_levels (product_id, quantity) VALUES (?, 20)');

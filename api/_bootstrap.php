@@ -18,6 +18,8 @@ try {
 }
 
 require_once dirname(__DIR__) . '/includes/ensure_box_supreme.php';
+require_once dirname(__DIR__) . '/includes/ensure_new_flavors.php';
+tiramii_ensure_new_flavors($pdo);
 tiramii_ensure_box_supreme($pdo);
 
 /**
