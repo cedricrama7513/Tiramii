@@ -11,10 +11,11 @@ const root = path.join(__dirname, '..');
 const base =
   'C:/Users/cedri/.cursor/projects/c-Users-cedri-OneDrive-Bureau-tiramii-tiramii-final-ultimate/assets/c__Users_cedri_AppData_Roaming_Cursor_User_workspaceStorage_4ef7ac7b0215f4cf7a93de51166427de_images_';
 
+/** Aligné sur tools/embed-flavor-images.mjs (1 KitKat, 2 M&M's, 3 Raffaello) */
 const map = {
-  mms: `${base}IMG_1953-a767da8a-56f4-4f26-86c8-e3318ddcb788.png`,
-  kitkat: `${base}composer-annotation-81447a47-2479-42d9-87ed-5c826c561c75.png`,
-  raffaello: `${base}IMG_1951-8d5c751b-7dea-4222-9289-0d2100204c3f.png`,
+  kitkat: `${base}composer-annotation-24cc88e9-c581-4d87-9068-dace4a2c8538.png`,
+  mms: `${base}composer-annotation-100b2f8f-971f-4eb9-bc99-ea2c72baa6ec.png`,
+  raffaello: `${base}EC2C030F-72BE-4293-85DA-1C3970A983C4-05575983-40ec-454a-a219-c71c68cca68b.png`,
 };
 
 const indexPath = path.join(root, 'index.html');
