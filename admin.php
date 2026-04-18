@@ -439,7 +439,8 @@ foreach ($ordersGroupedByDay as $bucket) {
     $ordersPeriodCa += $bucket['ca'];
 }
 
-$adminTab = (isset($_GET['tab']) && (string) $_GET['tab'] === 'pro') ? 'pro' : 'particulier';
+$tabParam = isset($_GET['tab']) ? (string) $_GET['tab'] : '';
+$adminTab = in_array($tabParam, ['pro', 'stats'], true) ? $tabParam : 'particulier';
 
 $proCaEntries = [];
 $proCaSummaryByMonth = [];
@@ -476,6 +477,44 @@ if ($loggedIn) {
             ->fetchAll(PDO::FETCH_ASSOC);
     } catch (Throwable) {
         $proInvoices = [];
+    }
+
+    $statsFlavorsAll = [];
+    $statsFlavors90d = [];
+    $statsOrdersTotal = 0;
+    try {
+        $statsOrdersTotal = (int) $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
+    } catch (Throwable) {
+        $statsOrdersTotal = 0;
+    }
+    try {
+        $statsFlavorsAll = $pdo
+            ->query(
+                'SELECT oi.product_id, MAX(oi.product_label) AS product_label, SUM(oi.quantity) AS qty_sum,
+                        COUNT(DISTINCT oi.order_id) AS orders_count
+                 FROM order_items oi
+                 INNER JOIN orders o ON o.id = oi.order_id
+                 GROUP BY oi.product_id
+                 ORDER BY qty_sum DESC'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $statsFlavorsAll = [];
+    }
+    try {
+        $statsFlavors90d = $pdo
+            ->query(
+                'SELECT oi.product_id, MAX(oi.product_label) AS product_label, SUM(oi.quantity) AS qty_sum,
+                        COUNT(DISTINCT oi.order_id) AS orders_count
+                 FROM order_items oi
+                 INNER JOIN orders o ON o.id = oi.order_id
+                 WHERE o.created_at >= DATE_SUB(NOW(), INTERVAL 90 DAY)
+                 GROUP BY oi.product_id
+                 ORDER BY qty_sum DESC'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $statsFlavors90d = [];
     }
 }
 
@@ -571,6 +610,16 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 .form-group-pro{margin-bottom:12px}
 .form-group-pro label{display:block;font-size:.78rem;font-weight:600;color:var(--vd);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
 .form-group-pro input,.form-group-pro textarea{width:100%;padding:10px 12px;border:1.5px solid #dfcff0;border-radius:12px;font-size:.95rem;color:var(--vk)}
+.stats-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.88rem}
+.stats-table th,.stats-table td{padding:10px 12px;text-align:left;border-bottom:1px solid #eee3f8;vertical-align:middle}
+.stats-table th{background:#f9f5fc;color:#836c91;font-weight:600}
+.stats-table .num{text-align:right;white-space:nowrap}
+.stats-table .rank{width:40px;font-weight:700;color:var(--vd)}
+.stat-bar-cell{min-width:120px}
+.stat-bar-track{height:10px;border-radius:999px;background:#ede5f9;overflow:hidden;margin-top:6px}
+.stat-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--vd),var(--v));min-width:4px}
+.stats-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;background:#f1e7fb;color:var(--vd)}
+.stats-pill.box{background:#fff8e6;color:#b8860b}
 </style>
 </head>
 <body>
@@ -594,9 +643,10 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 <?php else: ?>
 <div class="header">
   <div class="brand"><div class="logo">T</div> TIRA'MII</div>
-  <p class="sub">Particuliers (site) et suivi <strong>Pro</strong> (restaurants / B2B).</p>
+  <p class="sub"><strong>Particuliers</strong> (stock + commandes site) · <strong>Stats</strong> (saveurs = <em>uniquement</em> commandes particuliers sur le site) · <strong>Pro</strong> (B2B, hors site).</p>
   <nav class="admin-tabs" aria-label="Sections admin">
     <a href="admin.php" class="<?= $adminTab === 'particulier' ? 'active' : '' ?>">Particuliers</a>
+    <a href="admin.php?tab=stats" class="<?= $adminTab === 'stats' ? 'active' : '' ?>" title="Uniquement les commandes particuliers sur le site">Stats</a>
     <a href="admin.php?tab=pro" class="<?= $adminTab === 'pro' ? 'active' : '' ?>">Pro</a>
   </nav>
   <p class="small"><a class="btn-link secondary" href="index.php">← Site</a> &nbsp; <a class="btn-link secondary" href="admin.php?logout=1">Déconnexion</a></p>
@@ -758,7 +808,102 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
     <?php endif; ?>
   </div>
 </div>
-<?php else:
+<?php elseif ($adminTab === 'stats'): ?>
+<?php
+$boxIds = ['box1', 'box_supreme'];
+$maxAll = 0;
+foreach ($statsFlavorsAll as $r) {
+    $maxAll = max($maxAll, (int) $r['qty_sum']);
+}
+$max90 = 0;
+foreach ($statsFlavors90d as $r) {
+    $max90 = max($max90, (int) $r['qty_sum']);
+}
+?>
+<div class="wrap stack">
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <div class="badge">📊 Stats (particuliers)</div>
+        <p class="helper">Uniquement les ventes passées sur le <strong>site particuliers</strong> (commandes en base). Les ventes <strong>Pro</strong> (onglet Pro) ne sont <strong>pas</strong> comptées ici. Classement à partir des lignes <code>order_items</code> — mise à jour à chaque nouvelle commande site. <span class="stats-pill">Saveur</span> = barquette ; <span class="stats-pill box">Box</span> = box plusieurs parfums.</p>
+      </div>
+    </div>
+    <p class="muted" style="margin-bottom:14px"><?= (int) $statsOrdersTotal ?> commande<?= $statsOrdersTotal !== 1 ? 's' : '' ?> particuliers en base — fenêtre « 90 jours » selon la date de commande (serveur MySQL).</p>
+
+    <h3 style="font-size:1rem;margin:22px 0 8px;font-family:'Playfair Display',serif;color:var(--vk)">Tout historique</h3>
+    <?php if ($statsFlavorsAll === []): ?>
+      <p class="muted">Aucune ligne de commande pour l’instant.</p>
+    <?php else: ?>
+      <table class="stats-table">
+        <thead>
+          <tr><th class="rank">#</th><th>Article</th><th class="num">Unités vendues</th><th class="num">Commandes</th><th class="stat-bar-cell">Part</th></tr>
+        </thead>
+        <tbody>
+          <?php
+          $rank = 0;
+          foreach ($statsFlavorsAll as $r):
+              $rank++;
+              $pid = (string) $r['product_id'];
+              $isBox = in_array($pid, $boxIds, true);
+              $qty = (int) $r['qty_sum'];
+              $pct = $maxAll > 0 ? round($qty / $maxAll * 100, 1) : 0;
+              ?>
+          <tr>
+            <td class="rank"><?= (int) $rank ?></td>
+            <td>
+              <span class="stats-pill<?= $isBox ? ' box' : '' ?>"><?= $isBox ? 'Box' : 'Saveur' ?></span>
+              <?= h((string) $r['product_label']) ?>
+              <span class="muted" style="font-size:.78rem">(<?= h($pid) ?>)</span>
+            </td>
+            <td class="num"><strong><?= (int) $qty ?></strong></td>
+            <td class="num"><?= (int) $r['orders_count'] ?></td>
+            <td class="stat-bar-cell">
+              <div class="stat-bar-track"><div class="stat-bar-fill" style="width:<?= h((string) $pct) ?>%"></div></div>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
+
+    <h3 style="font-size:1rem;margin:28px 0 8px;font-family:'Playfair Display',serif;color:var(--vk)">90 derniers jours</h3>
+    <?php if ($statsFlavors90d === []): ?>
+      <p class="muted">Aucune vente sur cette période.</p>
+    <?php else: ?>
+      <table class="stats-table">
+        <thead>
+          <tr><th class="rank">#</th><th>Article</th><th class="num">Unités</th><th class="num">Commandes</th><th class="stat-bar-cell">Part</th></tr>
+        </thead>
+        <tbody>
+          <?php
+          $rank90 = 0;
+          foreach ($statsFlavors90d as $r):
+              $rank90++;
+              $pid = (string) $r['product_id'];
+              $isBox = in_array($pid, $boxIds, true);
+              $qty = (int) $r['qty_sum'];
+              $pct = $max90 > 0 ? round($qty / $max90 * 100, 1) : 0;
+              ?>
+          <tr>
+            <td class="rank"><?= (int) $rank90 ?></td>
+            <td>
+              <span class="stats-pill<?= $isBox ? ' box' : '' ?>"><?= $isBox ? 'Box' : 'Saveur' ?></span>
+              <?= h((string) $r['product_label']) ?>
+              <span class="muted" style="font-size:.78rem">(<?= h($pid) ?>)</span>
+            </td>
+            <td class="num"><strong><?= (int) $qty ?></strong></td>
+            <td class="num"><?= (int) $r['orders_count'] ?></td>
+            <td class="stat-bar-cell">
+              <div class="stat-bar-track"><div class="stat-bar-fill" style="width:<?= h((string) $pct) ?>%"></div></div>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
+  </div>
+</div>
+<?php elseif ($adminTab === 'pro'):
 $todayPro = (new DateTimeImmutable('now', $adminTzParis))->format('Y-m-d');
 $proMonthTotals = [];
 foreach ($proCaSummaryByMonth as $sr) {
