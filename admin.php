@@ -45,6 +45,18 @@ function tiramii_admin_orders_has_validated_at(PDO $pdo): bool
     }
 }
 
+function tiramii_admin_day_heading(string $dayKey): string
+{
+    $tz = new DateTimeZone('Europe/Paris');
+    $dt = DateTimeImmutable::createFromFormat('!Y-m-d', $dayKey, $tz);
+    if ($dt === false) {
+        return $dayKey;
+    }
+    $names = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+
+    return ucfirst($names[(int) $dt->format('w')]) . ' ' . $dt->format('d/m/Y');
+}
+
 $errors = [];
 $success = '';
 if (!empty($_SESSION['admin_flash_success'])) {
@@ -236,6 +248,32 @@ if ($loggedIn) {
     }
 }
 
+/** @var array<string, array{orders: list<array<string, mixed>>, ca: float, count: int}> */
+$ordersGroupedByDay = [];
+$adminTzParis = new DateTimeZone('Europe/Paris');
+if ($ordersList !== []) {
+    foreach ($ordersList as $o) {
+        $raw = (string) ($o['created_at'] ?? '');
+        $ts = strtotime($raw);
+        if ($ts === false) {
+            $ts = time();
+        }
+        $d = (new DateTimeImmutable('@' . $ts))->setTimezone($adminTzParis);
+        $dayKey = $d->format('Y-m-d');
+        if (!isset($ordersGroupedByDay[$dayKey])) {
+            $ordersGroupedByDay[$dayKey] = ['orders' => [], 'ca' => 0.0, 'count' => 0];
+        }
+        $ordersGroupedByDay[$dayKey]['orders'][] = $o;
+        $ordersGroupedByDay[$dayKey]['ca'] += (float) $o['total_eur'];
+        $ordersGroupedByDay[$dayKey]['count']++;
+    }
+}
+
+$ordersPeriodCa = 0.0;
+foreach ($ordersGroupedByDay as $bucket) {
+    $ordersPeriodCa += $bucket['ca'];
+}
+
 $payLabelsAdmin = [
     'cash' => 'Espèces',
     'virement' => 'Virement bancaire',
@@ -305,6 +343,14 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 .btn-small{padding:10px 16px;font-size:.86rem;border-radius:999px}
 .order-actions{margin-top:16px;padding-top:14px;border-top:1px dashed #e0d4ee}
 .summary-badges{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.order-day-group{margin-top:20px}
+.order-day-group:first-of-type{margin-top:4px}
+.order-day-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;padding:12px 16px;background:linear-gradient(90deg,#ede5f9,#f7f3fc);border-radius:16px;border:1px solid #e0d4ee;margin-bottom:12px}
+.order-day-head h3{font-size:1.08rem;font-weight:700;color:var(--vk);font-family:'Playfair Display',serif;margin:0}
+.order-day-head .day-count{font-size:.86rem;color:#836c91}
+.order-day-head .day-ca{margin-left:auto;font-size:.95rem;color:var(--vd)}
+.order-period-ca{margin:0 0 14px;padding:12px 16px;background:#f9f5fc;border-radius:14px;border:1px solid #eee3f8;font-size:.95rem;color:var(--vk)}
+@media (max-width:640px){.order-day-head .day-ca{margin-left:0;width:100%}}
 </style>
 </head>
 <body>
@@ -366,7 +412,7 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
     <div class="topbar">
       <div>
         <div class="badge">📋 Commandes</div>
-        <p class="helper">Les <?= count($ordersList) ?> dernières commandes (max. 200), les plus récentes en premier. Clique sur une ligne pour voir le détail et les articles.</p>
+        <p class="helper">Les <?= count($ordersList) ?> dernières commandes (max. 200), regroupées <strong>par jour</strong> (fuseau Europe/Paris). Le <strong>CA du jour</strong> est la somme des totaux des commandes de ce jour. Clique sur une commande pour le détail.</p>
       </div>
     </div>
     <?php if ($loggedIn && !$ordersHasValidatedAt): ?>
@@ -383,16 +429,35 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
     <?php if ($ordersList === []): ?>
       <p class="empty-orders">Aucune commande enregistrée pour l’instant.</p>
     <?php else: ?>
-      <?php foreach ($ordersList as $o):
+      <p class="order-period-ca">
+        <strong>CA cumulé</strong> (commandes affichées) : <?= h(number_format($ordersPeriodCa, 2, ',', ' ')) ?> €
+        — <?= (int) count($ordersList) ?> commande<?= count($ordersList) > 1 ? 's' : '' ?> sur <?= (int) count($ordersGroupedByDay) ?> jour<?= count($ordersGroupedByDay) > 1 ? 's' : '' ?>
+      </p>
+      <?php foreach ($ordersGroupedByDay as $dayKey => $bucket): ?>
+      <div class="order-day-group">
+        <div class="order-day-head">
+          <h3><?= h(tiramii_admin_day_heading($dayKey)) ?></h3>
+          <span class="day-count"><?= (int) $bucket['count'] ?> commande<?= $bucket['count'] > 1 ? 's' : '' ?></span>
+          <span class="day-ca">CA jour : <strong><?= h(number_format($bucket['ca'], 2, ',', ' ')) ?> €</strong></span>
+        </div>
+      <?php foreach ($bucket['orders'] as $o):
           $oid = (int) $o['id'];
           $items = $orderItemsByOrder[$oid] ?? [];
           $pay = $payLabelsAdmin[(string) $o['payment_method']] ?? (string) $o['payment_method'];
-          $when = $o['created_at'] !== '' ? date('d/m/Y à H:i', strtotime((string) $o['created_at'])) : '—';
+          $when = '—';
+          if ((string) ($o['created_at'] ?? '') !== '') {
+              $ts = strtotime((string) $o['created_at']);
+              if ($ts !== false) {
+                  $when = (new DateTimeImmutable('@' . $ts))->setTimezone($adminTzParis)->format('d/m/Y \à H:i');
+              }
+          }
           $fullName = trim((string) $o['first_name'] . ' ' . (string) $o['last_name']);
           $validatedRaw = $o['validated_at'] ?? null;
           $isValidated = $validatedRaw !== null && $validatedRaw !== '' && (string) $validatedRaw !== '0000-00-00 00:00:00';
           $validatedTs = $isValidated ? strtotime((string) $validatedRaw) : false;
-          $whenValidated = ($validatedTs !== false && $validatedTs > 0) ? date('d/m/Y à H:i', $validatedTs) : '';
+          $whenValidated = ($validatedTs !== false && $validatedTs > 0)
+              ? (new DateTimeImmutable('@' . $validatedTs))->setTimezone($adminTzParis)->format('d/m/Y \à H:i')
+              : '';
           ?>
       <details class="order-block" id="order-<?= (int) $oid ?>">
         <summary>
@@ -460,6 +525,8 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
           <?php endif; ?>
         </div>
       </details>
+      <?php endforeach; ?>
+      </div>
       <?php endforeach; ?>
     <?php endif; ?>
   </div>
