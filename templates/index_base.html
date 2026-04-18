@@ -176,6 +176,16 @@ footer a{color:var(--v);text-decoration:none}
 .box-list li{font-size:.92rem;color:#6f5b7f;padding:8px 12px;background:#faf7fd;border:1px solid #eee3f8;border-radius:12px}
 .box-note{font-size:.82rem;color:#8a7090;line-height:1.5;margin-bottom:1rem}
 .delivery-note{margin-top:.55rem;font-size:.8rem;color:#8a7090;line-height:1.5}
+.reviews-section{padding:0 2rem 4rem;max-width:1200px;margin:0 auto;background:linear-gradient(180deg,transparent,#faf7fd 40%)}
+.reviews-wrap{padding-bottom:1rem}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.6rem}
+.review-card{background:white;border-radius:22px;padding:1.35rem 1.2rem 1.5rem;box-shadow:0 4px 24px rgba(124,77,170,.08);border:1px solid #eee3f8;text-align:center;display:flex;flex-direction:column;align-items:center}
+.review-media{width:100%;max-width:200px;margin:0 auto .85rem}
+.review-photo{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:50%;border:3px solid var(--v);box-shadow:0 8px 24px rgba(61,31,110,.1)}
+.review-photo-fallback{width:100%;aspect-ratio:1;border-radius:50%;background:linear-gradient(145deg,#ede5f9,#d4b8ee);border:3px solid var(--v);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(61,31,110,.08)}
+.review-photo-fallback span{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:600;color:var(--vk);letter-spacing:.02em}
+.review-name{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:600;color:var(--vk);margin-bottom:.45rem}
+.review-text{font-size:.88rem;color:#6f5b7f;line-height:1.55;max-width:32ch;margin:0 auto}
 
 </style>
 </head>
@@ -269,6 +279,7 @@ __BOX_SECTION__
   </div>
 </section>
 
+__REVIEWS_SECTION__
 
 <section id="contact" class="newsletter">
   <div class="eyebrow" style="margin-bottom:.5rem">Retrouvez-nous</div>

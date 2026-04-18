@@ -21,6 +21,13 @@ try {
     }
     require_once $catalog;
 
+    require_once __DIR__ . '/includes/reviews_render.php';
+    $reviewsData = require __DIR__ . '/includes/reviews_data.php';
+    if (!is_array($reviewsData)) {
+        $reviewsData = [];
+    }
+    $reviewsSectionHtml = tiramii_render_reviews_section($reviewsData);
+
     $pdo = require __DIR__ . '/config/db.php';
 
     require_once __DIR__ . '/includes/ensure_box_supreme.php';
@@ -117,8 +124,8 @@ try {
         ? (string) file_get_contents(__DIR__ . '/includes/footer_main_fragment.html')
         : '';
     $html = str_replace(
-        ['__CSRF__', '__PRODUCT_GRID__', '__APP_SCRIPT__', '__NAV__', '__FOOTER_MAIN__'],
-        [h($csrf), $productGridHtml, $appScript, $navHtml, $footerMainHtml],
+        ['__CSRF__', '__PRODUCT_GRID__', '__APP_SCRIPT__', '__NAV__', '__FOOTER_MAIN__', '__REVIEWS_SECTION__'],
+        [h($csrf), $productGridHtml, $appScript, $navHtml, $footerMainHtml, $reviewsSectionHtml],
         $html
     );
 
