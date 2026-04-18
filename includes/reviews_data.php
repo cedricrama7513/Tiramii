@@ -6,11 +6,10 @@
  * - first_name, last_name : le site affiche « Prénom » + première lettre du nom + « . » (ex. Marie D.)
  * - text : court témoignage
  * - photo : nom de fichier uniquement (ex. marie-dupont.jpg) déposé dans assets/img/avis/
- *   Si le fichier est absent, un avatar avec initiales (ex. MD) est affiché à la place.
- *   Affichage public : « Marie D. » (prénom + 1re lettre du nom + point).
+ *   Si le fichier est absent, aucune image n’est affichée.
+ *   Affichage public : « Prénom L. » si last_name est renseigné, sinon « Prénom » seul.
  *
- * Pseudonymes Snapchat : Marzou → Omar ; Trixma → Marvin ; Reevihnoo → Ryan R.
- * Sans nom de famille visible : initiale « X » (ex. Abdel X.) pour garder le format Prénom L.
+ * Pseudonymes Snapchat : Marzou → Omar ; Trixma → Kevin ; Reevihnoo → Ryan R.
  */
 declare(strict_types=1);
 
@@ -22,7 +21,7 @@ return [
         'photo' => '',
     ],
     [
-        'first_name' => 'Marvin',
+        'first_name' => 'Kevin',
         'last_name' => '',
         'text' => 'C’est le meilleur tiramisu que j’ai mangé.',
         'photo' => '',
@@ -35,31 +34,31 @@ return [
     ],
     [
         'first_name' => 'Lila',
-        'last_name' => 'X',
+        'last_name' => 'B',
         'text' => 'Excellent le tiramisu spéculos. J’ai vraiment kiffé. Obligé de goûter les autres.',
         'photo' => '',
     ],
     [
         'first_name' => 'Maxime',
-        'last_name' => 'X',
+        'last_name' => '',
         'text' => 'On a mangé un tiramisu hier avec ma go, on a kiffé de fou. Bien chargé et bien bon, pas trop sucré.',
         'photo' => '',
     ],
     [
         'first_name' => 'Yassine',
-        'last_name' => 'X',
+        'last_name' => 'L',
         'text' => 'Énervé ouais. Le Daim et le Bueno Nutella surtout.',
         'photo' => '',
     ],
     [
         'first_name' => 'Usser',
-        'last_name' => 'X',
+        'last_name' => '',
         'text' => 'Salam frérot, très très bon tes tiramisus, dinguerie. Carrément envoie ton flyer.',
         'photo' => '',
     ],
     [
         'first_name' => 'Abdel',
-        'last_name' => 'X',
+        'last_name' => '',
         'text' => 'C’est fort c’est bon. Je vais partager ton snap.',
         'photo' => '',
     ],

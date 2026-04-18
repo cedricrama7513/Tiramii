@@ -1,6 +1,6 @@
 <?php
 /**
- * Rendu HTML de la section avis (photos + prénom + initiale du nom).
+ * Rendu HTML de la section avis (photo optionnelle + prénom + initiale du nom si renseignée).
  */
 declare(strict_types=1);
 
@@ -45,22 +45,15 @@ function tiramii_render_reviews_section(array $reviews): string
         $photoFile = isset($r['photo']) ? basename((string) $r['photo']) : '';
         $publicName = tiramii_review_public_name($first, $last);
         $sortKey = mb_strtolower($publicName, 'UTF-8');
-        $initials = mb_strtoupper(mb_substr(trim($first), 0, 1, 'UTF-8'), 'UTF-8');
-        $iniLast = $last !== '' ? mb_strtoupper(mb_substr(trim($last), 0, 1, 'UTF-8'), 'UTF-8') : '';
-        if ($iniLast !== '') {
-            $initials .= $iniLast;
-        }
 
-        $imgTag = '';
+        $mediaHtml = '';
         if ($photoFile !== '' && is_readable($baseFs . '/' . $photoFile)) {
             $src = h($baseUrl . $photoFile);
-            $imgTag = '<img class="review-photo" src="' . $src . '" width="320" height="320" alt="Photo de ' . h($publicName) . '" loading="lazy">';
-        } else {
-            $imgTag = '<div class="review-photo-fallback" aria-hidden="true"><span>' . h($initials !== '' ? $initials : '?') . '</span></div>';
+            $mediaHtml = '<div class="review-media"><img class="review-photo" src="' . $src . '" width="320" height="320" alt="Photo de ' . h($publicName) . '" loading="lazy"></div>';
         }
 
         $cards .= '<article class="review-card reveal" data-review-idx="' . h((string) $idx) . '" data-review-name="' . h($sortKey) . '">';
-        $cards .= '<div class="review-media">' . $imgTag . '</div>';
+        $cards .= $mediaHtml;
         $cards .= '<p class="review-name">' . h($publicName) . '</p>';
         $cards .= '<div class="review-quote-row">';
         $cards .= '<p class="review-text">« ' . h($text) . ' »</p>';
