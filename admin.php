@@ -32,6 +32,16 @@ tiramii_ensure_new_flavors($pdo);
 tiramii_ensure_box_supreme($pdo);
 tiramii_ensure_stock_levels_for_all_products($pdo);
 
+require_once __DIR__ . '/includes/pro_b2b.php';
+tiramii_ensure_pro_tables($pdo);
+
+if (!empty($_SESSION['admin_ok']) && isset($_GET['download_pro_invoice'])) {
+    tiramii_admin_pro_invoice_download($pdo);
+}
+if (!empty($_SESSION['admin_ok']) && isset($_GET['export_pro_ca_csv'])) {
+    tiramii_admin_pro_ca_csv_export($pdo);
+}
+
 /**
  * True si la migration « validation commande » a été appliquée (colonne validated_at).
  */
@@ -192,6 +202,161 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_validated_at_mi
     }
 }
 
+// ——— Espace Pro (CA restaurants + factures) ———
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_pro_ca'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        http_response_code(403);
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } else {
+        $rest = mb_substr(trim((string) ($_POST['pro_restaurant'] ?? '')), 0, 255);
+        if ($rest === '') {
+            $errors[] = 'Indiquez le nom du restaurant (ou du client pro).';
+        } else {
+            $parsed = tiramii_pro_parse_amount_eur((string) ($_POST['pro_amount'] ?? ''));
+            if (!$parsed['ok']) {
+                $errors[] = $parsed['message'];
+            } else {
+                $d = trim((string) ($_POST['pro_ca_date'] ?? ''));
+                if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $d)) {
+                    $errors[] = 'Date invalide.';
+                } else {
+                    $note = mb_substr(trim((string) ($_POST['pro_note'] ?? '')), 0, 500);
+                    try {
+                        $ins = $pdo->prepare(
+                            'INSERT INTO pro_ca_entries (restaurant_name, amount_eur, ca_date, note, created_at)
+                             VALUES (?,?,?,?, NOW())'
+                        );
+                        $ins->execute([$rest, $parsed['amount'], $d, $note]);
+                        $_SESSION['admin_flash_success'] = 'CA pro enregistré.';
+                        header('Location: admin.php?tab=pro');
+                        exit;
+                    } catch (Throwable) {
+                        $errors[] = 'Impossible d’enregistrer (vérifiez que les tables « pro » existent).';
+                    }
+                }
+            }
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pro_ca'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        http_response_code(403);
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } else {
+        $id = (int) ($_POST['pro_ca_id'] ?? 0);
+        if ($id < 1) {
+            $errors[] = 'Ligne invalide.';
+        } else {
+            try {
+                $pdo->prepare('DELETE FROM pro_ca_entries WHERE id = ?')->execute([$id]);
+                $_SESSION['admin_flash_success'] = 'Ligne CA supprimée.';
+                header('Location: admin.php?tab=pro');
+                exit;
+            } catch (Throwable) {
+                $errors[] = 'Suppression impossible.';
+            }
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pro_invoice'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        http_response_code(403);
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } else {
+        $note = mb_substr(trim((string) ($_POST['invoice_note'] ?? '')), 0, 500);
+        $f = $_FILES['invoice_pdf'] ?? null;
+        if (!is_array($f) || !isset($f['error']) || (int) $f['error'] !== UPLOAD_ERR_OK) {
+            $errors[] = 'Choisis un fichier PDF valide (max. 10 Mo).';
+        } elseif ((int) ($f['size'] ?? 0) > 10 * 1024 * 1024) {
+            $errors[] = 'Fichier trop volumineux (max. 10 Mo).';
+        } else {
+            $orig = mb_substr((string) ($f['name'] ?? 'facture.pdf'), 0, 255);
+            $ext = strtolower(pathinfo($orig, PATHINFO_EXTENSION));
+            if ($ext !== 'pdf') {
+                $errors[] = 'Seuls les fichiers PDF sont acceptés.';
+            } else {
+                $mime = 'application/pdf';
+                if (class_exists('finfo')) {
+                    $fi = new finfo(FILEINFO_MIME_TYPE);
+                    $detected = $fi->file((string) $f['tmp_name']);
+                    if (is_string($detected) && strpos($detected, 'application/') === 0) {
+                        $mime = $detected;
+                    }
+                }
+                $stored = bin2hex(random_bytes(16)) . '.pdf';
+                $dir = tiramii_pro_data_dir();
+                if (!is_dir($dir) && !@mkdir($dir, 0755, true)) {
+                    $errors[] = 'Impossible de créer le dossier de stockage.';
+                } else {
+                    $dest = $dir . '/' . $stored;
+                    if (!@move_uploaded_file((string) $f['tmp_name'], $dest)) {
+                        $errors[] = 'Échec de l’enregistrement du fichier.';
+                    } else {
+                        try {
+                            $ins = $pdo->prepare(
+                                'INSERT INTO pro_invoices (original_name, stored_name, mime_type, size_bytes, note, uploaded_at)
+                                 VALUES (?,?,?,?,?, NOW())'
+                            );
+                            $ins->execute([$orig, $stored, $mime, (int) $f['size'], $note]);
+                            $_SESSION['admin_flash_success'] = 'Facture enregistrée.';
+                            header('Location: admin.php?tab=pro');
+                            exit;
+                        } catch (Throwable) {
+                            @unlink($dest);
+                            $errors[] = 'Erreur base de données à l’enregistrement.';
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pro_invoice'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        http_response_code(403);
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } else {
+        $id = (int) ($_POST['pro_invoice_id'] ?? 0);
+        if ($id < 1) {
+            $errors[] = 'Facture invalide.';
+        } else {
+            try {
+                $st = $pdo->prepare('SELECT stored_name FROM pro_invoices WHERE id = ?');
+                $st->execute([$id]);
+                $row = $st->fetch(PDO::FETCH_ASSOC);
+                if (!$row) {
+                    $errors[] = 'Facture introuvable.';
+                } else {
+                    $base = basename((string) $row['stored_name']);
+                    if (preg_match('/^[a-f0-9]{32}\.pdf$/i', $base) === 1) {
+                        $path = tiramii_pro_data_dir() . '/' . $base;
+                        if (is_file($path)) {
+                            @unlink($path);
+                        }
+                    }
+                    $pdo->prepare('DELETE FROM pro_invoices WHERE id = ?')->execute([$id]);
+                    $_SESSION['admin_flash_success'] = 'Facture supprimée.';
+                    header('Location: admin.php?tab=pro');
+                    exit;
+                }
+            } catch (Throwable) {
+                $errors[] = 'Suppression impossible.';
+            }
+        }
+    }
+}
+
 $loggedIn = !empty($_SESSION['admin_ok']);
 
 $products = $pdo->query(
@@ -274,6 +439,46 @@ foreach ($ordersGroupedByDay as $bucket) {
     $ordersPeriodCa += $bucket['ca'];
 }
 
+$adminTab = (isset($_GET['tab']) && (string) $_GET['tab'] === 'pro') ? 'pro' : 'particulier';
+
+$proCaEntries = [];
+$proCaSummaryByMonth = [];
+$proInvoices = [];
+if ($loggedIn) {
+    try {
+        $proCaEntries = $pdo
+            ->query(
+                'SELECT id, restaurant_name, amount_eur, ca_date, note, created_at
+                 FROM pro_ca_entries ORDER BY ca_date DESC, id DESC LIMIT 150'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $proCaEntries = [];
+    }
+    try {
+        $proCaSummaryByMonth = $pdo
+            ->query(
+                'SELECT DATE_FORMAT(ca_date, \'%Y-%m\') AS ym, restaurant_name, SUM(amount_eur) AS total_eur
+                 FROM pro_ca_entries
+                 GROUP BY ym, restaurant_name
+                 ORDER BY ym DESC, restaurant_name ASC'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $proCaSummaryByMonth = [];
+    }
+    try {
+        $proInvoices = $pdo
+            ->query(
+                'SELECT id, original_name, size_bytes, note, uploaded_at
+                 FROM pro_invoices ORDER BY uploaded_at DESC, id DESC LIMIT 80'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $proInvoices = [];
+    }
+}
+
 $payLabelsAdmin = [
     'cash' => 'Espèces',
     'virement' => 'Virement bancaire',
@@ -351,6 +556,21 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 .order-day-head .day-ca{margin-left:auto;font-size:.95rem;color:var(--vd)}
 .order-period-ca{margin:0 0 14px;padding:12px 16px;background:#f9f5fc;border-radius:14px;border:1px solid #eee3f8;font-size:.95rem;color:var(--vk)}
 @media (max-width:640px){.order-day-head .day-ca{margin-left:0;width:100%}}
+.admin-tabs{display:flex;gap:8px;margin-top:14px;padding:5px;background:#ede5f9;border-radius:999px;width:fit-content;max-width:100%;flex-wrap:wrap}
+.admin-tabs a{padding:10px 20px;border-radius:999px;text-decoration:none;font-weight:600;color:var(--vd);font-size:.9rem}
+.admin-tabs a.active{background:var(--vk);color:#fff}
+.admin-tabs a:not(.active):hover{background:rgba(255,255,255,.65)}
+.alerts-wrap{margin-top:4px}
+.pro-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.86rem}
+.pro-table th,.pro-table td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee3f8;vertical-align:top}
+.pro-table th{background:#f9f5fc;color:#836c91;font-weight:600}
+.pro-table .num{text-align:right;white-space:nowrap}
+.pro-month-total td{background:#f3ebfb;font-weight:600}
+.form-row-pro{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.form-row-pro{grid-template-columns:1fr}}
+.form-group-pro{margin-bottom:12px}
+.form-group-pro label{display:block;font-size:.78rem;font-weight:600;color:var(--vd);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.form-group-pro input,.form-group-pro textarea{width:100%;padding:10px 12px;border:1.5px solid #dfcff0;border-radius:12px;font-size:.95rem;color:var(--vk)}
 </style>
 </head>
 <body>
@@ -374,9 +594,18 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 <?php else: ?>
 <div class="header">
   <div class="brand"><div class="logo">T</div> TIRA'MII</div>
-  <p class="sub">Stock et commandes clients (MySQL).</p>
+  <p class="sub">Particuliers (site) et suivi <strong>Pro</strong> (restaurants / B2B).</p>
+  <nav class="admin-tabs" aria-label="Sections admin">
+    <a href="admin.php" class="<?= $adminTab === 'particulier' ? 'active' : '' ?>">Particuliers</a>
+    <a href="admin.php?tab=pro" class="<?= $adminTab === 'pro' ? 'active' : '' ?>">Pro</a>
+  </nav>
   <p class="small"><a class="btn-link secondary" href="index.php">← Site</a> &nbsp; <a class="btn-link secondary" href="admin.php?logout=1">Déconnexion</a></p>
 </div>
+<div class="wrap alerts-wrap">
+  <?php if ($success !== ''): ?><p class="alert-ok"><?= h($success) ?></p><?php endif; ?>
+  <?php foreach ($errors as $err): ?><p class="alert-bad"><?= h($err) ?></p><?php endforeach; ?>
+</div>
+<?php if ($adminTab === 'particulier'): ?>
 <div class="wrap stack">
   <div class="card">
     <div class="topbar">
@@ -385,8 +614,6 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
         <p class="helper">Le site client lit le même stock. <strong>999</strong> = illimité : dans ce cas le stock <strong>ne diminue pas</strong> à la commande (réservé aux démos ou au lancement). Pour un décompte réel, mets une quantité <strong>strictement inférieure à 999</strong> (ex. 20, 50).</p>
       </div>
     </div>
-    <?php if ($success !== ''): ?><p class="alert-ok"><?= h($success) ?></p><?php endif; ?>
-    <?php foreach ($errors as $err): ?><p class="alert-bad"><?= h($err) ?></p><?php endforeach; ?>
     <form method="post" action="admin.php">
       <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
       <div class="grid">
@@ -531,6 +758,165 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
     <?php endif; ?>
   </div>
 </div>
+<?php else:
+$todayPro = (new DateTimeImmutable('now', $adminTzParis))->format('Y-m-d');
+$proMonthTotals = [];
+foreach ($proCaSummaryByMonth as $sr) {
+    $ym = (string) $sr['ym'];
+    if (!isset($proMonthTotals[$ym])) {
+        $proMonthTotals[$ym] = 0.0;
+    }
+    $proMonthTotals[$ym] += (float) $sr['total_eur'];
+}
+?>
+<div class="wrap stack">
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <div class="badge">📊 CA par restaurant (pro)</div>
+        <p class="helper">Saisie manuelle pour tes ventes B2B (hors commandes du site particuliers). Utilise la date du CA ou de fin de période. La synthèse regroupe par mois calendaire (Europe/Paris).</p>
+      </div>
+      <a class="btn-link secondary" href="admin.php?export_pro_ca_csv=1">Exporter CSV</a>
+    </div>
+    <h3 style="font-size:1rem;margin:18px 0 10px;font-family:'Playfair Display',serif;color:var(--vk)">Nouvelle ligne</h3>
+    <form method="post" action="admin.php?tab=pro">
+      <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+      <div class="form-row-pro">
+        <div class="form-group-pro">
+          <label for="pro_restaurant">Restaurant / client pro</label>
+          <input type="text" name="pro_restaurant" id="pro_restaurant" required maxlength="255" placeholder="Ex. Bistrot du Coin">
+        </div>
+        <div class="form-group-pro">
+          <label for="pro_amount">Montant TTC (€)</label>
+          <input type="text" name="pro_amount" id="pro_amount" required inputmode="decimal" placeholder="Ex. 240,50">
+        </div>
+      </div>
+      <div class="form-row-pro">
+        <div class="form-group-pro">
+          <label for="pro_ca_date">Date du CA</label>
+          <input type="date" name="pro_ca_date" id="pro_ca_date" required value="<?= h($todayPro) ?>">
+        </div>
+        <div class="form-group-pro">
+          <label for="pro_note">Note (optionnel)</label>
+          <input type="text" name="pro_note" id="pro_note" maxlength="500" placeholder="Facture n°, règlement…">
+        </div>
+      </div>
+      <div class="actions" style="margin-top:8px">
+        <button type="submit" name="add_pro_ca" value="1" class="primary">➕ Enregistrer le CA</button>
+      </div>
+    </form>
+
+    <h3 style="font-size:1rem;margin:28px 0 10px;font-family:'Playfair Display',serif;color:var(--vk)">Synthèse par mois et restaurant</h3>
+    <?php if ($proCaSummaryByMonth === []): ?>
+      <p class="muted">Aucune ligne CA pro pour l’instant.</p>
+    <?php else: ?>
+      <table class="pro-table">
+        <thead><tr><th>Mois</th><th>Restaurant</th><th class="num">CA (€)</th></tr></thead>
+        <tbody>
+          <?php
+          $lastYm = null;
+          foreach ($proCaSummaryByMonth as $sr):
+              $ym = (string) $sr['ym'];
+              if ($lastYm !== null && $ym !== $lastYm):
+                  ?>
+          <tr class="pro-month-total"><td colspan="2">Total <?= h($lastYm) ?></td><td class="num"><?= h(number_format($proMonthTotals[$lastYm] ?? 0, 2, ',', ' ')) ?> €</td></tr>
+              <?php
+              endif;
+              $lastYm = $ym;
+              ?>
+          <tr>
+            <td><?= h($ym) ?></td>
+            <td><?= h((string) $sr['restaurant_name']) ?></td>
+            <td class="num"><?= h(number_format((float) $sr['total_eur'], 2, ',', ' ')) ?> €</td>
+          </tr>
+          <?php endforeach; ?>
+          <?php if ($lastYm !== null): ?>
+          <tr class="pro-month-total"><td colspan="2">Total <?= h($lastYm) ?></td><td class="num"><?= h(number_format($proMonthTotals[$lastYm] ?? 0, 2, ',', ' ')) ?> €</td></tr>
+          <?php endif; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
+
+    <h3 style="font-size:1rem;margin:28px 0 10px;font-family:'Playfair Display',serif;color:var(--vk)">Dernières saisies</h3>
+    <?php if ($proCaEntries === []): ?>
+      <p class="muted">Aucune entrée.</p>
+    <?php else: ?>
+      <table class="pro-table">
+        <thead><tr><th>Date</th><th>Restaurant</th><th class="num">Montant</th><th>Note</th><th></th></tr></thead>
+        <tbody>
+          <?php foreach ($proCaEntries as $e): ?>
+          <tr>
+            <td><?= h((string) $e['ca_date']) ?></td>
+            <td><?= h((string) $e['restaurant_name']) ?></td>
+            <td class="num"><?= h(number_format((float) $e['amount_eur'], 2, ',', ' ')) ?> €</td>
+            <td class="muted" style="font-size:.82rem"><?= h((string) $e['note'] !== '' ? (string) $e['note'] : '—') ?></td>
+            <td class="num">
+              <form method="post" action="admin.php?tab=pro" style="display:inline" onsubmit="return confirm('Supprimer cette ligne ?');">
+                <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+                <input type="hidden" name="pro_ca_id" value="<?= (int) $e['id'] ?>">
+                <button type="submit" name="delete_pro_ca" value="1" class="secondary btn-small" style="padding:6px 12px">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
+  </div>
+
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <div class="badge">📎 Factures pro (PDF)</div>
+        <p class="helper">Dépôt de factures émises ou reçues (PDF uniquement, 10 Mo max). Les fichiers ne sont pas publics sur le site.</p>
+      </div>
+    </div>
+    <form method="post" action="admin.php?tab=pro" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+      <div class="form-group-pro">
+        <label for="invoice_pdf">Fichier PDF</label>
+        <input type="file" name="invoice_pdf" id="invoice_pdf" accept="application/pdf,.pdf" required>
+      </div>
+      <div class="form-group-pro">
+        <label for="invoice_note">Note (optionnel)</label>
+        <input type="text" name="invoice_note" id="invoice_note" maxlength="500" placeholder="Client, mois, n° facture…">
+      </div>
+      <div class="actions">
+        <button type="submit" name="upload_pro_invoice" value="1" class="primary">📤 Envoyer la facture</button>
+      </div>
+    </form>
+
+    <h3 style="font-size:1rem;margin:28px 0 10px;font-family:'Playfair Display',serif;color:var(--vk)">Factures enregistrées</h3>
+    <?php if ($proInvoices === []): ?>
+      <p class="muted">Aucune facture.</p>
+    <?php else: ?>
+      <table class="pro-table">
+        <thead><tr><th>Dépôt</th><th>Fichier</th><th class="num">Taille</th><th>Note</th><th></th></tr></thead>
+        <tbody>
+          <?php foreach ($proInvoices as $inv): ?>
+          <tr>
+            <td><?= h((string) $inv['uploaded_at']) ?></td>
+            <td><a href="admin.php?download_pro_invoice=<?= (int) $inv['id'] ?>"><?= h((string) $inv['original_name']) ?></a></td>
+            <td class="num"><?php
+              $sz = (int) $inv['size_bytes'];
+              echo h($sz >= 1048576 ? number_format($sz / 1048576, 1, ',', ' ') . ' Mo' : ($sz >= 1024 ? (string) (int) round($sz / 1024) . ' Ko' : (string) $sz . ' o'));
+              ?></td>
+            <td class="muted" style="font-size:.82rem"><?= h((string) $inv['note'] !== '' ? (string) $inv['note'] : '—') ?></td>
+            <td class="num">
+              <form method="post" action="admin.php?tab=pro" style="display:inline" onsubmit="return confirm('Supprimer cette facture ?');">
+                <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+                <input type="hidden" name="pro_invoice_id" value="<?= (int) $inv['id'] ?>">
+                <button type="submit" name="delete_pro_invoice" value="1" class="secondary btn-small" style="padding:6px 12px">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
+  </div>
+</div>
+<?php endif; ?>
 <?php endif; ?>
 </body>
 </html>
