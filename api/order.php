@@ -136,6 +136,7 @@ try {
     $upStock = $pdo->prepare(
         'UPDATE stock_levels SET quantity = quantity - :need WHERE product_id = :pid AND quantity < 999 AND quantity >= :need2'
     );
+    $readQty = $pdo->prepare('SELECT quantity FROM stock_levels WHERE product_id = ?');
     foreach ($lines as $line) {
         $key = $line['stock_key'];
         $need = $line['qty'];
@@ -150,12 +151,16 @@ try {
         if ($cur === 999) {
             continue;
         }
+        $expected = $cur - $need;
         $upStock->execute(['need' => $need, 'pid' => $key, 'need2' => $need]);
-        if ($upStock->rowCount() !== 1) {
+        $readQty->execute([$key]);
+        $rowQ = $readQty->fetch(PDO::FETCH_ASSOC);
+        $readQty->closeCursor();
+        if ($rowQ === false || (int) $rowQ['quantity'] !== $expected) {
             $pdo->rollBack();
             tiramii_json_response(['ok' => false, 'error' => 'Stock insuffisant pour ' . $line['name'] . '.'], 409);
         }
-        $stock[$key] = $cur - $need;
+        $stock[$key] = $expected;
     }
 
     $pdo->prepare('DELETE FROM stock_reservations WHERE session_id = ?')->execute([$sessionId]);

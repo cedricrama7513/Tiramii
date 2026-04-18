@@ -26,9 +26,15 @@ $dsn = sprintf(
     $db['charset'] ?? 'utf8mb4'
 );
 
-$pdo = new PDO($dsn, $db['user'], $db['pass'], [
+$pdoOpts = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-]);
+];
+// rowCount() sur UPDATE = lignes correspondant au WHERE (pas seulement « valeur changée »)
+if (extension_loaded('pdo_mysql')) {
+    $pdoOpts[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
+}
+
+$pdo = new PDO($dsn, $db['user'], $db['pass'], $pdoOpts);
 
 return $pdo;

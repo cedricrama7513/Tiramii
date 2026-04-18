@@ -27,8 +27,10 @@ try {
 
 require_once __DIR__ . '/includes/ensure_box_supreme.php';
 require_once __DIR__ . '/includes/ensure_new_flavors.php';
+require_once __DIR__ . '/includes/ensure_stock_levels.php';
 tiramii_ensure_new_flavors($pdo);
 tiramii_ensure_box_supreme($pdo);
+tiramii_ensure_stock_levels_for_all_products($pdo);
 
 /**
  * True si la migration « validation commande » a été appliquée (colonne validated_at).
