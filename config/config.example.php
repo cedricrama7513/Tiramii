@@ -37,4 +37,15 @@ return [
         'sms_twilio_from' => '',
         'sms_owner_phone' => '',
     ],
+
+    /**
+     * Livraison : point de référence (lat/lon) pour le calcul « hors 13e + 10 km ».
+     * Optionnel — défaut ~ place d’Italie (75013). Ajustez si l’atelier est ailleurs.
+     */
+    'delivery' => [
+        'shop_lat' => 48.8232,
+        'shop_lon' => 2.3601,
+        'remote_threshold_km' => 10,
+        'remote_min_eur' => 15,
+    ],
 ];
