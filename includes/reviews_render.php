@@ -86,9 +86,16 @@ function tiramii_render_reviews_section(array $reviews): string
         . '</div>'
         . '</div>';
 
+    $marquee = '<div class="reviews-marquee-outer">'
+        . '<div class="reviews-marquee" role="region" aria-label="Avis clients en défilement">'
+        . '<div class="reviews-track" id="reviewsTrack">'
+        . '<div class="reviews-chunk" id="reviewsChunkA">' . $cards . '</div>'
+        . '<div class="reviews-chunk reviews-chunk--clone" id="reviewsChunkB" aria-hidden="true">' . $cards . '</div>'
+        . '</div></div></div>';
+
     return '<section id="avis" class="reviews-section">'
         . '<div class="section-title reveal"><div class="eyebrow">Ils ont testé</div><h2>Avis clients</h2></div>'
         . $toolbar
-        . '<div class="reviews-wrap"><div class="reviews-grid" id="reviewsGrid">' . $cards . '</div></div>'
+        . '<div class="reviews-wrap">' . $marquee . '</div>'
         . '</section>';
 }

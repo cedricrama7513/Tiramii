@@ -575,11 +575,16 @@ window.placeOrder = async function () {
 };
 
 function initReviewsSort() {
-  const grid = document.getElementById('reviewsGrid');
+  const chunkA = document.getElementById('reviewsChunkA');
+  const chunkB = document.getElementById('reviewsChunkB');
   const sel = document.getElementById('reviewsSort');
-  if (!grid || !sel) return;
+  if (!chunkA || !chunkB || !sel) return;
 
-  const cards = () => [...grid.querySelectorAll('.review-card')];
+  const cards = () => [...chunkA.querySelectorAll('.review-card')];
+
+  const syncMarqueeClone = () => {
+    chunkB.innerHTML = chunkA.innerHTML;
+  };
 
   sel.addEventListener('change', () => {
     const mode = sel.value;
@@ -607,7 +612,8 @@ function initReviewsSort() {
           parseInt(b.getAttribute('data-review-idx') || '0', 10),
       );
     }
-    list.forEach((el) => grid.appendChild(el));
+    list.forEach((el) => chunkA.appendChild(el));
+    syncMarqueeClone();
   });
 }
 
