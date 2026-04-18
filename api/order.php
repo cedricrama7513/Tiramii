@@ -140,7 +140,11 @@ try {
         $key = $line['stock_key'];
         $need = $line['qty'];
         if (!array_key_exists($key, $stock)) {
-            continue;
+            $pdo->rollBack();
+            tiramii_json_response(
+                ['ok' => false, 'error' => 'Stock non configuré pour « ' . $line['name'] . ' ». Ajoutez une ligne dans l’admin ou contactez le support.'],
+                500
+            );
         }
         $cur = (int) $stock[$key];
         if ($cur === 999) {

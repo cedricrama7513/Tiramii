@@ -334,7 +334,7 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
     <div class="topbar">
       <div>
         <div class="badge">📦 Gestion du stock</div>
-        <p class="helper">Le site client lit le même stock. Astuce : <strong>999</strong> = illimité.</p>
+        <p class="helper">Le site client lit le même stock. <strong>999</strong> = illimité : dans ce cas le stock <strong>ne diminue pas</strong> à la commande (réservé aux démos ou au lancement). Pour un décompte réel, mets une quantité <strong>strictement inférieure à 999</strong> (ex. 20, 50).</p>
       </div>
     </div>
     <?php if ($success !== ''): ?><p class="alert-ok"><?= h($success) ?></p><?php endif; ?>

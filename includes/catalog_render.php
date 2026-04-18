@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 /**
  * @param array<int, array<string, mixed>> $products
- * @param array<string, int> $stockMap product_id => quantity (999 = illimité)
+ * @param array<string, int> $stockMap product_id => quantity (999 = illimité ; clé absente = 0)
  * @param array<string, string> $imgs img_key => data URI
  */
 function tiramii_render_product_grid(array $products, array $stockMap, array $imgs): string
@@ -14,7 +14,7 @@ function tiramii_render_product_grid(array $products, array $stockMap, array $im
     $html = '';
     foreach ($products as $p) {
         $id = (string) $p['id'];
-        $qty = array_key_exists($id, $stockMap) ? (int) $stockMap[$id] : 999;
+        $qty = array_key_exists($id, $stockMap) ? (int) $stockMap[$id] : 0;
         $available = ($qty === 999 || $qty > 0);
         $low = ($qty !== 999 && $qty <= 3 && $qty > 0);
         $imgKey = (string) ($p['img_key'] ?? 'oreo');

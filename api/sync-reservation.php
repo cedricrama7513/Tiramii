@@ -81,7 +81,8 @@ try {
     }
 
     foreach ($clean as $pid => $want) {
-        $sqty = array_key_exists($pid, $stock) ? (int) $stock[$pid] : 999;
+        // Absence de ligne stock_levels = 0 (comme l’admin), pas « illimité ».
+        $sqty = array_key_exists($pid, $stock) ? (int) $stock[$pid] : 0;
         if ($sqty === 999) {
             continue;
         }

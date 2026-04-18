@@ -108,7 +108,7 @@ function getMyReservation() {
 }
 
 function getQty(id) {
-  if (STOCK[id] === undefined) return 999;
+  if (STOCK[id] === undefined) return 0;
   const n = parseInt(STOCK[id], 10);
   return Number.isNaN(n) ? 0 : n;
 }
