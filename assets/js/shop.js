@@ -574,6 +574,43 @@ window.placeOrder = async function () {
   }
 };
 
+function initReviewsSort() {
+  const grid = document.getElementById('reviewsGrid');
+  const sel = document.getElementById('reviewsSort');
+  if (!grid || !sel) return;
+
+  const cards = () => [...grid.querySelectorAll('.review-card')];
+
+  sel.addEventListener('change', () => {
+    const mode = sel.value;
+    const list = cards();
+    if (mode === 'name-asc') {
+      list.sort((a, b) =>
+        (a.getAttribute('data-review-name') || '').localeCompare(
+          b.getAttribute('data-review-name') || '',
+          'fr',
+          { sensitivity: 'base' },
+        ),
+      );
+    } else if (mode === 'name-desc') {
+      list.sort((a, b) =>
+        (b.getAttribute('data-review-name') || '').localeCompare(
+          a.getAttribute('data-review-name') || '',
+          'fr',
+          { sensitivity: 'base' },
+        ),
+      );
+    } else {
+      list.sort(
+        (a, b) =>
+          parseInt(a.getAttribute('data-review-idx') || '0', 10) -
+          parseInt(b.getAttribute('data-review-idx') || '0', 10),
+      );
+    }
+    list.forEach((el) => grid.appendChild(el));
+  });
+}
+
 async function init() {
   try {
     await pullState();
@@ -589,6 +626,7 @@ async function init() {
   updateProductCards();
   updateCart();
   observeReveal();
+  initReviewsSort();
   startHoldWatcher();
   setInterval(async () => {
     try {
