@@ -34,6 +34,7 @@ function tiramii_ensure_pro_tables(PDO $pdo): void
         $pdo->exec(
             'CREATE TABLE IF NOT EXISTS pro_invoices (
                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                restaurant_name VARCHAR(255) NOT NULL DEFAULT \'\',
                 original_name VARCHAR(255) NOT NULL,
                 stored_name VARCHAR(120) NOT NULL,
                 mime_type VARCHAR(120) NOT NULL DEFAULT \'application/pdf\',
@@ -41,11 +42,28 @@ function tiramii_ensure_pro_tables(PDO $pdo): void
                 note VARCHAR(500) NOT NULL DEFAULT \'\',
                 uploaded_at DATETIME NOT NULL,
                 PRIMARY KEY (id),
+                KEY idx_pro_inv_rest (restaurant_name(64)),
                 UNIQUE KEY uq_pro_inv_stored (stored_name)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
         );
     } catch (Throwable) {
         /* droits CREATE refusés */
+    }
+
+    try {
+        $chk = $pdo->query("SHOW COLUMNS FROM pro_invoices LIKE 'restaurant_name'");
+        if ($chk && $chk->fetch() === false) {
+            $pdo->exec(
+                'ALTER TABLE pro_invoices ADD COLUMN restaurant_name VARCHAR(255) NOT NULL DEFAULT \'\' AFTER id'
+            );
+            try {
+                $pdo->exec('ALTER TABLE pro_invoices ADD KEY idx_pro_inv_rest (restaurant_name(64))');
+            } catch (Throwable) {
+                /* index peut déjà exister */
+            }
+        }
+    } catch (Throwable) {
+        /* table absente ou droits ALTER refusés */
     }
 
     $dir = tiramii_pro_data_dir();
@@ -166,4 +184,44 @@ function tiramii_admin_pro_ca_csv_export(PDO $pdo): void
     }
     fclose($out);
     exit;
+}
+
+/** URL de l’onglet Pro avec filtre client optionnel (factures). */
+function tiramii_pro_admin_tab_url(string $clientFilter = ''): string
+{
+    $q = 'tab=pro';
+    $t = trim($clientFilter);
+    if ($t !== '') {
+        $q .= '&pro_client=' . rawurlencode(mb_substr($t, 0, 255));
+    }
+
+    return 'admin.php?' . $q;
+}
+
+/**
+ * @return list<string>
+ */
+function tiramii_pro_distinct_client_names(PDO $pdo): array
+{
+    $set = [];
+    foreach (['pro_ca_entries', 'pro_invoices'] as $table) {
+        try {
+            $st = $pdo->query(
+                'SELECT DISTINCT restaurant_name AS n FROM ' . $table . " WHERE TRIM(restaurant_name) <> '' ORDER BY n ASC"
+            );
+            $rows = $st ? $st->fetchAll(PDO::FETCH_ASSOC) : [];
+        } catch (Throwable) {
+            $rows = [];
+        }
+        foreach ($rows as $r) {
+            $n = trim((string) ($r['n'] ?? ''));
+            if ($n !== '') {
+                $set[$n] = true;
+            }
+        }
+    }
+    $names = array_keys($set);
+    sort($names, SORT_STRING);
+
+    return $names;
 }

@@ -35,6 +35,8 @@ tiramii_ensure_stock_levels_for_all_products($pdo);
 require_once __DIR__ . '/includes/pro_b2b.php';
 tiramii_ensure_pro_tables($pdo);
 
+$proClientFilter = isset($_GET['pro_client']) ? mb_substr(trim((string) $_GET['pro_client']), 0, 255) : '';
+
 if (!empty($_SESSION['admin_ok']) && isset($_GET['download_pro_invoice'])) {
     tiramii_admin_pro_invoice_download($pdo);
 }
@@ -230,7 +232,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_pro_ca'])) {
                         );
                         $ins->execute([$rest, $parsed['amount'], $d, $note]);
                         $_SESSION['admin_flash_success'] = 'CA pro enregistré.';
-                        header('Location: admin.php?tab=pro');
+                        $pcCa = mb_substr(trim((string) ($_POST['pro_client'] ?? '')), 0, 255);
+                        header('Location: ' . tiramii_pro_admin_tab_url($pcCa));
                         exit;
                     } catch (Throwable) {
                         $errors[] = 'Impossible d’enregistrer (vérifiez que les tables « pro » existent).';
@@ -255,7 +258,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pro_ca'])) {
             try {
                 $pdo->prepare('DELETE FROM pro_ca_entries WHERE id = ?')->execute([$id]);
                 $_SESSION['admin_flash_success'] = 'Ligne CA supprimée.';
-                header('Location: admin.php?tab=pro');
+                $pcCaDel = mb_substr(trim((string) ($_POST['pro_client'] ?? '')), 0, 255);
+                header('Location: ' . tiramii_pro_admin_tab_url($pcCaDel));
                 exit;
             } catch (Throwable) {
                 $errors[] = 'Suppression impossible.';
@@ -271,6 +275,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pro_invoice'])
     } elseif (!csrf_verify(csrf_token_from_request())) {
         $errors[] = 'Jeton CSRF invalide.';
     } else {
+        $restInv = mb_substr(trim((string) ($_POST['invoice_restaurant'] ?? '')), 0, 255);
+        if ($restInv === '') {
+            $errors[] = 'Indiquez le restaurant ou le client pro rattaché à cette facture.';
+        } else {
         $note = mb_substr(trim((string) ($_POST['invoice_note'] ?? '')), 0, 500);
         $f = $_FILES['invoice_pdf'] ?? null;
         if (!is_array($f) || !isset($f['error']) || (int) $f['error'] !== UPLOAD_ERR_OK) {
@@ -302,12 +310,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pro_invoice'])
                     } else {
                         try {
                             $ins = $pdo->prepare(
-                                'INSERT INTO pro_invoices (original_name, stored_name, mime_type, size_bytes, note, uploaded_at)
-                                 VALUES (?,?,?,?,?, NOW())'
+                                'INSERT INTO pro_invoices (restaurant_name, original_name, stored_name, mime_type, size_bytes, note, uploaded_at)
+                                 VALUES (?,?,?,?,?,?, NOW())'
                             );
-                            $ins->execute([$orig, $stored, $mime, (int) $f['size'], $note]);
+                            $ins->execute([$restInv, $orig, $stored, $mime, (int) $f['size'], $note]);
                             $_SESSION['admin_flash_success'] = 'Facture enregistrée.';
-                            header('Location: admin.php?tab=pro');
+                            header('Location: ' . tiramii_pro_admin_tab_url($restInv));
                             exit;
                         } catch (Throwable) {
                             @unlink($dest);
@@ -316,6 +324,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_pro_invoice'])
                     }
                 }
             }
+        }
         }
     }
 }
@@ -347,7 +356,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pro_invoice'])
                     }
                     $pdo->prepare('DELETE FROM pro_invoices WHERE id = ?')->execute([$id]);
                     $_SESSION['admin_flash_success'] = 'Facture supprimée.';
-                    header('Location: admin.php?tab=pro');
+                    $pcAfterDel = mb_substr(trim((string) ($_POST['pro_client'] ?? '')), 0, 255);
+                    header('Location: ' . tiramii_pro_admin_tab_url($pcAfterDel));
                     exit;
                 }
             } catch (Throwable) {
@@ -445,6 +455,7 @@ $adminTab = in_array($tabParam, ['pro', 'stats'], true) ? $tabParam : 'particuli
 $proCaEntries = [];
 $proCaSummaryByMonth = [];
 $proInvoices = [];
+$proInvoiceClientNames = [];
 if ($loggedIn) {
     try {
         $proCaEntries = $pdo
@@ -469,12 +480,27 @@ if ($loggedIn) {
         $proCaSummaryByMonth = [];
     }
     try {
-        $proInvoices = $pdo
-            ->query(
-                'SELECT id, original_name, size_bytes, note, uploaded_at
-                 FROM pro_invoices ORDER BY uploaded_at DESC, id DESC LIMIT 80'
-            )
-            ->fetchAll(PDO::FETCH_ASSOC);
+        $proInvoiceClientNames = tiramii_pro_distinct_client_names($pdo);
+    } catch (Throwable) {
+        $proInvoiceClientNames = [];
+    }
+    try {
+        if ($proClientFilter !== '') {
+            $stInv = $pdo->prepare(
+                'SELECT id, restaurant_name, original_name, size_bytes, note, uploaded_at
+                 FROM pro_invoices WHERE restaurant_name = ?
+                 ORDER BY uploaded_at DESC, id DESC LIMIT 80'
+            );
+            $stInv->execute([$proClientFilter]);
+            $proInvoices = $stInv->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $proInvoices = $pdo
+                ->query(
+                    'SELECT id, restaurant_name, original_name, size_bytes, note, uploaded_at
+                     FROM pro_invoices ORDER BY uploaded_at DESC, id DESC LIMIT 80'
+                )
+                ->fetchAll(PDO::FETCH_ASSOC);
+        }
     } catch (Throwable) {
         $proInvoices = [];
     }
@@ -904,6 +930,12 @@ foreach ($statsFlavors90d as $r) {
   </div>
 </div>
 <?php elseif ($adminTab === 'pro'):
+$proTabAction = tiramii_pro_admin_tab_url($proClientFilter);
+$proInvoiceFilterOptions = $proInvoiceClientNames;
+if ($proClientFilter !== '' && !in_array($proClientFilter, $proInvoiceFilterOptions, true)) {
+    $proInvoiceFilterOptions[] = $proClientFilter;
+    sort($proInvoiceFilterOptions, SORT_STRING);
+}
 $todayPro = (new DateTimeImmutable('now', $adminTzParis))->format('Y-m-d');
 $proMonthTotals = [];
 foreach ($proCaSummaryByMonth as $sr) {
@@ -924,8 +956,9 @@ foreach ($proCaSummaryByMonth as $sr) {
       <a class="btn-link secondary" href="admin.php?export_pro_ca_csv=1">Exporter CSV</a>
     </div>
     <h3 style="font-size:1rem;margin:18px 0 10px;font-family:'Playfair Display',serif;color:var(--vk)">Nouvelle ligne</h3>
-    <form method="post" action="admin.php?tab=pro">
+    <form method="post" action="<?= h($proTabAction) ?>">
       <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+      <input type="hidden" name="pro_client" value="<?= h($proClientFilter) ?>">
       <div class="form-row-pro">
         <div class="form-group-pro">
           <label for="pro_restaurant">Restaurant / client pro</label>
@@ -996,8 +1029,9 @@ foreach ($proCaSummaryByMonth as $sr) {
             <td class="num"><?= h(number_format((float) $e['amount_eur'], 2, ',', ' ')) ?> €</td>
             <td class="muted" style="font-size:.82rem"><?= h((string) $e['note'] !== '' ? (string) $e['note'] : '—') ?></td>
             <td class="num">
-              <form method="post" action="admin.php?tab=pro" style="display:inline" onsubmit="return confirm('Supprimer cette ligne ?');">
+              <form method="post" action="<?= h($proTabAction) ?>" style="display:inline" onsubmit="return confirm('Supprimer cette ligne ?');">
                 <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+                <input type="hidden" name="pro_client" value="<?= h($proClientFilter) ?>">
                 <input type="hidden" name="pro_ca_id" value="<?= (int) $e['id'] ?>">
                 <button type="submit" name="delete_pro_ca" value="1" class="secondary btn-small" style="padding:6px 12px">Supprimer</button>
               </form>
@@ -1013,18 +1047,30 @@ foreach ($proCaSummaryByMonth as $sr) {
     <div class="topbar">
       <div>
         <div class="badge">📎 Factures pro (PDF)</div>
-        <p class="helper">Dépôt de factures émises ou reçues (PDF uniquement, 10 Mo max). Les fichiers ne sont pas publics sur le site.</p>
+        <p class="helper">Dépôt de factures émises ou reçues (PDF uniquement, 10 Mo max). Les fichiers ne sont pas publics sur le site. Chaque PDF est rattaché à un client pour retrouver les factures par établissement.</p>
       </div>
     </div>
-    <form method="post" action="admin.php?tab=pro" enctype="multipart/form-data">
+    <datalist id="tiramii-pro-clients-datalist">
+      <?php foreach ($proInvoiceClientNames as $nm): ?>
+      <option value="<?= h($nm) ?>">
+      <?php endforeach; ?>
+    </datalist>
+    <form method="post" action="<?= h($proTabAction) ?>" enctype="multipart/form-data">
       <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
-      <div class="form-group-pro">
-        <label for="invoice_pdf">Fichier PDF</label>
-        <input type="file" name="invoice_pdf" id="invoice_pdf" accept="application/pdf,.pdf" required>
+      <input type="hidden" name="pro_client" value="<?= h($proClientFilter) ?>">
+      <div class="form-row-pro">
+        <div class="form-group-pro">
+          <label for="invoice_restaurant">Restaurant / client pro</label>
+          <input type="text" name="invoice_restaurant" id="invoice_restaurant" required maxlength="255" list="tiramii-pro-clients-datalist" placeholder="Ex. Bistrot du Coin (identique au CA si possible)">
+        </div>
+        <div class="form-group-pro">
+          <label for="invoice_pdf">Fichier PDF</label>
+          <input type="file" name="invoice_pdf" id="invoice_pdf" accept="application/pdf,.pdf" required>
+        </div>
       </div>
       <div class="form-group-pro">
         <label for="invoice_note">Note (optionnel)</label>
-        <input type="text" name="invoice_note" id="invoice_note" maxlength="500" placeholder="Client, mois, n° facture…">
+        <input type="text" name="invoice_note" id="invoice_note" maxlength="500" placeholder="N° facture, mois, règlement…">
       </div>
       <div class="actions">
         <button type="submit" name="upload_pro_invoice" value="1" class="primary">📤 Envoyer la facture</button>
@@ -1032,15 +1078,27 @@ foreach ($proCaSummaryByMonth as $sr) {
     </form>
 
     <h3 style="font-size:1rem;margin:28px 0 10px;font-family:'Playfair Display',serif;color:var(--vk)">Factures enregistrées</h3>
+    <form method="get" action="admin.php" class="form-group-pro" style="margin-bottom:14px;max-width:420px">
+      <input type="hidden" name="tab" value="pro">
+      <label for="pro_client_invoice_filter">Filtrer par client</label>
+      <select name="pro_client" id="pro_client_invoice_filter" onchange="this.form.submit()">
+        <option value="">Tous les clients</option>
+        <?php foreach ($proInvoiceFilterOptions as $nm): ?>
+        <option value="<?= h($nm) ?>"<?= $nm === $proClientFilter ? ' selected' : '' ?>><?= h($nm) ?></option>
+        <?php endforeach; ?>
+      </select>
+      <noscript><div class="actions" style="margin-top:8px"><button type="submit" class="secondary">Appliquer</button></div></noscript>
+    </form>
     <?php if ($proInvoices === []): ?>
-      <p class="muted">Aucune facture.</p>
+      <p class="muted"><?= $proClientFilter !== '' ? 'Aucune facture pour ce client.' : 'Aucune facture.' ?></p>
     <?php else: ?>
       <table class="pro-table">
-        <thead><tr><th>Dépôt</th><th>Fichier</th><th class="num">Taille</th><th>Note</th><th></th></tr></thead>
+        <thead><tr><th>Dépôt</th><th>Client</th><th>Fichier</th><th class="num">Taille</th><th>Note</th><th></th></tr></thead>
         <tbody>
           <?php foreach ($proInvoices as $inv): ?>
           <tr>
             <td><?= h((string) $inv['uploaded_at']) ?></td>
+            <td><?php $rc = trim((string) ($inv['restaurant_name'] ?? '')); echo h($rc !== '' ? $rc : '—'); ?></td>
             <td><a href="admin.php?download_pro_invoice=<?= (int) $inv['id'] ?>"><?= h((string) $inv['original_name']) ?></a></td>
             <td class="num"><?php
               $sz = (int) $inv['size_bytes'];
@@ -1048,8 +1106,9 @@ foreach ($proCaSummaryByMonth as $sr) {
               ?></td>
             <td class="muted" style="font-size:.82rem"><?= h((string) $inv['note'] !== '' ? (string) $inv['note'] : '—') ?></td>
             <td class="num">
-              <form method="post" action="admin.php?tab=pro" style="display:inline" onsubmit="return confirm('Supprimer cette facture ?');">
+              <form method="post" action="<?= h($proTabAction) ?>" style="display:inline" onsubmit="return confirm('Supprimer cette facture ?');">
                 <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+                <input type="hidden" name="pro_client" value="<?= h($proClientFilter) ?>">
                 <input type="hidden" name="pro_invoice_id" value="<?= (int) $inv['id'] ?>">
                 <button type="submit" name="delete_pro_invoice" value="1" class="secondary btn-small" style="padding:6px 12px">Supprimer</button>
               </form>
