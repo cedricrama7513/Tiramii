@@ -1,2 +1,25 @@
 config/config.php
 /data/
+
+# Secrets / environment files
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Local config files (keep examples tracked)
+config/*.local.php
+config/*secret*.php
+
+# Keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.csr
+
+# Database dumps and backups
+*.sql.gz
+*.dump
+*.bak
