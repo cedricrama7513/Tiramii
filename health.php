@@ -8,7 +8,7 @@ declare(strict_types=1);
 header('Content-Type: text/plain; charset=UTF-8');
 
 $root = __DIR__;
-echo "tiramii-health\n";
+echo "casa-dessert-health\n";
 echo 'PHP ' . PHP_VERSION . "\n";
 echo 'memory_limit=' . ini_get('memory_limit') . "\n";
 echo '__DIR__=' . $root . "\n\n";

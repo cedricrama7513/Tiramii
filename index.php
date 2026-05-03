@@ -81,7 +81,7 @@ try {
     }
 
     $csrf = csrf_token();
-    $tiramiiBoot = [
+    $appBoot = [
         'csrf' => $csrf,
         'products' => $productsJson,
     ];
@@ -89,7 +89,7 @@ try {
     $shopJsPath = __DIR__ . '/assets/js/shop.js';
     $shopJsV = is_readable($shopJsPath) ? (string) filemtime($shopJsPath) : (string) time();
     $appScript = '<script type="module" src="assets/js/shop.js?v=' . h($shopJsV) . '"></script>' . "\n";
-    $appScript .= '<script>window.__TIRAMII__ = ' . json_encode($tiramiiBoot, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) . ";</script>\n";
+    $appScript .= '<script>window.__CASA_DESSERT__ = ' . json_encode($appBoot, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) . ";</script>\n";
 
     $tplPath = __DIR__ . '/templates/index_base.html';
     if (!is_readable($tplPath)) {
@@ -134,7 +134,7 @@ try {
 } catch (Throwable) {
     http_response_code(500);
     header('Content-Type: text/html; charset=UTF-8');
-    echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>TIRA’MII — configuration</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem">';
+    echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Casa Dessert — configuration</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem">';
     echo '<h1>Le site ne peut pas s’afficher</h1>';
     echo '<p><strong>À vérifier sur Hostinger :</strong></p><ul>';
     echo '<li>Tout le projet est dans le dossier du domaine (souvent <code>public_html</code>), pas seulement <code>index.php</code>.</li>';

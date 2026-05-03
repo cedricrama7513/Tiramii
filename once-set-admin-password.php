@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Définir le mot de passe admin — TIRA’MII</title>
+  <title>Définir le mot de passe admin — Casa Dessert</title>
   <style>
     body { font-family: system-ui, sans-serif; max-width: 420px; margin: 2rem auto; padding: 0 1rem; color: #3d1f6e; }
     label { display: block; margin-top: 1rem; font-weight: 600; }

@@ -78,7 +78,7 @@ function tiramii_send_mail_smtp(
         return false;
     }
 
-    $ehlo = 'EHLO tiramii-shop';
+    $ehlo = 'EHLO casa-dessert-shop';
     if (!tiramii_smtp_cmd($fp, $ehlo, [250])) {
         fclose($fp);
         return false;

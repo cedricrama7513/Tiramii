@@ -1,4 +1,4 @@
-# TIRA'MII — Apache (Hostinger)
+# Casa Dessert — Apache (Hostinger)
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

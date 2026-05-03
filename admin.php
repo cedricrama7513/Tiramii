@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin stock TIRA'MII — session PHP + mot de passe (hash dans config.php).
+ * Admin stock Casa Dessert — session PHP + mot de passe (hash dans config.php).
  * Vérification de session : chaque action protégée contrôle $_SESSION['admin_ok'].
  */
 declare(strict_types=1);
@@ -557,7 +557,7 @@ $csrf = csrf_token();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TIRA'MII — Admin</title>
+<title>Casa Dessert — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--v:#c8a8e9;--vd:#7c4daa;--vk:#3d1f6e;--bg:#f3eafc;--card:#ffffff;--ok:#2e7d32;--danger:#d64545}
@@ -654,7 +654,7 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 <div class="lock">
   <div class="card">
     <h1>Connexion admin</h1>
-    <p class="sub">Accès réservé à TIRA'MII — stock et commandes.</p>
+    <p class="sub">Accès réservé à Casa Dessert — stock et commandes.</p>
     <?php foreach ($errors as $err): ?>
       <p class="alert-bad"><?= h($err) ?></p>
     <?php endforeach; ?>
@@ -668,7 +668,7 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 </div>
 <?php else: ?>
 <div class="header">
-  <div class="brand"><div class="logo">T</div> TIRA'MII</div>
+  <div class="brand"><div class="logo">C</div> Casa Dessert</div>
   <p class="sub"><strong>Particuliers</strong> (stock + commandes site) · <strong>Stats</strong> (saveurs = <em>uniquement</em> commandes particuliers sur le site) · <strong>Pro</strong> (B2B, hors site).</p>
   <nav class="admin-tabs" aria-label="Sections admin">
     <a href="admin.php" class="<?= $adminTab === 'particulier' ? 'active' : '' ?>">Particuliers</a>

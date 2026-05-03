@@ -61,7 +61,7 @@ function tiramii_notify_new_order(
     $fullAddress = trim($address . ', ' . $zip . ' ' . $city);
     $clientName = trim($first . ' ' . $last);
 
-    $body = "Nouvelle commande TIRA'MII\n";
+    $body = "Nouvelle commande Casa Dessert\n";
     $body .= "========================\n\n";
     $body .= "N° commande : #{$orderId}\n";
     $body .= "Client : {$clientName}\n";
@@ -73,11 +73,11 @@ function tiramii_notify_new_order(
     $body .= "Détail :\n{$linesText}\n";
     $body .= 'Note : ' . ($note !== '' ? $note : '—') . "\n";
 
-    $shortSms = "TIRA'MII commande #{$orderId} — {$clientName} — {$phone} — " . number_format($total, 2, ',', ' ') . ' €';
+    $shortSms = "Casa Dessert commande #{$orderId} — {$clientName} — {$phone} — " . number_format($total, 2, ',', ' ') . ' €';
 
     $ownerEmail = trim((string) ($n['owner_email'] ?? ''));
     $fromEmail = trim((string) ($n['from_email'] ?? ''));
-    $fromName = trim((string) ($n['from_name'] ?? "TIRA'MII"));
+    $fromName = trim((string) ($n['from_name'] ?? 'Casa Dessert'));
     $smtpHost = trim((string) ($n['smtp_host'] ?? ''));
     $smtpPort = (int) ($n['smtp_port'] ?? 465);
     if ($smtpPort < 1 || $smtpPort > 65535) {
@@ -91,7 +91,7 @@ function tiramii_notify_new_order(
     $ejTemplate = trim((string) ($n['emailjs_template_id'] ?? ''));
 
     if ($ownerEmail !== '' && filter_var($ownerEmail, FILTER_VALIDATE_EMAIL)) {
-        $subject = "Nouvelle commande #{$orderId} — TIRA'MII";
+        $subject = "Nouvelle commande #{$orderId} — Casa Dessert";
         $sent = false;
 
         if ($ejKey !== '' && $ejService !== '' && $ejTemplate !== '') {

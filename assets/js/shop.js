@@ -1,7 +1,7 @@
 /**
  * Panier, réservations, commande — API PHP (remplace Firebase + EmailJS).
  */
-const BOOT = window.__TIRAMII__ || { csrf: '', products: [] };
+const BOOT = window.__CASA_DESSERT__ || { csrf: '', products: [] };
 const PRODUCTS = BOOT.products || [];
 const FIXED_BOXES = {
   box1: {
@@ -23,8 +23,8 @@ const FIXED_BOXES = {
 };
 
 const HOLD_MS = 5 * 60 * 1000;
-const SESSION_KEY = 'tiramii_session_id';
-const CART_KEY = 'tiramii_cart';
+const SESSION_KEY = 'casa_dessert_session_id';
+const CART_KEY = 'casa_dessert_cart';
 const DELIVERY_ALLOWED_DEPTS = ['75', '91', '92', '93', '94'];
 /** Libellé enregistré en base et affiché au client (pas de créneau au quart d’heure). */
 const DELIVERY_TIME_LABEL = 'Après 21h30';

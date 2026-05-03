@@ -1,4 +1,4 @@
--- TIRA'MII — structure MySQL (utf8mb4) pour Hostinger / phpMyAdmin
+-- Casa Dessert — structure MySQL (utf8mb4) pour Hostinger / phpMyAdmin
 -- Import : phpMyAdmin > Importer > choisir ce fichier
 
 SET NAMES utf8mb4;

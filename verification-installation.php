@@ -24,7 +24,7 @@ function line(string $label, bool $pass, string $detail = ''): void
     echo '</p>';
 }
 
-echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Vérification TIRA’MII</title></head><body style="font-family:sans-serif;max-width:640px;margin:2rem auto;padding:0 1rem">';
+echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Vérification Casa Dessert</title></head><body style="font-family:sans-serif;max-width:640px;margin:2rem auto;padding:0 1rem">';
 echo '<h1>Vérification installation</h1>';
 
 line(

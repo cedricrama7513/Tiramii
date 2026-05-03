@@ -158,7 +158,7 @@ function tiramii_admin_pro_ca_csv_export(PDO $pdo): void
     }
 
     header('Content-Type: text/csv; charset=UTF-8');
-    header('Content-Disposition: attachment; filename="tiramii-ca-pro-' . date('Y-m-d') . '.csv"');
+    header('Content-Disposition: attachment; filename="casa-dessert-ca-pro-' . date('Y-m-d') . '.csv"');
     header('X-Content-Type-Options: nosniff');
 
     $out = fopen('php://output', 'w');

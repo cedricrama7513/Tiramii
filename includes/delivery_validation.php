@@ -110,7 +110,7 @@ function tiramii_geocode_delivery_address(string $address, string $zip5, string 
         PHP_QUERY_RFC3986
     );
 
-    $ua = 'TiramiiOrderValidator/1.0 (livraison; +https://tiramii.fr)';
+    $ua = 'CasaDessertOrderValidator/1.0 (livraison; +https://tiramii.fr)';
     $raw = tiramii_http_get($url, $ua);
     if ($raw === null || $raw === '') {
         return null;

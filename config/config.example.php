@@ -27,7 +27,7 @@ return [
         'emailjs_service_id' => '',
         'emailjs_template_id' => '',
         'from_email' => 'contact@votredomaine.fr',
-        'from_name' => 'TIRA\'MII',
+        'from_name' => 'Casa Dessert',
         'smtp_host' => 'smtp.hostinger.com',
         'smtp_port' => 465,
         'smtp_user' => 'contact@votredomaine.fr',

@@ -4,8 +4,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/init_public.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$pageTitle = 'Mentions légales — TIRA’MII';
-$lastUpdate = '11 avril 2026';
+$pageTitle = 'Mentions légales — Casa Dessert';
+$lastUpdate = '1er mai 2026';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -152,7 +152,7 @@ $lastUpdate = '11 avril 2026';
 </head>
 <body>
   <header class="top">
-    <a class="logo" href="index.php">TIRA’MII</a>
+    <a class="logo" href="index.php">Casa Dessert</a>
     <a class="back" href="index.php">← Retour à la boutique</a>
   </header>
 
@@ -178,7 +178,7 @@ $lastUpdate = '11 avril 2026';
     <section id="editeur">
       <h2>1. Éditeur du site</h2>
       <div class="card">
-        <p><strong>Dénomination / nom commercial&nbsp;:</strong> TIRA’MII</p>
+        <p><strong>Dénomination / nom commercial&nbsp;:</strong> Casa Dessert</p>
         <p><strong>Responsable de la publication&nbsp;:</strong> Cedric Ramahefaharison</p>
         <p><strong>Statut&nbsp;:</strong> Entrepreneur individuel (micro-entrepreneur)</p>
         <p><strong>Adresse du siège&nbsp;:</strong> 60 rue François&nbsp;1<sup>er</sup>, 75008 Paris, France</p>

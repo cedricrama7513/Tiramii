@@ -1,4 +1,4 @@
-# Déploiement TIRA'MII sur Hostinger
+# Déploiement Casa Dessert (tiramii.fr) sur Hostinger
 
 Ce guide suppose un hébergement **Hostinger** avec **PHP 8+** et **MySQL** (phpMyAdmin).
 
