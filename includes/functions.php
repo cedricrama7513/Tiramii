@@ -36,3 +36,36 @@ function csrf_token_from_request(): ?string
     $p = $_POST['csrf_token'] ?? null;
     return is_string($p) ? $p : null;
 }
+
+/**
+ * Logo marque : fichier dans assets/img/logo-casa-dessert.{svg,png,webp}, sinon initiale C (sauf mentions légales : rien).
+ *
+ * @param 'nav'|'admin'|'legal' $variant
+ */
+function brand_logo_markup(string $variant = 'nav'): string
+{
+    $root = dirname(__DIR__);
+    $names = ['logo-casa-dessert.svg', 'logo-casa-dessert.png', 'logo-casa-dessert.webp'];
+    foreach ($names as $base) {
+        $path = $root . '/assets/img/' . $base;
+        if (!is_readable($path)) {
+            continue;
+        }
+        $v = (string) filemtime($path);
+        $rel = 'assets/img/' . $base;
+        $classes = 'brand-logo-img';
+        if ($variant === 'admin') {
+            $classes .= ' brand-logo-img--admin';
+        } elseif ($variant === 'legal') {
+            $classes .= ' brand-logo-img--legal';
+        }
+        return '<span class="brand-logo-wrap"><img src="' . h($rel) . '?v=' . h($v) . '" alt="" class="' . h($classes) . '" decoding="async"></span>';
+    }
+    if ($variant === 'admin') {
+        return '<div class="logo">C</div>';
+    }
+    if ($variant === 'legal') {
+        return '';
+    }
+    return '<div class="logo-circle"><span>C</span></div>';
+}

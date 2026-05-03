@@ -14,21 +14,21 @@ $lastUpdate = '1er mai 2026';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index,follow">
   <title><?= h($pageTitle) ?></title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --vk: #3d1f6e;
-      --vd: #7c4daa;
-      --v: #c8a8e9;
-      --bg: #f3eafc;
+      --vk: #1a1a1a;
+      --vd: #A68966;
+      --v: #d4c4b0;
+      --bg: #F9F9F7;
       --card: #fff;
-      --muted: #6f5b7f;
-      --line: rgba(124, 77, 170, 0.22);
+      --muted: #333333;
+      --line: rgba(166, 137, 102, 0.28);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Montserrat', system-ui, sans-serif;
       background: var(--bg);
       color: var(--vk);
       line-height: 1.65;
@@ -55,6 +55,17 @@ $lastUpdate = '1er mai 2026';
       color: var(--vk);
       text-decoration: none;
       letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .brand-logo-img--legal {
+      height: 44px;
+      width: auto;
+      max-width: 44px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 2px 6px rgba(26, 26, 26, 0.12));
     }
     .top a.logo:hover { color: var(--vd); }
     .top .back {
@@ -152,7 +163,7 @@ $lastUpdate = '1er mai 2026';
 </head>
 <body>
   <header class="top">
-    <a class="logo" href="index.php">Casa Dessert</a>
+    <a class="logo" href="index.php"><?= brand_logo_markup('legal') ?>Casa Dessert</a>
     <a class="back" href="index.php">← Retour à la boutique</a>
   </header>
 

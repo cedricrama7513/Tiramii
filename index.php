@@ -120,6 +120,9 @@ try {
     $navHtml = is_readable(__DIR__ . '/includes/nav_fragment.html')
         ? (string) file_get_contents(__DIR__ . '/includes/nav_fragment.html')
         : '';
+    if (str_contains($navHtml, '__LOGO_MARK__')) {
+        $navHtml = str_replace('__LOGO_MARK__', brand_logo_markup('nav'), $navHtml);
+    }
     $footerMainHtml = is_readable(__DIR__ . '/includes/footer_main_fragment.html')
         ? (string) file_get_contents(__DIR__ . '/includes/footer_main_fragment.html')
         : '';

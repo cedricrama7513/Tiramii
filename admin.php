@@ -558,93 +558,95 @@ $csrf = csrf_token();
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Casa Dessert — Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--v:#c8a8e9;--vd:#7c4daa;--vk:#3d1f6e;--bg:#f3eafc;--card:#ffffff;--ok:#2e7d32;--danger:#d64545}
+:root{--v:#d4c4b0;--vd:#A68966;--vk:#1a1a1a;--bg:#F9F9F7;--card:#ffffff;--ok:#2e7d32;--danger:#d64545}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:linear-gradient(180deg,#f7f1fd 0%,#efe4fb 100%);color:var(--vk);min-height:100vh}
+body{font-family:'Montserrat',sans-serif;background:linear-gradient(180deg,#f7f5f0 0%,#ebe4d9 100%);color:var(--vk);min-height:100vh}
 .header{padding:28px 20px 10px;max-width:980px;margin:0 auto}
-.brand{display:flex;align-items:center;gap:12px;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Montserrat',sans-serif;font-size:1.25rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .logo{width:42px;height:42px;border:2px solid var(--vd);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--vd)}
-.sub{margin-top:8px;color:#7a6488}
+.brand-logo-wrap{display:flex;align-items:center;justify-content:center}
+.brand-logo-img--admin{height:52px;width:auto;max-width:52px;object-fit:contain;display:block;filter:drop-shadow(0 2px 8px rgba(26,26,26,.12))}
+.sub{margin-top:8px;color:#6b635c}
 .wrap{max-width:980px;margin:0 auto;padding:20px}
-.card{background:var(--card);border-radius:24px;box-shadow:0 18px 50px rgba(61,31,110,.08);padding:22px}
+.card{background:var(--card);border-radius:24px;box-shadow:0 18px 50px rgba(26,26,26,.08);padding:22px}
 .topbar{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:16px}
-.badge{background:#f1e7fb;color:var(--vd);padding:8px 12px;border-radius:999px;font-size:.86rem;font-weight:600}
+.badge{background:#ede8df;color:var(--vd);padding:8px 12px;border-radius:999px;font-size:.86rem;font-weight:600}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:18px}
-.item{border:1px solid #eee3f8;border-radius:18px;padding:16px;background:#fff}
+.item{border:1px solid #e5e0d6;border-radius:18px;padding:16px;background:#fff}
 .item h3{font-size:1rem;margin-bottom:6px}
-.muted{font-size:.88rem;color:#836c91}
+.muted{font-size:.88rem;color:#5c574f}
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:14px}
-input[type=number],input[type=password]{width:100%;padding:12px 14px;border:1.5px solid #dfcff0;border-radius:14px;font-size:1rem;color:var(--vk)}
+input[type=number],input[type=password]{width:100%;padding:12px 14px;border:1.5px solid #d8d0c4;border-radius:14px;font-size:1rem;color:var(--vk)}
 .qty{width:110px !important}
-button,.btn-link{border:none;border-radius:999px;padding:13px 18px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
+button,.btn-link{border:none;border-radius:999px;padding:13px 18px;font-weight:700;font-family:'Montserrat',sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
 .primary{background:var(--vk);color:#fff}
-.secondary{background:#efe4fb;color:var(--vd)}
+.secondary{background:#e8e4dc;color:var(--vd)}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-.helper{margin-top:14px;font-size:.9rem;color:#7a6488;line-height:1.5}
+.helper{margin-top:14px;font-size:.9rem;color:#6b635c;line-height:1.5}
 .alert-ok{color:var(--ok);font-weight:700;margin-bottom:12px}
 .alert-bad{color:var(--danger);font-weight:700;margin-bottom:8px}
 .lock{max-width:460px;margin:10vh auto 0;padding:20px}
 .lock .card{padding:28px}
 .lock h1{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:8px}
-.small{font-size:.82rem;color:#836c91}
-code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
+.small{font-size:.82rem;color:#5c574f}
+code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
 @media (max-width:640px){.topbar{align-items:flex-start} .actions button{width:100%} .qty{width:96px !important}}
 .stack{display:flex;flex-direction:column;gap:22px}
-.order-block{border:1px solid #eee3f8;border-radius:18px;margin-top:12px;overflow:hidden;background:#faf8fc}
-.order-block summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:600;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;background:#f3ebfb}
+.order-block{border:1px solid #e5e0d6;border-radius:18px;margin-top:12px;overflow:hidden;background:#f7f6f2}
+.order-block summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:600;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;background:#f0ebe4}
 .order-block summary::-webkit-details-marker{display:none}
 .order-block summary::after{content:'▾';margin-left:auto;color:var(--vd);font-size:.85rem}
 .order-block[open] summary::after{content:'▴'}
-.order-meta{font-size:.82rem;font-weight:500;color:#836c91}
-.order-body{padding:16px 18px 18px;border-top:1px solid #eee3f8}
+.order-meta{font-size:.82rem;font-weight:500;color:#5c574f}
+.order-body{padding:16px 18px 18px;border-top:1px solid #e5e0d6}
 .dl-grid{display:grid;grid-template-columns:140px 1fr;gap:6px 14px;font-size:.9rem}
-.dl-grid dt{color:#836c91;font-weight:500}
+.dl-grid dt{color:#5c574f;font-weight:500}
 .dl-grid dd{word-break:break-word}
 .order-lines{width:100%;border-collapse:collapse;margin-top:14px;font-size:.86rem}
-.order-lines th,.order-lines td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee3f8}
-.order-lines th{color:#836c91;font-weight:600;background:#f9f5fc}
+.order-lines th,.order-lines td{padding:8px 10px;text-align:left;border-bottom:1px solid #e5e0d6}
+.order-lines th{color:#5c574f;font-weight:600;background:#f7f5f0}
 .order-lines .num{text-align:right;white-space:nowrap}
-.empty-orders{color:#836c91;font-size:.92rem;padding:12px 0}
+.empty-orders{color:#5c574f;font-size:.92rem;padding:12px 0}
 .status-pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
 .status-pending{background:#fff3e0;color:#e65100}
 .status-done{background:#e8f5e9;color:#2e7d32}
 .btn-small{padding:10px 16px;font-size:.86rem;border-radius:999px}
-.order-actions{margin-top:16px;padding-top:14px;border-top:1px dashed #e0d4ee}
+.order-actions{margin-top:16px;padding-top:14px;border-top:1px dashed #d5cdc2}
 .summary-badges{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .order-day-group{margin-top:20px}
 .order-day-group:first-of-type{margin-top:4px}
-.order-day-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;padding:12px 16px;background:linear-gradient(90deg,#ede5f9,#f7f3fc);border-radius:16px;border:1px solid #e0d4ee;margin-bottom:12px}
+.order-day-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;padding:12px 16px;background:linear-gradient(90deg,#e8e4dc,#f5f3ef);border-radius:16px;border:1px solid #d5cdc2;margin-bottom:12px}
 .order-day-head h3{font-size:1.08rem;font-weight:700;color:var(--vk);font-family:'Playfair Display',serif;margin:0}
-.order-day-head .day-count{font-size:.86rem;color:#836c91}
+.order-day-head .day-count{font-size:.86rem;color:#5c574f}
 .order-day-head .day-ca{margin-left:auto;font-size:.95rem;color:var(--vd)}
-.order-period-ca{margin:0 0 14px;padding:12px 16px;background:#f9f5fc;border-radius:14px;border:1px solid #eee3f8;font-size:.95rem;color:var(--vk)}
+.order-period-ca{margin:0 0 14px;padding:12px 16px;background:#f7f5f0;border-radius:14px;border:1px solid #e5e0d6;font-size:.95rem;color:var(--vk)}
 @media (max-width:640px){.order-day-head .day-ca{margin-left:0;width:100%}}
-.admin-tabs{display:flex;gap:8px;margin-top:14px;padding:5px;background:#ede5f9;border-radius:999px;width:fit-content;max-width:100%;flex-wrap:wrap}
+.admin-tabs{display:flex;gap:8px;margin-top:14px;padding:5px;background:#e8e4dc;border-radius:999px;width:fit-content;max-width:100%;flex-wrap:wrap}
 .admin-tabs a{padding:10px 20px;border-radius:999px;text-decoration:none;font-weight:600;color:var(--vd);font-size:.9rem}
 .admin-tabs a.active{background:var(--vk);color:#fff}
 .admin-tabs a:not(.active):hover{background:rgba(255,255,255,.65)}
 .alerts-wrap{margin-top:4px}
 .pro-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.86rem}
-.pro-table th,.pro-table td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee3f8;vertical-align:top}
-.pro-table th{background:#f9f5fc;color:#836c91;font-weight:600}
+.pro-table th,.pro-table td{padding:8px 10px;text-align:left;border-bottom:1px solid #e5e0d6;vertical-align:top}
+.pro-table th{background:#f7f5f0;color:#5c574f;font-weight:600}
 .pro-table .num{text-align:right;white-space:nowrap}
-.pro-month-total td{background:#f3ebfb;font-weight:600}
+.pro-month-total td{background:#f0ebe4;font-weight:600}
 .form-row-pro{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:700px){.form-row-pro{grid-template-columns:1fr}}
 .form-group-pro{margin-bottom:12px}
 .form-group-pro label{display:block;font-size:.78rem;font-weight:600;color:var(--vd);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
-.form-group-pro input,.form-group-pro textarea{width:100%;padding:10px 12px;border:1.5px solid #dfcff0;border-radius:12px;font-size:.95rem;color:var(--vk)}
+.form-group-pro input,.form-group-pro textarea{width:100%;padding:10px 12px;border:1.5px solid #d8d0c4;border-radius:12px;font-size:.95rem;color:var(--vk)}
 .stats-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.88rem}
-.stats-table th,.stats-table td{padding:10px 12px;text-align:left;border-bottom:1px solid #eee3f8;vertical-align:middle}
-.stats-table th{background:#f9f5fc;color:#836c91;font-weight:600}
+.stats-table th,.stats-table td{padding:10px 12px;text-align:left;border-bottom:1px solid #e5e0d6;vertical-align:middle}
+.stats-table th{background:#f7f5f0;color:#5c574f;font-weight:600}
 .stats-table .num{text-align:right;white-space:nowrap}
 .stats-table .rank{width:40px;font-weight:700;color:var(--vd)}
 .stat-bar-cell{min-width:120px}
-.stat-bar-track{height:10px;border-radius:999px;background:#ede5f9;overflow:hidden;margin-top:6px}
+.stat-bar-track{height:10px;border-radius:999px;background:#e8e4dc;overflow:hidden;margin-top:6px}
 .stat-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--vd),var(--v));min-width:4px}
-.stats-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;background:#f1e7fb;color:var(--vd)}
+.stats-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;background:#ede8df;color:var(--vd)}
 .stats-pill.box{background:#fff8e6;color:#b8860b}
 </style>
 </head>
@@ -668,7 +670,7 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
 </div>
 <?php else: ?>
 <div class="header">
-  <div class="brand"><div class="logo">C</div> Casa Dessert</div>
+  <div class="brand"><?= brand_logo_markup('admin') ?> Casa Dessert</div>
   <p class="sub"><strong>Particuliers</strong> (stock + commandes site) · <strong>Stats</strong> (saveurs = <em>uniquement</em> commandes particuliers sur le site) · <strong>Pro</strong> (B2B, hors site).</p>
   <nav class="admin-tabs" aria-label="Sections admin">
     <a href="admin.php" class="<?= $adminTab === 'particulier' ? 'active' : '' ?>">Particuliers</a>
@@ -726,7 +728,7 @@ code{background:#f3ebfb;padding:2px 6px;border-radius:8px}
           <button type="submit" name="apply_validated_at_migration" value="1" class="primary btn-small">Appliquer la mise à jour automatiquement</button>
         </form>
         <span style="opacity:.95">Sinon, dans phpMyAdmin → SQL :</span><br>
-        <code style="display:block;margin-top:6px;font-size:.78rem;word-break:break-all;color:#3d1f6e;background:#fff;padding:8px 10px;border-radius:10px">ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL AFTER created_at;</code>
+        <code style="display:block;margin-top:6px;font-size:.78rem;word-break:break-all;color:#1a1a1a;background:#fff;padding:8px 10px;border-radius:10px">ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL AFTER created_at;</code>
       </div>
     <?php endif; ?>
     <?php if ($ordersList === []): ?>
