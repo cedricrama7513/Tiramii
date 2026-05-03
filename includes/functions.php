@@ -59,7 +59,7 @@ function brand_logo_markup(string $variant = 'nav'): string
         } elseif ($variant === 'legal') {
             $classes .= ' brand-logo-img--legal';
         }
-        return '<span class="brand-logo-wrap"><img src="' . h($rel) . '?v=' . h($v) . '" alt="" class="' . h($classes) . '" decoding="async"></span>';
+        return '<span class="brand-logo-wrap"><img src="' . h($rel) . '?v=' . h($v) . '" alt="Casa Dessert" class="' . h($classes) . '" decoding="async"></span>';
     }
     if ($variant === 'admin') {
         return '<div class="logo">C</div>';

@@ -567,7 +567,7 @@ body{font-family:'Montserrat',sans-serif;background:linear-gradient(180deg,#f7f5
 .brand{display:flex;align-items:center;gap:12px;font-family:'Montserrat',sans-serif;font-size:1.25rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .logo{width:42px;height:42px;border:2px solid var(--vd);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--vd)}
 .brand-logo-wrap{display:flex;align-items:center;justify-content:center}
-.brand-logo-img--admin{height:52px;width:auto;max-width:52px;object-fit:contain;display:block;filter:drop-shadow(0 2px 8px rgba(26,26,26,.12))}
+.brand-logo-img--admin{height:auto;max-height:56px;width:auto;max-width:220px;object-fit:contain;display:block;filter:drop-shadow(0 1px 4px rgba(26,26,26,.08))}
 .sub{margin-top:8px;color:#6b635c}
 .wrap{max-width:980px;margin:0 auto;padding:20px}
 .card{background:var(--card);border-radius:24px;box-shadow:0 18px 50px rgba(26,26,26,.08);padding:22px}
@@ -670,7 +670,7 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
 </div>
 <?php else: ?>
 <div class="header">
-  <div class="brand"><?= brand_logo_markup('admin') ?> Casa Dessert</div>
+  <div class="brand"><?= brand_logo_markup('admin') ?></div>
   <p class="sub"><strong>Particuliers</strong> (stock + commandes site) · <strong>Stats</strong> (saveurs = <em>uniquement</em> commandes particuliers sur le site) · <strong>Pro</strong> (B2B, hors site).</p>
   <nav class="admin-tabs" aria-label="Sections admin">
     <a href="admin.php" class="<?= $adminTab === 'particulier' ? 'active' : '' ?>">Particuliers</a>

@@ -6,6 +6,7 @@ require_once __DIR__ . '/includes/functions.php';
 
 $pageTitle = 'Mentions légales — Casa Dessert';
 $lastUpdate = '1er mai 2026';
+$legalBrandLogo = brand_logo_markup('legal');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -60,12 +61,13 @@ $lastUpdate = '1er mai 2026';
       gap: 0.5rem;
     }
     .brand-logo-img--legal {
-      height: 44px;
+      height: auto;
+      max-height: 48px;
       width: auto;
-      max-width: 44px;
+      max-width: 180px;
       object-fit: contain;
       display: block;
-      filter: drop-shadow(0 2px 6px rgba(26, 26, 26, 0.12));
+      filter: drop-shadow(0 1px 4px rgba(26, 26, 26, 0.08));
     }
     .top a.logo:hover { color: var(--vd); }
     .top .back {
@@ -163,7 +165,7 @@ $lastUpdate = '1er mai 2026';
 </head>
 <body>
   <header class="top">
-    <a class="logo" href="index.php"><?= brand_logo_markup('legal') ?>Casa Dessert</a>
+    <a class="logo" href="index.php"><?= $legalBrandLogo ?><?= $legalBrandLogo === '' ? 'Casa Dessert' : '' ?></a>
     <a class="back" href="index.php">← Retour à la boutique</a>
   </header>
 
