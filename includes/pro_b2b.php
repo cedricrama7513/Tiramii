@@ -46,6 +46,22 @@ function tiramii_ensure_pro_tables(PDO $pdo): void
                 UNIQUE KEY uq_pro_inv_stored (stored_name)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
         );
+        $pdo->exec(
+            'CREATE TABLE IF NOT EXISTS pro_quote_requests (
+                id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                company_name VARCHAR(255) NOT NULL,
+                contact_name VARCHAR(160) NOT NULL,
+                email VARCHAR(180) NOT NULL,
+                phone VARCHAR(40) NOT NULL,
+                message TEXT,
+                lines_json TEXT NOT NULL,
+                estimated_total_eur DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                has_sur_devis TINYINT(1) NOT NULL DEFAULT 0,
+                created_at DATETIME NOT NULL,
+                PRIMARY KEY (id),
+                KEY idx_pro_quote_created (created_at)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+        );
     } catch (Throwable) {
         /* droits CREATE refusés */
     }

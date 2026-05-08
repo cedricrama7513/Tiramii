@@ -33,7 +33,9 @@ tiramii_ensure_box_supreme($pdo);
 tiramii_ensure_stock_levels_for_all_products($pdo);
 
 require_once __DIR__ . '/includes/pro_b2b.php';
+require_once __DIR__ . '/includes/ensure_pro_prices.php';
 tiramii_ensure_pro_tables($pdo);
+tiramii_ensure_pro_price_column($pdo);
 
 $proClientFilter = isset($_GET['pro_client']) ? mb_substr(trim((string) $_GET['pro_client']), 0, 255) : '';
 
@@ -456,6 +458,7 @@ $proCaEntries = [];
 $proCaSummaryByMonth = [];
 $proInvoices = [];
 $proInvoiceClientNames = [];
+$proQuoteRequests = [];
 if ($loggedIn) {
     try {
         $proCaEntries = $pdo
@@ -503,6 +506,18 @@ if ($loggedIn) {
         }
     } catch (Throwable) {
         $proInvoices = [];
+    }
+
+    $proQuoteRequests = [];
+    try {
+        $proQuoteRequests = $pdo
+            ->query(
+                'SELECT id, company_name, contact_name, email, phone, estimated_total_eur, has_sur_devis, created_at, lines_json, message
+                 FROM pro_quote_requests ORDER BY id DESC LIMIT 100'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $proQuoteRequests = [];
     }
 
     $statsFlavorsAll = [];
@@ -949,6 +964,80 @@ foreach ($proCaSummaryByMonth as $sr) {
 }
 ?>
 <div class="wrap stack">
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <div class="badge">📩 Demandes de devis (site)</div>
+        <p class="helper">Reçues depuis la page <a href="pro.php" target="_blank" rel="noopener">pro.php</a>. Estimation HT recalculée côté serveur ; « sur devis » = <code>pro_price_eur</code> vide sur le produit.</p>
+      </div>
+    </div>
+    <?php if ($proQuoteRequests === []): ?>
+      <p class="muted">Aucune demande pour l’instant.</p>
+    <?php else: ?>
+      <table class="pro-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Établissement</th>
+            <th>Contact</th>
+            <th>Coordonnées</th>
+            <th class="num">Estim. HT</th>
+            <th>Détail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($proQuoteRequests as $qr): ?>
+          <tr>
+            <td><?= (int) $qr['id'] ?></td>
+            <td><?= h((string) $qr['created_at']) ?></td>
+            <td><?= h((string) $qr['company_name']) ?></td>
+            <td><?= h((string) $qr['contact_name']) ?></td>
+            <td class="muted" style="font-size:.82rem">
+              <a href="mailto:<?= h((string) $qr['email']) ?>"><?= h((string) $qr['email']) ?></a><br>
+              <?= h((string) $qr['phone']) ?>
+            </td>
+            <td class="num">
+              <?= h(number_format((float) $qr['estimated_total_eur'], 2, ',', ' ')) ?> €
+              <?php if ((int) $qr['has_sur_devis'] === 1): ?>
+                <span class="muted" style="font-size:.72rem;display:block">+ sur devis</span>
+              <?php endif; ?>
+            </td>
+            <td>
+              <?php
+                $linesDecoded = json_decode((string) $qr['lines_json'], true);
+                $msgQ = trim((string) ($qr['message'] ?? ''));
+              ?>
+              <details>
+                <summary style="cursor:pointer;color:var(--vd);font-weight:600">Voir</summary>
+                <?php if (is_array($linesDecoded) && $linesDecoded !== []): ?>
+                  <ul style="margin:.5rem 0 0 1rem;font-size:.82rem">
+                    <?php foreach ($linesDecoded as $ln): ?>
+                      <li>
+                        <?= h((string) ($ln['name'] ?? '')) ?> · <?= (int) ($ln['qty'] ?? 0) ?> u.
+                        <?php
+                          $pt = $ln['line_total_eur'] ?? null;
+                          if ($pt !== null && (float) $pt > 0) {
+                              echo ' → ' . h(number_format((float) $pt, 2, ',', ' ')) . ' €';
+                          } else {
+                              echo ' <em>(sur devis)</em>';
+                          }
+                        ?>
+                      </li>
+                    <?php endforeach; ?>
+                  </ul>
+                <?php endif; ?>
+                <?php if ($msgQ !== ''): ?>
+                  <p style="margin-top:.5rem;font-size:.82rem"><strong>Message :</strong> <?= h($msgQ) ?></p>
+                <?php endif; ?>
+              </details>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
+  </div>
   <div class="card">
     <div class="topbar">
       <div>

@@ -125,3 +125,9 @@ VALUES (1, 'oreo', 'Saveur Oreo', 2, 5.00, NULL), (1, 'kw', 'Kinder Bueno White'
 -- Bases déjà en production : ajouter la validation commande (une seule fois, si la colonne n’existe pas)
 -- ALTER TABLE orders ADD COLUMN validated_at DATETIME NULL DEFAULT NULL COMMENT 'Rempli depuis admin quand la commande est traitée' AFTER created_at;
 -- CREATE INDEX idx_validated ON orders (validated_at);
+
+-- Espace pro (devis) : les tables pro_quote_requests et la colonne products.pro_price_eur
+-- sont créées automatiquement au premier chargement de admin.php, pro.php ou de l’API.
+-- Sur une base déjà en prod, vous pouvez appliquer manuellement :
+-- ALTER TABLE products ADD COLUMN pro_price_eur DECIMAL(6,2) NULL DEFAULT NULL COMMENT 'Prix unitaire pro HT' AFTER price_eur;
+
