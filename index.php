@@ -42,12 +42,13 @@ try {
     }
 
     $imgsPath = __DIR__ . '/includes/product_images.php';
-    if (!is_readable($imgsPath)) {
-        throw new RuntimeException('includes/product_images.php introuvable ou illisible (fichier ~400 Ko requis).');
-    }
-    $imgs = require $imgsPath;
-    if (!is_array($imgs)) {
-        $imgs = [];
+    $imgs = [];
+    if (is_readable($imgsPath)) {
+        /** @var mixed $loaded */
+        $loaded = require $imgsPath;
+        if (is_array($loaded)) {
+            $imgs = $loaded;
+        }
     }
 
     // box1 / box2 : vendues via la section « Box », pas comme barquettes dans la grille catalogue.
@@ -144,7 +145,7 @@ try {
     echo '<li>Fichier <code>config/config.php</code> créé sur le serveur (il n’est pas sur Git) avec les identifiants MySQL.</li>';
     echo '<li>Hôte MySQL : essayez <code>localhost</code> si <code>127.0.0.1</code> échoue (ou l’inverse).</li>';
     echo '<li>Import de <code>database.sql</code> dans la même base que dans <code>config.php</code>.</li>';
-    echo '<li>Fichier <code>includes/product_images.php</code> uploadé en entier (~400 Ko).</li>';
+    echo '<li>Fichier <code>includes/product_images.php</code> présent sur le serveur (sinon le catalogue affiche des placeholders sans photos réelles).</li>';
     echo '</ul>';
     echo '<p>Uploadez aussi <code>verification-installation.php</code> depuis le dépôt, ouvrez-le une fois dans le navigateur, puis supprimez-le.</p>';
     echo '<p>Tests : <a href="ping.php">ping.php</a> → <code>ok</code> ; <a href="health.php">health.php</a> → liste des fichiers.</p>';
