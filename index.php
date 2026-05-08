@@ -98,6 +98,11 @@ try {
     }
 
     $html = file_get_contents($tplPath);
+    $homeMainPath = __DIR__ . '/includes/home_main_fragment.html';
+    if (!is_readable($homeMainPath)) {
+        throw new RuntimeException('includes/home_main_fragment.html manquant.');
+    }
+    $html = str_replace('__HOME_MAIN__', (string) file_get_contents($homeMainPath), $html);
 
     $boxPath = __DIR__ . '/includes/box_section_fragment.html';
     $boxHtml = is_readable($boxPath) ? (string) file_get_contents($boxPath) : '';
@@ -127,9 +132,10 @@ try {
     $footerMainHtml = is_readable(__DIR__ . '/includes/footer_main_fragment.html')
         ? (string) file_get_contents(__DIR__ . '/includes/footer_main_fragment.html')
         : '';
+    $pageTitle = 'Casa Dessert — Les desserts qui régalent !';
     $html = str_replace(
-        ['__CSRF__', '__PRODUCT_GRID__', '__APP_SCRIPT__', '__NAV__', '__FOOTER_MAIN__', '__REVIEWS_SECTION__'],
-        [h($csrf), $productGridHtml, $appScript, $navHtml, $footerMainHtml, $reviewsSectionHtml],
+        ['__PAGE_TITLE__', '__CSRF__', '__PRODUCT_GRID__', '__APP_SCRIPT__', '__NAV__', '__FOOTER_MAIN__', '__REVIEWS_SECTION__'],
+        [h($pageTitle), h($csrf), $productGridHtml, $appScript, $navHtml, $footerMainHtml, $reviewsSectionHtml],
         $html
     );
 
