@@ -36,6 +36,8 @@ return [
         'sms_twilio_auth_token' => '',
         'sms_twilio_from' => '',
         'sms_owner_phone' => '',
+        // Optionnel : dupliquer un template EmailJS et mapper pro_restaurant, pro_contact, pro_email, pro_phone, pro_city, pro_intent, pro_message, pro_body
+        'emailjs_template_pro_lead_id' => '',
     ],
 
     /**

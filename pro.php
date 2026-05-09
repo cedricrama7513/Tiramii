@@ -182,6 +182,14 @@ ob_start();
     Laissez vide ou <code>NULL</code> pour afficher « Sur devis » pour une référence.
   </div>
 
+  <div class="notice">
+    <strong>Compte &amp; boutique pro :</strong>
+    <a href="pro-register.php">Créer un compte pro</a> ·
+    <a href="pro-login.php">Connexion</a> ·
+    <a href="pro-boutique.php">Boutique tarifs partenaires</a>
+    (validation manuelle dans l’admin avant accès).
+  </div>
+
   <?php if ($catalog === []): ?>
     <p>Catalogue indisponible.</p>
   <?php else: ?>

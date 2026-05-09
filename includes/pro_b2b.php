@@ -32,6 +32,21 @@ function tiramii_ensure_pro_tables(PDO $pdo): void
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
         );
         $pdo->exec(
+            'CREATE TABLE IF NOT EXISTS pro_leads (
+                id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                restaurant_name VARCHAR(255) NOT NULL,
+                contact_name VARCHAR(160) NOT NULL,
+                email VARCHAR(255) NOT NULL,
+                phone VARCHAR(40) NOT NULL,
+                city VARCHAR(120) NOT NULL DEFAULT \'\',
+                intent VARCHAR(80) NOT NULL DEFAULT \'\',
+                message VARCHAR(4000) NOT NULL DEFAULT \'\',
+                created_at DATETIME NOT NULL,
+                PRIMARY KEY (id),
+                KEY idx_pro_leads_created (created_at)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+        );
+        $pdo->exec(
             'CREATE TABLE IF NOT EXISTS pro_invoices (
                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
                 restaurant_name VARCHAR(255) NOT NULL DEFAULT \'\',

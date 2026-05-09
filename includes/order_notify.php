@@ -25,7 +25,9 @@ function tiramii_notify_new_order(
     string $note,
     string $payment,
     float $total,
-    array $lines
+    array $lines,
+    bool $isProOrder = false,
+    string $proRestaurantLabel = ''
 ): void {
     $n = $cfg['notify'] ?? null;
     if (!is_array($n)) {
@@ -61,8 +63,16 @@ function tiramii_notify_new_order(
     $fullAddress = trim($address . ', ' . $zip . ' ' . $city);
     $clientName = trim($first . ' ' . $last);
 
-    $body = "Nouvelle commande Casa Dessert\n";
+    $fromName = trim((string) ($n['from_name'] ?? 'Casa Dessert'));
+    if ($fromName === '') {
+        $fromName = 'Casa Dessert';
+    }
+
+    $body = "Nouvelle commande {$fromName}\n";
     $body .= "========================\n\n";
+    if ($isProOrder && $proRestaurantLabel !== '') {
+        $body .= "⚑ COMMANDE PRO — {$proRestaurantLabel}\n\n";
+    }
     $body .= "N° commande : #{$orderId}\n";
     $body .= "Client : {$clientName}\n";
     $body .= "Téléphone : {$phone}\n";
@@ -73,11 +83,10 @@ function tiramii_notify_new_order(
     $body .= "Détail :\n{$linesText}\n";
     $body .= 'Note : ' . ($note !== '' ? $note : '—') . "\n";
 
-    $shortSms = "Casa Dessert commande #{$orderId} — {$clientName} — {$phone} — " . number_format($total, 2, ',', ' ') . ' €';
+    $shortSms = ($isProOrder ? '[PRO] ' : '') . "{$fromName} commande #{$orderId} — {$clientName} — {$phone} — " . number_format($total, 2, ',', ' ') . ' €';
 
     $ownerEmail = trim((string) ($n['owner_email'] ?? ''));
     $fromEmail = trim((string) ($n['from_email'] ?? ''));
-    $fromName = trim((string) ($n['from_name'] ?? 'Casa Dessert'));
     $smtpHost = trim((string) ($n['smtp_host'] ?? ''));
     $smtpPort = (int) ($n['smtp_port'] ?? 465);
     if ($smtpPort < 1 || $smtpPort > 65535) {
@@ -91,7 +100,7 @@ function tiramii_notify_new_order(
     $ejTemplate = trim((string) ($n['emailjs_template_id'] ?? ''));
 
     if ($ownerEmail !== '' && filter_var($ownerEmail, FILTER_VALIDATE_EMAIL)) {
-        $subject = "Nouvelle commande #{$orderId} — Casa Dessert";
+        $subject = ($isProOrder ? '[PRO] ' : '') . "Nouvelle commande #{$orderId} — {$fromName}";
         $sent = false;
 
         if ($ejKey !== '' && $ejService !== '' && $ejTemplate !== '') {

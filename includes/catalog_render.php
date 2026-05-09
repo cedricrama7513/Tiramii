@@ -8,8 +8,9 @@ declare(strict_types=1);
  * @param array<int, array<string, mixed>> $products
  * @param array<string, int> $stockMap product_id => quantity (999 = illimité ; clé absente = 0)
  * @param array<string, string> $imgs img_key => data URI
+ * @param bool $proShop affiche une mention « tarif pro » sous le prix
  */
-function tiramii_render_product_grid(array $products, array $stockMap, array $imgs): string
+function tiramii_render_product_grid(array $products, array $stockMap, array $imgs, bool $proShop = false): string
 {
     $html = '';
     foreach ($products as $p) {
@@ -49,7 +50,7 @@ function tiramii_render_product_grid(array $products, array $stockMap, array $im
         $html .= '<div class="product-info">';
         $html .= '<div class="product-name">' . h($name) . '</div>';
         $html .= '<div class="product-footer">';
-        $html .= '<div class="product-price">' . h($price) . '€</div>';
+        $html .= '<div class="product-price">' . h($price) . '€' . ($proShop ? '<span style="display:block;font-size:.68rem;font-weight:500;opacity:.85;margin-top:2px">Tarif pro</span>' : '') . '</div>';
         $html .= '<button class="add-to-cart" id="btn-' . h($id) . '" onclick="addToCart(\'' . h($id) . '\')"' . $disabled . '>';
         $html .= $btnLabel;
         $html .= '</button>';

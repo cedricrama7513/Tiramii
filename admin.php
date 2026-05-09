@@ -34,8 +34,10 @@ tiramii_ensure_stock_levels_for_all_products($pdo);
 
 require_once __DIR__ . '/includes/pro_b2b.php';
 require_once __DIR__ . '/includes/ensure_pro_prices.php';
+require_once __DIR__ . '/includes/pro_accounts.php';
 tiramii_ensure_pro_tables($pdo);
 tiramii_ensure_pro_price_column($pdo);
+tiramii_ensure_pro_account_tables($pdo);
 
 $proClientFilter = isset($_GET['pro_client']) ? mb_substr(trim((string) $_GET['pro_client']), 0, 255) : '';
 
@@ -128,11 +130,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_stock'])) {
                 }
                 $upd->execute([$pid, $q]);
             }
+            if (!empty($_POST['price_pro']) && is_array($_POST['price_pro'])) {
+                try {
+                    $stNull = $pdo->prepare('UPDATE products SET price_pro_eur = NULL WHERE id = ?');
+                    $stSet = $pdo->prepare('UPDATE products SET price_pro_eur = ? WHERE id = ?');
+                    foreach ($_POST['price_pro'] as $pidRaw => $rawVal) {
+                        $pid = preg_replace('/[^a-z0-9_]/i', '', (string) $pidRaw);
+                        if ($pid === '') {
+                            continue;
+                        }
+                        $t = trim((string) $rawVal);
+                        if ($t === '') {
+                            $stNull->execute([$pid]);
+                        } else {
+                            $n = (float) str_replace(',', '.', str_replace(' ', '', $t));
+                            if ($n > 0 && $n <= 999.99) {
+                                $stSet->execute([round($n, 2), $pid]);
+                            }
+                        }
+                    }
+                } catch (Throwable) {
+                    /* colonne absente */
+                }
+            }
             $pdo->commit();
             $success = 'Stock enregistré.';
         } catch (Throwable $e) {
             $pdo->rollBack();
             $errors[] = 'Erreur lors de l\'enregistrement.';
+        }
+    }
+}
+
+// Validation / suspension compte pro
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pro_account_approve'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } else {
+        $aid = (int) ($_POST['pro_account_id'] ?? 0);
+        if ($aid < 1) {
+            $errors[] = 'Compte invalide.';
+        } else {
+            try {
+                $pdo->prepare('UPDATE pro_accounts SET status = \'active\' WHERE id = ?')->execute([$aid]);
+                $_SESSION['admin_flash_success'] = 'Compte pro activé.';
+                header('Location: admin.php?tab=pro');
+                exit;
+            } catch (Throwable) {
+                $errors[] = 'Mise à jour impossible.';
+            }
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pro_account_suspend'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } else {
+        $aid = (int) ($_POST['pro_account_id'] ?? 0);
+        if ($aid < 1) {
+            $errors[] = 'Compte invalide.';
+        } else {
+            try {
+                $pdo->prepare('UPDATE pro_accounts SET status = \'suspended\' WHERE id = ?')->execute([$aid]);
+                $_SESSION['admin_flash_success'] = 'Compte pro suspendu.';
+                header('Location: admin.php?tab=pro');
+                exit;
+            } catch (Throwable) {
+                $errors[] = 'Mise à jour impossible.';
+            }
         }
     }
 }
@@ -371,20 +441,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pro_invoice'])
 
 $loggedIn = !empty($_SESSION['admin_ok']);
 
-$products = $pdo->query(
-    'SELECT p.id, p.name, p.price_eur, COALESCE(s.quantity, 0) AS quantity
-     FROM products p
-     LEFT JOIN stock_levels s ON s.product_id = p.id
-     ORDER BY p.sort_order ASC, p.id ASC'
-)->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $products = $pdo->query(
+        'SELECT p.id, p.name, p.price_eur, p.price_pro_eur, COALESCE(s.quantity, 0) AS quantity
+         FROM products p
+         LEFT JOIN stock_levels s ON s.product_id = p.id
+         ORDER BY p.sort_order ASC, p.id ASC'
+    )->fetchAll(PDO::FETCH_ASSOC);
+} catch (Throwable) {
+    $products = $pdo->query(
+        'SELECT p.id, p.name, p.price_eur, NULL AS price_pro_eur, COALESCE(s.quantity, 0) AS quantity
+         FROM products p
+         LEFT JOIN stock_levels s ON s.product_id = p.id
+         ORDER BY p.sort_order ASC, p.id ASC'
+    )->fetchAll(PDO::FETCH_ASSOC);
+}
 
 $ordersList = [];
 $orderItemsByOrder = [];
 $ordersHasValidatedAt = false;
+$ordersHasProAccountId = false;
 if ($loggedIn) {
     $ordersHasValidatedAt = tiramii_admin_orders_has_validated_at($pdo);
+    $ordersHasProAccountId = tiramii_orders_has_pro_account_id($pdo);
     $orderSelectCols = 'id, first_name, last_name, phone, address_line, zip, city, delivery_time, note,
         payment_method, total_eur, created_at';
+    if ($ordersHasProAccountId) {
+        $orderSelectCols .= ', pro_account_id';
+    }
     if ($ordersHasValidatedAt) {
         $orderSelectCols .= ', validated_at';
     }
@@ -459,6 +543,8 @@ $proCaSummaryByMonth = [];
 $proInvoices = [];
 $proInvoiceClientNames = [];
 $proQuoteRequests = [];
+$proLeads = [];
+$proAccountsList = [];
 if ($loggedIn) {
     try {
         $proCaEntries = $pdo
@@ -518,6 +604,28 @@ if ($loggedIn) {
             ->fetchAll(PDO::FETCH_ASSOC);
     } catch (Throwable) {
         $proQuoteRequests = [];
+    }
+
+    try {
+        $proLeads = $pdo
+            ->query(
+                'SELECT id, restaurant_name, contact_name, email, phone, city, intent, message, created_at
+                 FROM pro_leads ORDER BY id DESC LIMIT 120'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $proLeads = [];
+    }
+
+    try {
+        $proAccountsList = $pdo
+            ->query(
+                'SELECT id, email, restaurant_name, first_name, last_name, phone, city, status, created_at
+                 FROM pro_accounts ORDER BY id DESC LIMIT 80'
+            )
+            ->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable) {
+        $proAccountsList = [];
     }
 
     $statsFlavorsAll = [];
@@ -713,11 +821,18 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
         <?php foreach ($products as $p): ?>
         <div class="item">
           <h3><?= h($p['name']) ?></h3>
-          <div class="muted">Prix : <?= h(number_format((float) $p['price_eur'], 2, ',', '')) ?>€ — id <?= h($p['id']) ?></div>
+          <div class="muted">Prix public : <?= h(number_format((float) $p['price_eur'], 2, ',', '')) ?>€ — id <?= h($p['id']) ?></div>
           <div class="muted">Stock actuel : <strong><?= (int) $p['quantity'] === 999 ? 'Illimité' : h((string) (int) $p['quantity']) ?></strong></div>
           <div class="row">
             <label class="muted" for="stock-<?= h($p['id']) ?>">Nouveau stock</label>
             <input class="qty" type="number" name="stock[<?= h($p['id']) ?>]" id="stock-<?= h($p['id']) ?>" min="0" step="1" value="<?= (int) $p['quantity'] ?>">
+          </div>
+          <div class="row">
+            <label class="muted" for="price-pro-<?= h($p['id']) ?>">Prix pro (€)</label>
+            <input class="qty" type="text" name="price_pro[<?= h($p['id']) ?>]" id="price-pro-<?= h($p['id']) ?>" inputmode="decimal" placeholder="vide = sur devis" value="<?php
+              $ppv = $p['price_pro_eur'] ?? null;
+              echo $ppv !== null && $ppv !== '' ? h(number_format((float) $ppv, 2, '.', '')) : '';
+            ?>">
           </div>
         </div>
         <?php endforeach; ?>
@@ -783,6 +898,12 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
         <summary>
           <span class="summary-badges">
             <span>#<?= (int) $oid ?></span>
+            <?php
+            $isProOrd = $ordersHasProAccountId && isset($o['pro_account_id']) && (int) $o['pro_account_id'] > 0;
+            ?>
+            <?php if ($isProOrd): ?>
+              <span class="status-pill" style="background:#1a237e;color:#fff">PRO</span>
+            <?php endif; ?>
             <?php if ($isValidated): ?>
               <span class="status-pill status-done">Validée</span>
             <?php else: ?>
@@ -967,8 +1088,117 @@ foreach ($proCaSummaryByMonth as $sr) {
   <div class="card">
     <div class="topbar">
       <div>
+        <div class="badge">📬 Demandes « Espace pro » (site)</div>
+        <p class="helper">Formulaire de contact sur <a href="pro.php" target="_blank" rel="noopener">pro.php</a> (compte, devis, infos). Notification e-mail si la config est complète.</p>
+      </div>
+    </div>
+    <?php
+    $proIntentLabels = [
+        'ouverture' => 'Ouvrir un compte',
+        'commande' => 'Première commande / devis',
+        'infos' => 'Infos / autre',
+    ];
+    ?>
+    <?php if ($proLeads === []): ?>
+      <p class="muted">Aucune demande pour l’instant.</p>
+    <?php else: ?>
+      <table class="pro-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Établissement</th>
+            <th>Contact</th>
+            <th>E-mail</th>
+            <th>Tél.</th>
+            <th>Ville</th>
+            <th>Demande</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($proLeads as $pl): ?>
+          <tr>
+            <td class="muted" style="font-size:.82rem;white-space:nowrap"><?= h((string) $pl['created_at']) ?></td>
+            <td><?= h((string) $pl['restaurant_name']) ?></td>
+            <td><?= h((string) $pl['contact_name']) ?></td>
+            <td><a href="mailto:<?= h((string) $pl['email']) ?>"><?= h((string) $pl['email']) ?></a></td>
+            <td><a href="tel:<?= h(preg_replace('/\s+/', '', (string) $pl['phone'])) ?>"><?= h((string) $pl['phone']) ?></a></td>
+            <td><?= h((string) $pl['city'] !== '' ? (string) $pl['city'] : '—') ?></td>
+            <td><?php
+              $ik = (string) ($pl['intent'] ?? '');
+              echo h($proIntentLabels[$ik] ?? ($ik !== '' ? $ik : '—'));
+              ?></td>
+            <td class="muted" style="font-size:.82rem;max-width:220px"><?= h((string) $pl['message'] !== '' ? (string) $pl['message'] : '—') ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
+  </div>
+
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <div class="badge">👤 Comptes pro (boutique B2B)</div>
+        <p class="helper">Inscriptions sur <a href="pro-register.php" target="_blank" rel="noopener">pro-register.php</a>. Statut <strong>pending</strong> = pas d’accès boutique tant que vous n’avez pas cliqué « Activer ». Boutique : <a href="pro-boutique.php" target="_blank" rel="noopener">pro-boutique.php</a>.</p>
+      </div>
+    </div>
+    <?php if ($proAccountsList === []): ?>
+      <p class="muted">Aucun compte pro.</p>
+    <?php else: ?>
+      <table class="pro-table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Établissement</th>
+            <th>Contact</th>
+            <th>E-mail</th>
+            <th>Tél.</th>
+            <th>Ville</th>
+            <th>Statut</th>
+            <th>Inscrit</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($proAccountsList as $pa): ?>
+          <tr>
+            <td class="num"><?= (int) $pa['id'] ?></td>
+            <td><?= h((string) $pa['restaurant_name']) ?></td>
+            <td><?= h(trim((string) $pa['first_name'] . ' ' . (string) $pa['last_name'])) ?></td>
+            <td><?= h((string) $pa['email']) ?></td>
+            <td><?= h((string) $pa['phone']) ?></td>
+            <td><?= h((string) $pa['city']) ?></td>
+            <td><strong><?= h((string) $pa['status']) ?></strong></td>
+            <td class="muted" style="font-size:.8rem"><?= h((string) $pa['created_at']) ?></td>
+            <td class="num" style="white-space:nowrap">
+              <?php if (($pa['status'] ?? '') === 'pending'): ?>
+              <form method="post" action="admin.php?tab=pro" style="display:inline">
+                <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+                <input type="hidden" name="pro_account_id" value="<?= (int) $pa['id'] ?>">
+                <button type="submit" name="pro_account_approve" value="1" class="primary btn-small" style="padding:6px 10px">Activer</button>
+              </form>
+              <?php endif; ?>
+              <?php if (($pa['status'] ?? '') === 'active'): ?>
+              <form method="post" action="admin.php?tab=pro" style="display:inline" onsubmit="return confirm('Suspendre ce compte ?');">
+                <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+                <input type="hidden" name="pro_account_id" value="<?= (int) $pa['id'] ?>">
+                <button type="submit" name="pro_account_suspend" value="1" class="secondary btn-small" style="padding:6px 10px">Suspendre</button>
+              </form>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
+  </div>
+
+  <div class="card">
+    <div class="topbar">
+      <div>
         <div class="badge">📩 Demandes de devis (site)</div>
-        <p class="helper">Reçues depuis la page <a href="pro.php" target="_blank" rel="noopener">pro.php</a>. Estimation HT recalculée côté serveur ; « sur devis » = <code>pro_price_eur</code> vide sur le produit.</p>
+        <p class="helper">Devis avec lignes produits depuis <a href="pro.php" target="_blank" rel="noopener">pro.php</a>. Estimation HT recalculée côté serveur ; « sur devis » = <code>pro_price_eur</code> vide sur le produit.</p>
       </div>
     </div>
     <?php if ($proQuoteRequests === []): ?>
