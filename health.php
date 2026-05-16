@@ -15,6 +15,7 @@ echo '__DIR__=' . $root . "\n\n";
 
 $paths = [
     'index.php',
+    'devis.php',
     'ping.php',
     'health.php',
     'includes/init_public.php',
@@ -24,6 +25,20 @@ $paths = [
     'templates/index_base.html',
     'assets/js/shop.js',
 ];
+
+$indexPath = $root . DIRECTORY_SEPARATOR . 'index.php';
+if (is_readable($indexPath)) {
+    $localIndexSize = 7907;
+    $serverIndexSize = filesize($indexPath);
+    echo "\n";
+    if (abs($serverIndexSize - $localIndexSize) > 200) {
+        echo "ATTENTION  index.php sur le serveur ({$serverIndexSize} o) semble plus ancien que le depot ({$localIndexSize} o).\n";
+        echo "           Le deploiement Git Hostinger ne met peut-etre pas a jour les fichiers.\n";
+        echo "           Uploadez devis.php a la main via Gestionnaire de fichiers (public_html).\n\n";
+    } else {
+        echo "OK  index.php semble a jour ({$serverIndexSize} o)\n\n";
+    }
+}
 
 foreach ($paths as $rel) {
     $p = $root . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $rel);
