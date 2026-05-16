@@ -1,1 +1,1 @@
-deploy-sftp-fallback
+fix-ftp-public-html-path

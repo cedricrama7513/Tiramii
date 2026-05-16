@@ -1,6 +1,6 @@
 # Déploie sur Hostinger : FTP (21) puis SFTP (65002) si le FTP échoue.
 # Secrets : FTP_HOST, FTP_USERNAME, FTP_PASSWORD
-# Optionnel : FTP_REMOTE_DIR (ex. domains/casadessert.fr/public_html/)
+# Optionnel : FTP_REMOTE_DIR (défaut : domains/casadessert.fr/public_html)
 name: Deploy to Hostinger
 
 on:
@@ -40,15 +40,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Chemin distant SFTP
+      - name: Chemin distant (public_html)
         id: remote
         run: |
           DIR="${{ secrets.FTP_REMOTE_DIR }}"
           if [ -z "$DIR" ]; then
             DIR="domains/casadessert.fr/public_html"
           fi
-          echo "path=/${DIR}/" >> "$GITHUB_OUTPUT"
-          echo "SFTP remote_path=/${DIR}/"
+          DIR="${DIR#/}"
+          DIR="${DIR%/}"
+          echo "dir=${DIR}" >> "$GITHUB_OUTPUT"
+          echo "ftp_dir=${DIR}/" >> "$GITHUB_OUTPUT"
+          echo "sftp_path=/${DIR}/" >> "$GITHUB_OUTPUT"
+          echo "Cible : /${DIR}/ (pas la racine du compte FTP)"
 
       - name: Deploy via FTP (port 21)
         id: ftp
@@ -62,7 +66,7 @@ jobs:
           port: 21
           security: loose
           local-dir: ./
-          server-dir: ./
+          server-dir: ${{ steps.remote.outputs.ftp_dir }}
           timeout: 600000
           log-level: verbose
           exclude: |
@@ -94,7 +98,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 65002
           local_path: './'
-          remote_path: ${{ steps.remote.outputs.path }}
+          remote_path: ${{ steps.remote.outputs.sftp_path }}
           sftp_only: true
           sftpArgs: '-o ConnectTimeout=60 -o StrictHostKeyChecking=no'
           rsyncArgs: >-
@@ -114,14 +118,32 @@ jobs:
         if: steps.ftp.outcome == 'failure' && steps.sftp.outcome == 'failure'
         run: |
           echo "::error::FTP (21) et SFTP (65002) ont échoué."
-          echo "Vérifiez FTP_HOST, FTP_USERNAME, FTP_PASSWORD dans GitHub → Settings → Secrets."
-          echo "Hostinger hPanel → Comptes FTP : même identifiants, test FileZilla (FTP 21 puis SFTP 65002)."
           exit 1
 
       - name: Méthode utilisée
         run: |
           if [ "${{ steps.ftp.outcome }}" = "success" ]; then
-            echo "Déploiement réussi via FTP (port 21)."
+            echo "Upload via FTP → ${{ steps.remote.outputs.ftp_dir }}"
           else
-            echo "Déploiement réussi via SFTP (port 65002)."
+            echo "Upload via SFTP → ${{ steps.remote.outputs.sftp_path }}"
           fi
+
+      - name: Vérifier casadessert.fr (health.php)
+        run: |
+          sleep 8
+          BODY=$(curl -fsSL --max-time 30 "https://casadessert.fr/health.php?t=$(date +%s)" || echo "CURL_FAILED")
+          echo "$BODY"
+          if echo "$BODY" | grep -q "deploy-version=MANQUANT"; then
+            echo "::error::Le site n'a pas deploy-version — fichiers probablement hors public_html."
+            echo "Dans GitHub Secrets, essayez FTP_REMOTE_DIR = public_html ou domains/casadessert.fr/public_html"
+            exit 1
+          fi
+          if ! echo "$BODY" | grep -qi "OK.*devis.php"; then
+            echo "::error::devis.php toujours absent sur le serveur web."
+            exit 1
+          fi
+          if echo "$BODY" | grep -q "7018 octets"; then
+            echo "::error::index.php encore en 7018 octets (ancienne version)."
+            exit 1
+          fi
+          echo "Site en ligne à jour."
