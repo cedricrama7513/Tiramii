@@ -19,8 +19,7 @@ function tiramii_render_nav_html(?array $proAccount = null): string
             . '<li><a href="devis.php">Devis</a></li>'
             . '<li><a href="#" id="navProLogout" title="Se déconnecter">Déconnexion</a></li>';
     } else {
-        $proLinks = '<li><a href="index.php?page=pro">Espace pro</a></li>'
-            . '<li><a href="devis.php">Devis</a></li>'
+        $proLinks = '<li><a href="devis.php">Devis</a></li>'
             . '<li><a href="pro-login.php">Connexion pro</a></li>';
     }
 
