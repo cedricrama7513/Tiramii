@@ -32,11 +32,16 @@ $paths = [
     'config/config.php',
     'templates/index_base.html',
     'assets/js/shop.js',
+    'pro-login.php',
+    'includes/nav_render.php',
+    'includes/pro_shop_helpers.php',
 ];
+
+echo "\nSi deploy-version=MANQUANT : uploadez sync-from-github.php puis ouvrez-le avec ?token= (voir config github_sync_token).\n";
 
 $indexPath = $root . DIRECTORY_SEPARATOR . 'index.php';
 if (is_readable($indexPath)) {
-    $localIndexSize = 7907;
+    $localIndexSize = 8919;
     $serverIndexSize = filesize($indexPath);
     echo "\n";
     if (abs($serverIndexSize - $localIndexSize) > 200) {

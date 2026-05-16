@@ -16,6 +16,12 @@ return [
     'admin_password_hash' => '',
 
     /**
+     * Sync manuelle GitHub → serveur (sync-from-github.php?token=…).
+     * Générez une chaîne longue aléatoire ; ne commitez pas la vraie valeur dans config.php sur Git.
+     */
+    'github_sync_token' => '',
+
+    /**
      * Notification à chaque nouvelle commande.
      * 1) EmailJS (recommandé) : Public Key + service_id + template_id (tableau EmailJS) + owner_email.
      * 2) Sinon SMTP Hostinger, puis repli PHP mail().
