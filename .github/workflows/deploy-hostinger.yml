@@ -130,20 +130,26 @@ jobs:
 
       - name: Vérifier casadessert.fr (health.php)
         run: |
-          sleep 8
-          BODY=$(curl -fsSL --max-time 30 "https://casadessert.fr/health.php?t=$(date +%s)" || echo "CURL_FAILED")
-          echo "$BODY"
-          if echo "$BODY" | grep -q "deploy-version=MANQUANT"; then
-            echo "::error::Le site n'a pas deploy-version — fichiers probablement hors public_html."
-            echo "Dans GitHub Secrets, essayez FTP_REMOTE_DIR = public_html ou domains/casadessert.fr/public_html"
+          ok=0
+          for i in 1 2 3 4 5; do
+            sleep 12
+            BODY=$(curl -fsSL --max-time 30 "https://casadessert.fr/health.php?t=$(date +%s)-$i" || echo "CURL_FAILED")
+            echo "--- tentative $i ---"
+            echo "$BODY"
+            if echo "$BODY" | grep -q "deploy-version=MANQUANT"; then
+              continue
+            fi
+            if ! echo "$BODY" | grep -qE "OK[[:space:]]+devis\.php"; then
+              continue
+            fi
+            if echo "$BODY" | grep -q "index.php (7018 octets)"; then
+              continue
+            fi
+            ok=1
+            break
+          done
+          if [ "$ok" -ne 1 ]; then
+            echo "::error::health.php pas a jour apres 5 tentatives (cache ou mauvais chemin FTP)."
             exit 1
           fi
-          if ! echo "$BODY" | grep -qi "OK.*devis.php"; then
-            echo "::error::devis.php toujours absent sur le serveur web."
-            exit 1
-          fi
-          if echo "$BODY" | grep -q "7018 octets"; then
-            echo "::error::index.php encore en 7018 octets (ancienne version)."
-            exit 1
-          fi
-          echo "Site en ligne à jour."
+          echo "Site en ligne a jour."
