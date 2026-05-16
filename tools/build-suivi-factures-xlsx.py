@@ -161,7 +161,7 @@ def build_client_sheet(wb: Workbook, restaurant: dict) -> None:
 
 
 def build_synthese(wb: Workbook, restaurants: list[dict]) -> None:
-    ws = wb.create_sheet(title="Synthèse", index=0)
+    ws = wb.create_sheet(title="Synthèse")
     headers = [
         "Restaurant",
         "Solde crédit actuel (€)",
