@@ -1,7 +1,4 @@
-# Déploie sur Hostinger par FTP à chaque push sur main.
-# Secrets GitHub (Settings → Secrets → Actions) :
-#   FTP_HOST, FTP_USERNAME, FTP_PASSWORD
-# Optionnel : FTP_REMOTE_DIR (ex. ./ ou public_html/)
+# Déploie sur Hostinger par FTP (secrets : FTP_HOST, FTP_USERNAME, FTP_PASSWORD).
 name: Deploy to Hostinger
 
 on:
@@ -21,7 +18,7 @@ jobs:
             missing=1
           fi
           if [ -z "${{ secrets.FTP_USERNAME }}" ]; then
-            echo "::error::Secret FTP_USERNAME manquant (utilisateur FTP Hostinger)"
+            echo "::error::Secret FTP_USERNAME manquant"
             missing=1
           fi
           if [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
@@ -29,25 +26,31 @@ jobs:
             missing=1
           fi
           if [ "$missing" -eq 1 ]; then
-            echo ""
-            echo "GitHub → Tiramii → Settings → Secrets and variables → Actions → New repository secret"
             exit 1
           fi
-          echo "Secrets FTP présents."
+          HOST="${{ secrets.FTP_HOST }}"
+          if echo "$HOST" | grep -qE '://|/'; then
+            echo "::error::FTP_HOST doit être uniquement l'IP ou le nom (ex. 72.60.93.210), sans ftp://"
+            exit 1
+          fi
+          echo "Secrets OK. Déploiement vers public_html du compte FTP."
 
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via FTPS
+      - name: Deploy via FTP (Hostinger)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
+          protocol: ftp
           port: 21
+          security: loose
           local-dir: ./
-          server-dir: ${{ secrets.FTP_REMOTE_DIR || './' }}
+          server-dir: ./
+          timeout: 600000
+          log-level: verbose
           exclude: |
             **/.git*
             **/.git*/**
