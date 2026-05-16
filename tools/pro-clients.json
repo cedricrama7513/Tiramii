@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-05-16T00:00:00+00:00",
+  "source": "Régénérer avec : php tools/export-pro-clients-json.php (sur le serveur)",
+  "clients": [
+    {
+      "name": "AZM CONCEPT",
+      "sheetName": "AZM CONCEPT",
+      "invoicePrefix": "FAC-AZMCONCE",
+      "monthlyAmounts": [109, 108, 112, 95, 118, 105, 99, 115, 110, 102, 118, 107],
+      "paidMonths": []
+    }
+  ]
+}

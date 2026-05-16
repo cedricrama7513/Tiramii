@@ -11,25 +11,29 @@ const outDirs = [
 const maxRow = 120;
 const alertThreshold = 500;
 
-/** Modifier ici les noms de vos deux restaurants pro. */
-const restaurants = [
-  {
-    name: 'Le Petit Bistrot',
-    sheetName: 'Le Petit Bistrot',
-    invoicePrefix: 'FAC-BIST',
-    /** Montants TTC mensuels (janv. → déc. 2026) — à ajuster si besoin. */
-    monthlyAmounts: [320, 280, 395, 410, 365, 342, 388, 425, 298, 372, 356, 401],
-    /** Mois déjà payés (1 = janvier … 12 = décembre). */
-    paidMonths: [1, 2],
-  },
-  {
-    name: 'Salon Thé Marais',
-    sheetName: 'Salon Thé Marais',
-    invoicePrefix: 'FAC-STM',
-    monthlyAmounts: [150, 165, 142, 178, 155, 188, 172, 195, 160, 184, 148, 176],
-    paidMonths: [1, 2, 3],
-  },
-];
+const clientsJsonPath = path.join(__dirname, 'pro-clients.json');
+
+function loadRestaurants() {
+  if (!fs.existsSync(clientsJsonPath)) {
+    throw new Error(
+      `Fichier ${clientsJsonPath} introuvable. Lancez d'abord : php tools/export-pro-clients-json.php (sur le serveur avec config.php).`
+    );
+  }
+  const raw = JSON.parse(fs.readFileSync(clientsJsonPath, 'utf8'));
+  const list = raw.clients;
+  if (!Array.isArray(list) || list.length < 1) {
+    throw new Error('pro-clients.json : tableau "clients" vide.');
+  }
+  return list.map((c) => ({
+    name: String(c.name),
+    sheetName: String(c.sheetName || c.name).slice(0, 31),
+    invoicePrefix: String(c.invoicePrefix || 'FAC'),
+    monthlyAmounts: (c.monthlyAmounts || []).map(Number),
+    paidMonths: (c.paidMonths || []).map(Number),
+  }));
+}
+
+const restaurants = loadRestaurants();
 
 const headers = [
   'Date facture',

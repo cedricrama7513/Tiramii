@@ -61,3 +61,18 @@ foreach ($paths as $rel) {
         echo "MANQUANT  {$rel}\n";
     }
 }
+
+$cfgPath = $root . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+if (is_readable($cfgPath)) {
+    try {
+        require_once $root . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'pro_b2b.php';
+        require_once $root . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'pro_accounts.php';
+        $pdo = require $root . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'db.php';
+        tiramii_ensure_pro_tables($pdo);
+        tiramii_ensure_pro_account_tables($pdo);
+        $proNames = tiramii_pro_distinct_client_names($pdo);
+        echo "\npro-clients=" . ($proNames !== [] ? implode('|', $proNames) : '(aucun)') . "\n";
+    } catch (Throwable $e) {
+        echo "\npro-clients=ERR:" . $e->getMessage() . "\n";
+    }
+}
