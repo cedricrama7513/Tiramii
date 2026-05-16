@@ -132,6 +132,15 @@ try {
     }
     $homeMainHtml = (string) file_get_contents($homeMainPath);
     $proBanner = tiramii_render_pro_shop_banner($proAccount);
+    if ($isProShop) {
+        $homeMainHtml = str_replace('__BOX_SECTION__', '', $homeMainHtml);
+        $homeMainHtml = preg_replace('/<div class="promo-banner">[\s\S]*?<\/div>\s*/', '', $homeMainHtml) ?? $homeMainHtml;
+        $homeMainHtml = preg_replace(
+            '/<a href="index\.php#box"[^>]*>[\s\S]*?<\/a>\s*/',
+            '',
+            $homeMainHtml
+        ) ?? $homeMainHtml;
+    }
     if ($proBanner !== '' && str_contains($homeMainHtml, '<section class="hero">')) {
         $homeMainHtml = preg_replace(
             '/(<section class="hero">)/',
@@ -143,7 +152,10 @@ try {
     $html = str_replace('__HOME_MAIN__', $homeMainHtml, $html);
 
     $boxPath = __DIR__ . '/includes/box_section_fragment.html';
-    $boxHtml = is_readable($boxPath) ? (string) file_get_contents($boxPath) : '';
+    $boxHtml = '';
+    if (!$isProShop && is_readable($boxPath)) {
+        $boxHtml = (string) file_get_contents($boxPath);
+    }
     if ($boxHtml !== '') {
         if (str_contains($html, '__BOX_SECTION__')) {
             $html = str_replace('__BOX_SECTION__', $boxHtml, $html);

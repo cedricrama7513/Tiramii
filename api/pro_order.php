@@ -16,7 +16,10 @@ if (!csrf_verify(csrf_token_from_request())) {
 }
 
 require_once dirname(__DIR__) . '/includes/pro_accounts.php';
+require_once dirname(__DIR__) . '/includes/ensure_pro_prices.php';
+require_once dirname(__DIR__) . '/includes/pro_shop_helpers.php';
 tiramii_ensure_pro_account_tables($pdo);
+tiramii_ensure_pro_price_column($pdo);
 
 $account = tiramii_pro_current_account($pdo);
 if ($account === null) {
@@ -106,8 +109,8 @@ $pids = array_values(array_unique(array_map(static fn (array $l): string => $l['
 $placeholders = implode(',', array_fill(0, count($pids), '?'));
 try {
     $stP = $pdo->prepare(
-        "SELECT id, name, price_eur, COALESCE(price_pro_eur, price_eur) AS eff_price
-         FROM products WHERE id IN ($placeholders) AND is_active = 1"
+        "SELECT id, name, price_pro_eur AS eff_price
+         FROM products WHERE id IN ($placeholders) AND is_active = 1 AND " . tiramii_pro_catalog_sql_condition()
     );
     $stP->execute($pids);
     $priceMap = [];

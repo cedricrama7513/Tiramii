@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/_bootstrap.php';
 require_once dirname(__DIR__) . '/includes/pro_accounts.php';
+require_once dirname(__DIR__) . '/includes/ensure_pro_prices.php';
+require_once dirname(__DIR__) . '/includes/pro_shop_helpers.php';
 
 $proAccount = null;
 $proAccountId = null;
@@ -106,6 +108,26 @@ foreach ($cart as $row) {
 
 if ($lines === []) {
     tiramii_json_response(['ok' => false, 'error' => 'Panier invalide.'], 422);
+}
+
+if ($proAccountId !== null) {
+    tiramii_ensure_pro_price_column($pdo);
+    $pids = array_values(array_unique(array_map(static fn (array $l): string => (string) $l['id'], $lines)));
+    $placeholders = implode(',', array_fill(0, count($pids), '?'));
+    $priceById = [];
+    if ($pids !== []) {
+        $stPro = $pdo->prepare(
+            'SELECT id, price_pro_eur FROM products WHERE id IN (' . $placeholders . ') AND is_active = 1 AND ' . tiramii_pro_catalog_sql_condition()
+        );
+        $stPro->execute($pids);
+        while ($row = $stPro->fetch(PDO::FETCH_ASSOC)) {
+            $priceById[(string) $row['id']] = round((float) $row['price_pro_eur'], 2);
+        }
+    }
+    $proErr = tiramii_validate_pro_cart_prices($lines, $priceById);
+    if ($proErr !== null) {
+        tiramii_json_response(['ok' => false, 'error' => $proErr], 422);
+    }
 }
 
 require_once dirname(__DIR__) . '/includes/delivery_validation.php';

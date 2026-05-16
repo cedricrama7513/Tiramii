@@ -27,11 +27,13 @@ function tiramii_render_nav_html(?array $proAccount = null): string
         ? '<a href="index.php#catalogue" class="nav-pro-mobile nav-pro-mobile--on" title="' . h($restaurant !== '' ? $restaurant : 'Tarifs pro') . '">Pro ✓</a>'
         : '<a href="pro-login.php" class="nav-pro-mobile" title="Connexion professionnels">Pro</a>';
 
+    $boxLink = $isPro ? '' : '<li><a href="index.php#box">Box</a></li>';
+
     return '<nav>
   <a href="index.php" class="nav-logo">__LOGO_MARK__</a>
   <ul class="nav-links">
     <li><a href="index.php#catalogue">Catalogue</a></li>
-    <li><a href="index.php#box">Box</a></li>
+    ' . $boxLink . '
     <li><a href="index.php#avis">Avis</a></li>
     <li><a href="index.php#contact">Contact</a></li>
     ' . $proLinks . '

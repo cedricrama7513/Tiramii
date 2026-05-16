@@ -6,6 +6,8 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/includes/init_public.php';
+require_once __DIR__ . '/includes/pro_shop_helpers.php';
+require_once __DIR__ . '/includes/ensure_pro_prices.php';
 
 try {
     $pdo = require __DIR__ . '/config/db.php';
@@ -152,7 +154,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $inClause = implode(',', array_fill(0, count($ids), '?'));
     $st = $pdo->prepare(
-        "SELECT id, name, price_eur, pro_price_eur FROM products WHERE is_active = 1 AND id IN ($inClause)"
+        'SELECT id, name, price_eur, pro_price_eur FROM products WHERE is_active = 1 AND id IN ('
+        . $inClause
+        . ') AND '
+        . tiramii_pro_catalog_sql_condition()
     );
     $st->execute(array_keys($ids));
     $rows = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -233,26 +238,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$catalog = [];
-try {
-    $proRows = $pdo
-        ->query(
-            'SELECT id, name, price_eur, pro_price_eur FROM products WHERE is_active = 1 ORDER BY sort_order ASC, id ASC'
-        )
-        ->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($proRows as $p) {
-        $proRaw = $p['pro_price_eur'] ?? null;
-        $pro = ($proRaw !== null && $proRaw !== '') ? round((float) $proRaw, 2) : null;
-        $catalog[] = [
-            'id' => (string) $p['id'],
-            'name' => (string) $p['name'],
-            'price_public' => round((float) $p['price_eur'], 2),
-            'price_pro' => $pro,
-        ];
-    }
-} catch (Throwable) {
-    $catalog = [];
-}
+tiramii_ensure_pro_price_column($pdo);
+$catalog = tiramii_fetch_pro_devis_catalog($pdo);
 
 $csrf = csrf_token();
 $catalogJson = json_encode($catalog, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG);

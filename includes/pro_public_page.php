@@ -19,6 +19,7 @@ function tiramii_serve_pro_public_page(): void
     }
 
     require_once __DIR__ . '/pro_b2b.php';
+    require_once __DIR__ . '/pro_shop_helpers.php';
     require_once __DIR__ . '/ensure_pro_prices.php';
     require_once __DIR__ . '/ensure_box_supreme.php';
     require_once __DIR__ . '/ensure_new_flavors.php';
@@ -30,63 +31,11 @@ function tiramii_serve_pro_public_page(): void
     tiramii_ensure_box_supreme($pdo);
     tiramii_ensure_stock_levels_for_all_products($pdo);
 
-    try {
-        $proRows = $pdo
-            ->query(
-                'SELECT id, name, price_eur, pro_price_eur, sort_order
-                 FROM products WHERE is_active = 1
-                 ORDER BY sort_order ASC, id ASC'
-            )
-            ->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Throwable) {
-        $proRows = [];
-    }
-
-    $catalog = [];
-    foreach ($proRows as $p) {
-        $proRaw = $p['pro_price_eur'] ?? null;
-        $pro = ($proRaw !== null && $proRaw !== '') ? round((float) $proRaw, 2) : null;
-        $catalog[] = [
-            'id' => (string) $p['id'],
-            'name' => (string) $p['name'],
-            'price_public' => round((float) $p['price_eur'], 2),
-            'price_pro' => $pro,
-        ];
-    }
-
-    $excludeFromCatalog = ['box1', 'box2', 'box_supreme'];
-    $notIn = implode(',', array_fill(0, count($excludeFromCatalog), '?'));
-    $stmtGrid = $pdo->prepare(
-        "SELECT id, name, price_eur, description, badge_class, badge_text, img_key, sort_order
-         FROM products WHERE is_active = 1 AND id NOT IN ($notIn) ORDER BY sort_order ASC, id ASC"
-    );
-    $stmtGrid->execute($excludeFromCatalog);
-    $gridProducts = $stmtGrid->fetchAll(PDO::FETCH_ASSOC);
-
-    $productsJson = [];
-    foreach ($gridProducts as $p) {
-        $productsJson[] = [
-            'id' => $p['id'],
-            'name' => $p['name'],
-            'price' => (float) $p['price_eur'],
-            'desc' => $p['description'],
-            'badge' => $p['badge_class'],
-            'badgeText' => $p['badge_text'],
-            'img' => $p['img_key'],
-        ];
-    }
+    $catalog = tiramii_fetch_pro_devis_catalog($pdo);
 
     $csrf = csrf_token();
     $pageTitle = 'Espace pro — Casa Dessert';
-    $appBoot = [
-        'csrf' => $csrf,
-        'products' => $productsJson,
-    ];
-    $root = dirname(__DIR__);
-    $shopJsPath = $root . '/assets/js/shop.js';
-    $shopJsV = is_readable($shopJsPath) ? (string) filemtime($shopJsPath) : (string) time();
-    $appScript = '<script type="module" src="assets/js/shop.js?v=' . h($shopJsV) . '"></script>' . "\n";
-    $appScript .= '<script>window.__CASA_DESSERT__ = ' . json_encode($appBoot, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) . ";</script>\n";
+    $appScript = '';
 
     $tplPath = $root . '/templates/index_base.html';
     if (!is_readable($tplPath)) {
@@ -181,9 +130,8 @@ function tiramii_serve_pro_public_page(): void
 <section class="pro-b2b-page">
   <h1>Commandes &amp; devis professionnels</h1>
   <p class="lead">
-    Retrouvez les <strong>tarifs unitaires pro (HT)</strong> dans le tableau. Ensuite, choisissez un onglet :
-    <strong>Commander en ligne</strong> pour la boutique (panier, livraison) ou <strong>Demande de devis</strong> pour un volume pro — nous recevons la demande par e-mail avec une estimation automatique
-    (les articles « sur devis » sont listés séparément). Les prix publics sont indiqués à titre de comparaison uniquement.
+    Retrouvez les <strong>tarifs unitaires pro (HT)</strong> dans le tableau (articles renseignés dans l’admin). Ensuite, choisissez un onglet :
+    <strong>Commander en ligne</strong> pour la boutique partenaires ou <strong>Demande de devis</strong> pour un volume pro.
   </p>
 
   <div class="notice">
@@ -195,7 +143,7 @@ function tiramii_serve_pro_public_page(): void
   </div>
 
   <?php if ($catalog === []): ?>
-    <p>Catalogue indisponible.</p>
+    <p>Aucun tarif pro configuré pour le moment. Renseignez les <strong>prix pro (€)</strong> dans l’admin pour chaque article pro.</p>
   <?php else: ?>
     <table class="tarifs">
       <thead>
@@ -210,7 +158,7 @@ function tiramii_serve_pro_public_page(): void
         <tr>
           <td><?= h($c['name']) ?><span style="color:#888;font-size:.8rem"> · <?= h($c['id']) ?></span></td>
           <td class="num"><span class="pub"><?= h(number_format($c['price_public'], 2, ',', ' ')) ?> €</span></td>
-          <td class="num"><?= $c['price_pro'] !== null ? h(number_format($c['price_pro'], 2, ',', ' ')) . ' €' : '<em>Sur devis</em>' ?></td>
+          <td class="num"><?= h(number_format($c['price_pro'], 2, ',', ' ')) ?> €</td>
         </tr>
         <?php endforeach; ?>
       </tbody>
@@ -227,8 +175,8 @@ function tiramii_serve_pro_public_page(): void
       <div class="order-card">
         <h2 style="font-family:'Playfair Display',serif;font-size:1.35rem;margin-bottom:.75rem">Passer commande</h2>
         <p>
-          Les commandes avec <strong>panier</strong>, <strong>livraison</strong> (Paris 75 et 91–94) et choix du créneau se font sur la <strong>boutique en ligne</strong>.
-          Ajoutez vos barquettes ou box au panier puis finalisez votre commande comme un client classique.
+          Les commandes avec <strong>panier</strong> et <strong>livraison</strong> se font sur la <strong>boutique tarifs partenaires</strong>
+          (catalogue pro uniquement, sans les offres particuliers).
         </p>
         <a class="btn-boutique" href="index.php#catalogue">Ouvrir la boutique et commander →</a>
       </div>

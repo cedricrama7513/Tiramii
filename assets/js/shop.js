@@ -379,6 +379,10 @@ window.selectPay = function (el, m) {
 };
 
 window.addFixedBox = async function (boxKey) {
+  if (IS_PRO) {
+    showToast('Les box particuliers ne sont pas disponibles en commande pro.');
+    return;
+  }
   const box = FIXED_BOXES[boxKey];
   if (!box) return;
   const nextCart = cart.map((item) => ({ ...item }));
