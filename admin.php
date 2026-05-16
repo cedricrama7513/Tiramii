@@ -543,8 +543,6 @@ $proCaSummaryByMonth = [];
 $proInvoices = [];
 $proInvoiceClientNames = [];
 $proQuoteRequests = [];
-$proLeads = [];
-$proAccountsList = [];
 if ($loggedIn) {
     try {
         $proCaEntries = $pdo
@@ -604,28 +602,6 @@ if ($loggedIn) {
             ->fetchAll(PDO::FETCH_ASSOC);
     } catch (Throwable) {
         $proQuoteRequests = [];
-    }
-
-    try {
-        $proLeads = $pdo
-            ->query(
-                'SELECT id, restaurant_name, contact_name, email, phone, city, intent, message, created_at
-                 FROM pro_leads ORDER BY id DESC LIMIT 120'
-            )
-            ->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Throwable) {
-        $proLeads = [];
-    }
-
-    try {
-        $proAccountsList = $pdo
-            ->query(
-                'SELECT id, email, restaurant_name, first_name, last_name, phone, city, status, created_at
-                 FROM pro_accounts ORDER BY id DESC LIMIT 80'
-            )
-            ->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Throwable) {
-        $proAccountsList = [];
     }
 
     $statsFlavorsAll = [];
@@ -1088,117 +1064,8 @@ foreach ($proCaSummaryByMonth as $sr) {
   <div class="card">
     <div class="topbar">
       <div>
-        <div class="badge">📬 Demandes « Espace pro » (site)</div>
-        <p class="helper">Formulaire de contact sur <a href="pro.php" target="_blank" rel="noopener">pro.php</a> (compte, devis, infos). Notification e-mail si la config est complète.</p>
-      </div>
-    </div>
-    <?php
-    $proIntentLabels = [
-        'ouverture' => 'Ouvrir un compte',
-        'commande' => 'Première commande / devis',
-        'infos' => 'Infos / autre',
-    ];
-    ?>
-    <?php if ($proLeads === []): ?>
-      <p class="muted">Aucune demande pour l’instant.</p>
-    <?php else: ?>
-      <table class="pro-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Établissement</th>
-            <th>Contact</th>
-            <th>E-mail</th>
-            <th>Tél.</th>
-            <th>Ville</th>
-            <th>Demande</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($proLeads as $pl): ?>
-          <tr>
-            <td class="muted" style="font-size:.82rem;white-space:nowrap"><?= h((string) $pl['created_at']) ?></td>
-            <td><?= h((string) $pl['restaurant_name']) ?></td>
-            <td><?= h((string) $pl['contact_name']) ?></td>
-            <td><a href="mailto:<?= h((string) $pl['email']) ?>"><?= h((string) $pl['email']) ?></a></td>
-            <td><a href="tel:<?= h(preg_replace('/\s+/', '', (string) $pl['phone'])) ?>"><?= h((string) $pl['phone']) ?></a></td>
-            <td><?= h((string) $pl['city'] !== '' ? (string) $pl['city'] : '—') ?></td>
-            <td><?php
-              $ik = (string) ($pl['intent'] ?? '');
-              echo h($proIntentLabels[$ik] ?? ($ik !== '' ? $ik : '—'));
-              ?></td>
-            <td class="muted" style="font-size:.82rem;max-width:220px"><?= h((string) $pl['message'] !== '' ? (string) $pl['message'] : '—') ?></td>
-          </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    <?php endif; ?>
-  </div>
-
-  <div class="card">
-    <div class="topbar">
-      <div>
-        <div class="badge">👤 Comptes pro (boutique B2B)</div>
-        <p class="helper">Inscriptions sur <a href="pro-register.php" target="_blank" rel="noopener">pro-register.php</a>. Statut <strong>pending</strong> = pas d’accès boutique tant que vous n’avez pas cliqué « Activer ». Boutique : <a href="pro-boutique.php" target="_blank" rel="noopener">pro-boutique.php</a>.</p>
-      </div>
-    </div>
-    <?php if ($proAccountsList === []): ?>
-      <p class="muted">Aucun compte pro.</p>
-    <?php else: ?>
-      <table class="pro-table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Établissement</th>
-            <th>Contact</th>
-            <th>E-mail</th>
-            <th>Tél.</th>
-            <th>Ville</th>
-            <th>Statut</th>
-            <th>Inscrit</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($proAccountsList as $pa): ?>
-          <tr>
-            <td class="num"><?= (int) $pa['id'] ?></td>
-            <td><?= h((string) $pa['restaurant_name']) ?></td>
-            <td><?= h(trim((string) $pa['first_name'] . ' ' . (string) $pa['last_name'])) ?></td>
-            <td><?= h((string) $pa['email']) ?></td>
-            <td><?= h((string) $pa['phone']) ?></td>
-            <td><?= h((string) $pa['city']) ?></td>
-            <td><strong><?= h((string) $pa['status']) ?></strong></td>
-            <td class="muted" style="font-size:.8rem"><?= h((string) $pa['created_at']) ?></td>
-            <td class="num" style="white-space:nowrap">
-              <?php if (($pa['status'] ?? '') === 'pending'): ?>
-              <form method="post" action="admin.php?tab=pro" style="display:inline">
-                <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
-                <input type="hidden" name="pro_account_id" value="<?= (int) $pa['id'] ?>">
-                <button type="submit" name="pro_account_approve" value="1" class="primary btn-small" style="padding:6px 10px">Activer</button>
-              </form>
-              <?php endif; ?>
-              <?php if (($pa['status'] ?? '') === 'active'): ?>
-              <form method="post" action="admin.php?tab=pro" style="display:inline" onsubmit="return confirm('Suspendre ce compte ?');">
-                <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
-                <input type="hidden" name="pro_account_id" value="<?= (int) $pa['id'] ?>">
-                <button type="submit" name="pro_account_suspend" value="1" class="secondary btn-small" style="padding:6px 10px">Suspendre</button>
-              </form>
-              <?php endif; ?>
-            </td>
-          </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    <?php endif; ?>
-  </div>
-
-  <div class="card">
-    <div class="topbar">
-      <div>
         <div class="badge">📩 Demandes de devis (site)</div>
-        <p class="helper">Devis avec lignes produits depuis <a href="pro.php" target="_blank" rel="noopener">pro.php</a>. Estimation HT recalculée côté serveur ; « sur devis » = <code>pro_price_eur</code> vide sur le produit.</p>
+        <p class="helper">Demandes depuis <a href="devis.php" target="_blank" rel="noopener">devis.php</a> : le client décrit son projet, vous le recontactez pour établir le devis.</p>
       </div>
     </div>
     <?php if ($proQuoteRequests === []): ?>
