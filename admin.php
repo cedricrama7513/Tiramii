@@ -1046,6 +1046,25 @@ foreach ($statsFlavors90d as $r) {
 <?php elseif ($adminTab === 'pro'):
 $proTabAction = tiramii_pro_admin_tab_url($proClientFilter);
 $proInvoiceFilterOptions = $proInvoiceClientNames;
+
+if ($loggedIn && isset($_GET['export_pro_clients_json'])) {
+    require_once __DIR__ . '/includes/pro_client_config.php';
+    header('Content-Type: application/json; charset=utf-8');
+    header('Content-Disposition: attachment; filename="pro-clients.json"');
+    $excelClients = tiramii_pro_clients_for_excel($pdo, 2);
+    if ($excelClients === []) {
+        $excelClients = tiramii_pro_clients_for_excel_from_json();
+    }
+    echo json_encode(
+        [
+            'generatedAt' => (new DateTimeImmutable('now', $adminTzParis))->format('c'),
+            'source' => 'admin Pro — Casa Dessert',
+            'clients' => $excelClients,
+        ],
+        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+    );
+    exit;
+}
 if ($proClientFilter !== '' && !in_array($proClientFilter, $proInvoiceFilterOptions, true)) {
     $proInvoiceFilterOptions[] = $proClientFilter;
     sort($proInvoiceFilterOptions, SORT_STRING);
@@ -1061,6 +1080,15 @@ foreach ($proCaSummaryByMonth as $sr) {
 }
 ?>
 <div class="wrap stack">
+  <?php if ($proInvoiceClientNames !== []): ?>
+  <div class="card" style="padding:16px 22px">
+    <p class="helper" style="margin:0">
+      <strong>Clients pro enregistrés</strong> (CA, factures, comptes) :
+      <?= h(implode(' · ', $proInvoiceClientNames)) ?>.
+      <a href="admin.php?tab=pro&amp;export_pro_clients_json=1">Exporter pour le tableur Excel</a>
+    </p>
+  </div>
+  <?php endif; ?>
   <div class="card">
     <div class="topbar">
       <div>

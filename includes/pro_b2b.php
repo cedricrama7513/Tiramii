@@ -229,30 +229,4 @@ function tiramii_pro_admin_tab_url(string $clientFilter = ''): string
     return 'admin.php?' . $q;
 }
 
-/**
- * @return list<string>
- */
-function tiramii_pro_distinct_client_names(PDO $pdo): array
-{
-    $set = [];
-    foreach (['pro_ca_entries', 'pro_invoices'] as $table) {
-        try {
-            $st = $pdo->query(
-                'SELECT DISTINCT restaurant_name AS n FROM ' . $table . " WHERE TRIM(restaurant_name) <> '' ORDER BY n ASC"
-            );
-            $rows = $st ? $st->fetchAll(PDO::FETCH_ASSOC) : [];
-        } catch (Throwable) {
-            $rows = [];
-        }
-        foreach ($rows as $r) {
-            $n = trim((string) ($r['n'] ?? ''));
-            if ($n !== '') {
-                $set[$n] = true;
-            }
-        }
-    }
-    $names = array_keys($set);
-    sort($names, SORT_STRING);
-
-    return $names;
-}
+require_once __DIR__ . '/pro_client_config.php';
