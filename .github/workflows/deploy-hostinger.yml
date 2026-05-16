@@ -1,4 +1,6 @@
-# Déploie sur Hostinger par FTP (secrets : FTP_HOST, FTP_USERNAME, FTP_PASSWORD).
+# Déploie sur Hostinger : FTP (21) puis SFTP (65002) si le FTP échoue.
+# Secrets : FTP_HOST, FTP_USERNAME, FTP_PASSWORD
+# Optionnel : FTP_REMOTE_DIR (ex. domains/casadessert.fr/public_html/)
 name: Deploy to Hostinger
 
 on:
@@ -7,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ftp-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Vérifier les secrets FTP
@@ -30,15 +32,27 @@ jobs:
           fi
           HOST="${{ secrets.FTP_HOST }}"
           if echo "$HOST" | grep -qE '://|/'; then
-            echo "::error::FTP_HOST doit être uniquement l'IP ou le nom (ex. 72.60.93.210), sans ftp://"
+            echo "::error::FTP_HOST = IP ou hostname seul (ex. 72.60.93.210), sans ftp://"
             exit 1
           fi
-          echo "Secrets OK. Déploiement vers public_html du compte FTP."
+          echo "Secrets OK."
 
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via FTP (Hostinger)
+      - name: Chemin distant SFTP
+        id: remote
+        run: |
+          DIR="${{ secrets.FTP_REMOTE_DIR }}"
+          if [ -z "$DIR" ]; then
+            DIR="domains/casadessert.fr/public_html"
+          fi
+          echo "path=/${DIR}/" >> "$GITHUB_OUTPUT"
+          echo "SFTP remote_path=/${DIR}/"
+
+      - name: Deploy via FTP (port 21)
+        id: ftp
+        continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
@@ -68,3 +82,46 @@ jobs:
             sync-from-github.php
             verification-installation.php
             once-set-admin-password.php
+
+      - name: Deploy via SFTP (port 65002, Hostinger)
+        id: sftp
+        if: steps.ftp.outcome == 'failure'
+        continue-on-error: true
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+        with:
+          username: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_HOST }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 65002
+          local_path: './'
+          remote_path: ${{ steps.remote.outputs.path }}
+          sftp_only: true
+          sftpArgs: '-o ConnectTimeout=60 -o StrictHostKeyChecking=no'
+          rsyncArgs: >-
+            --exclude=.git
+            --exclude=.github
+            --exclude=node_modules
+            --exclude=.cursor
+            --exclude=a-telecharger
+            --exclude=tools
+            --exclude=config/config.php
+            --exclude=*.local.php
+            --exclude=sync-from-github.php
+            --exclude=verification-installation.php
+            --exclude=once-set-admin-password.php
+
+      - name: Échec si FTP et SFTP ont échoué
+        if: steps.ftp.outcome == 'failure' && steps.sftp.outcome == 'failure'
+        run: |
+          echo "::error::FTP (21) et SFTP (65002) ont échoué."
+          echo "Vérifiez FTP_HOST, FTP_USERNAME, FTP_PASSWORD dans GitHub → Settings → Secrets."
+          echo "Hostinger hPanel → Comptes FTP : même identifiants, test FileZilla (FTP 21 puis SFTP 65002)."
+          exit 1
+
+      - name: Méthode utilisée
+        run: |
+          if [ "${{ steps.ftp.outcome }}" = "success" ]; then
+            echo "Déploiement réussi via FTP (port 21)."
+          else
+            echo "Déploiement réussi via SFTP (port 65002)."
+          fi
