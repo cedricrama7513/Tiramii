@@ -2,13 +2,9 @@
 declare(strict_types=1);
 header('Content-Type: text/html; charset=utf-8');
 $xlsx = 'suivi-factures-restaurants-pro.xlsx';
-$xls = 'suivi-factures-restaurants-pro.xls';
 $xlsxPath = __DIR__ . DIRECTORY_SEPARATOR . $xlsx;
-$xlsPath = __DIR__ . DIRECTORY_SEPARATOR . $xls;
 $xlsxOk = is_readable($xlsxPath);
-$xlsOk = is_readable($xlsPath);
 $xlsxV = $xlsxOk ? (string) filemtime($xlsxPath) : '';
-$xlsV = $xlsOk ? (string) filemtime($xlsPath) : '';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,20 +26,14 @@ $xlsV = $xlsOk ? (string) filemtime($xlsPath) : '';
   <p>Suivi factures pro : <strong>My French factory</strong> et <strong>My french Cantine</strong>. Saisissez le montant en <strong>colonne C</strong> → le <strong>solde (E)</strong> se met à jour.</p>
   <?php if ($xlsxOk): ?>
   <a class="dl" href="<?= htmlspecialchars($xlsx . ($xlsxV !== '' ? '?v=' . $xlsxV : ''), ENT_QUOTES, 'UTF-8') ?>" download="<?= htmlspecialchars($xlsx, ENT_QUOTES, 'UTF-8') ?>">
-    Télécharger Excel (.xlsx) — à utiliser
+    Télécharger Excel (.xlsx)
   </a>
   <div class="warn">
-    <strong>Excel Mac :</strong> cliquez <strong>« Activer la modification »</strong> (bannière jaune en haut), sinon le solde ne calcule pas.<br>
+    <strong>Excel Mac :</strong> cliquez <strong>« Activer la modification »</strong> (bannière jaune), sinon les formules ne calculent pas.<br>
     Montant en <strong>colonne C</strong> → <strong>Entrée</strong> → <strong>solde (E)</strong> mis à jour.
   </div>
-  <?php endif; ?>
-  <?php if ($xlsOk): ?>
-  <p style="margin-top:1rem;font-size:.85rem;color:#888">
-    <a href="<?= htmlspecialchars($xls . ($xlsV !== '' ? '?v=' . $xlsV : ''), ENT_QUOTES, 'UTF-8') ?>">Format .xls (déconseillé)</a>
-  </p>
-  <?php endif; ?>
-  <?php if (!$xlsxOk && !$xlsOk): ?>
-  <p class="err">Fichiers introuvables. Réessayez après déploiement.</p>
+  <?php else: ?>
+  <p class="err">Fichier introuvable. Réessayez après le prochain déploiement.</p>
   <?php endif; ?>
   <p style="margin-top:2rem;font-size:.9rem"><a href="/">← Retour au site</a></p>
 </body>

@@ -1,1 +1,1 @@
-suivi-xlsx-mac-excel
+suivi-xlsx-formules-node

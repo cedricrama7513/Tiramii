@@ -1,28 +1,43 @@
+/**
+ * Génère suivi-factures-restaurants-pro.xlsx (formules Excel natives, Node uniquement).
+ * Prérequis : npm install xlsx (dans tools/)
+ */
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
+import XLSX from 'xlsx';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDirs = [
   path.join(__dirname, '..', 'outils'),
   path.join(__dirname, '..', 'a-telecharger'),
 ];
+const clientsJsonPath = path.join(__dirname, 'pro-clients.json');
+const fileName = 'suivi-factures-restaurants-pro.xlsx';
 
 const maxRow = 120;
 const alertThreshold = 500;
-/** Versement standard quand le client recharge son compte. */
 const depositAmount = 500;
-/** Ligne de la dernière facture mensuelle préremplie (décembre = ligne 13). */
 const lastPrefillRow = 13;
 
-const clientsJsonPath = path.join(__dirname, 'pro-clients.json');
+const headers = [
+  'Date facture',
+  'N° facture',
+  'Montant facture (€)',
+  'Versement (€)',
+  'Solde (€)',
+  'Alerte solde',
+  'Payé ? (Oui / Non)',
+  'Alerte facture > 500 €',
+  'Encours impayé (€)',
+  'Alerte encours',
+  'Message envoyé ?',
+  'Date relance',
+];
 
 function loadRestaurants() {
   if (!fs.existsSync(clientsJsonPath)) {
-    throw new Error(
-      `Fichier ${clientsJsonPath} introuvable. Lancez d'abord : php tools/export-pro-clients-json.php (sur le serveur avec config.php).`
-    );
+    throw new Error(`Fichier ${clientsJsonPath} introuvable.`);
   }
   const raw = JSON.parse(fs.readFileSync(clientsJsonPath, 'utf8'));
   const list = raw.clients;
@@ -33,76 +48,10 @@ function loadRestaurants() {
     name: String(c.name),
     sheetName: String(c.sheetName || c.name).slice(0, 31),
     invoicePrefix: String(c.invoicePrefix || 'FAC'),
-    monthlyAmounts: (c.monthlyAmounts || []).map(Number),
     paidMonths: (c.paidMonths || []).map(Number),
     openingBalance: Number(c.openingBalance ?? 0),
     depositMonths: (c.depositMonths || c.paidMonths || []).map(Number),
   }));
-}
-
-const restaurants = loadRestaurants();
-
-const headers = [
-  'Date facture',
-  'N° facture',
-  'Montant facture (€)',
-  `Versement (€)`,
-  'Solde (€)',
-  'Alerte solde',
-  'Payé ? (Oui / Non)',
-  'Alerte facture > 500 €',
-  'Encours impayé (€)',
-  'Alerte encours',
-  'Message envoyé ?',
-  'Date relance',
-];
-/** Colonnes D–F : compte prépayé (mise en évidence). */
-const soldeHeaderCols = new Set([4, 5, 6]);
-
-function colLetter(n) {
-  let s = '';
-  while (n > 0) {
-    n--;
-    s = String.fromCharCode(65 + (n % 26)) + s;
-    n = Math.floor(n / 26);
-  }
-  return s;
-}
-
-function escapeXml(s) {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-function escapeAttr(s) {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-function cell(row, col, type, value, extra = '') {
-  if (type === 'formula') {
-    return `<Cell ss:Index="${col}" ss:Formula="${escapeAttr(value)}"${extra}><Data ss:Type="String"></Data></Cell>`;
-  }
-  const dataType = type === 'number' ? 'Number' : 'String';
-  const display = type === 'number' && value === '' ? '' : String(value);
-  return `<Cell ss:Index="${col}"${extra}><Data ss:Type="${dataType}">${escapeXml(display)}</Data></Cell>`;
-}
-
-/** Solde cumulé (SOMME) : recalcule quand on modifie une cellule C. */
-function soldeFormula(row, openingBalance) {
-  const open = Number(openingBalance) || 0;
-  const openPart = open > 0 ? `${open}+` : '';
-  return `=${openPart}SOMME($D$2:D${row})-SOMME($C$2:C${row})`;
-}
-
-function sheetRef(sheetName) {
-  return `'${sheetName.replace(/'/g, "''")}'`;
 }
 
 function pad2(n) {
@@ -111,250 +60,217 @@ function pad2(n) {
 
 function buildInvoiceRows(restaurant) {
   const rows = [];
+  const paidMonths = new Set(restaurant.paidMonths);
+  const depositMonths = new Set(restaurant.depositMonths);
   for (let month = 1; month <= 12; month++) {
-    const amount = restaurant.monthlyAmounts[month - 1] ?? '';
-    const date = `2026-${pad2(month)}-01`;
-    const invNum = `${restaurant.invoicePrefix}-2026-${pad2(month)}`;
-    const paid = restaurant.paidMonths.includes(month) ? 'Oui' : 'Non';
-    const messageSent = paid === 'Oui' ? 'Oui' : 'Non';
-    const relanceDate = paid === 'Oui' ? `2026-${pad2(month)}-15` : '';
-    const deposit = restaurant.depositMonths.includes(month) ? depositAmount : '';
-    rows.push({ date, invNum, amount, deposit, paid, messageSent, relanceDate });
+    const paid = paidMonths.has(month);
+    rows.push({
+      date: `2026-${pad2(month)}-01`,
+      inv: `${restaurant.invoicePrefix}-2026-${pad2(month)}`,
+      deposit: depositMonths.has(month) ? depositAmount : 0,
+      paid: paid ? 'Oui' : 'Non',
+      message: paid ? 'Oui' : 'Non',
+      relance: paid ? `2026-${pad2(month)}-15` : '',
+    });
   }
   return rows;
 }
 
-function buildWorksheetXml(restaurant) {
-  const prefill = buildInvoiceRows(restaurant);
-  let rowsXml = '';
+/** Formules en anglais (Excel FR les traduit à l’affichage). */
+function soldeFormula(row, opening) {
+  if (opening > 0) {
+    return `=${opening}+SUM($D$2:D${row})-SUM($C$2:C${row})`;
+  }
+  return `=SUM($D$2:D${row})-SUM($C$2:C${row})`;
+}
 
-  rowsXml += '<Row ss:StyleID="header">';
-  headers.forEach((h, i) => {
-    const col = i + 1;
-    const style = soldeHeaderCols.has(col) ? ' ss:StyleID="soldeHeader"' : ' ss:StyleID="header"';
-    rowsXml += cell(1, col, 'string', h, style);
-  });
-  rowsXml += '</Row>\n';
+function previewSolde(prefill, row, opening) {
+  let depSum = 0;
+  for (let i = 0; i < row - 2 && i < prefill.length; i++) {
+    depSum += prefill[i].deposit;
+  }
+  return Math.round((opening + depSum) * 100) / 100;
+}
+
+function sheetRef(name) {
+  return `'${name.replace(/'/g, "''")}'`;
+}
+
+function setFormula(ws, row, col, formula, cached, type = 's') {
+  const addr = XLSX.utils.encode_cell({ r: row, c: col });
+  const cell = { f: formula };
+  if (cached !== undefined && cached !== '') {
+    cell.v = cached;
+    cell.t = typeof cached === 'number' ? 'n' : type;
+  }
+  ws[addr] = cell;
+}
+
+function buildRestaurantSheet(restaurant) {
+  const prefill = buildInvoiceRows(restaurant);
+  const opening = restaurant.openingBalance;
+  const aoa = [headers];
+  for (let r = 2; r <= maxRow; r++) {
+    aoa.push(new Array(headers.length).fill(''));
+  }
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
 
   for (let r = 2; r <= maxRow; r++) {
+    const xr = r - 1;
     const data = prefill[r - 2];
-    rowsXml += '<Row>';
-    if (data) {
-      rowsXml += cell(r, 1, 'string', data.date);
-      rowsXml += cell(r, 2, 'string', data.invNum);
-      rowsXml += cell(r, 3, 'number', 0, ' ss:StyleID="inputMoney"');
-      rowsXml += cell(r, 4, 'number', data.deposit !== '' ? data.deposit : 0, ' ss:StyleID="inputMoney"');
-    } else {
-      rowsXml += cell(r, 1, 'string', '');
-      rowsXml += cell(r, 2, 'string', '');
-      rowsXml += cell(r, 3, 'number', 0, ' ss:StyleID="inputMoney"');
-      rowsXml += cell(r, 4, 'number', 0, ' ss:StyleID="inputMoney"');
-    }
 
-    rowsXml += cell(
-      r,
+    if (data) {
+      ws[XLSX.utils.encode_cell({ r: xr, c: 0 })] = { t: 's', v: data.date };
+      ws[XLSX.utils.encode_cell({ r: xr, c: 1 })] = { t: 's', v: data.inv };
+    }
+    ws[XLSX.utils.encode_cell({ r: xr, c: 2 })] = { t: 'n', v: 0 };
+    ws[XLSX.utils.encode_cell({ r: xr, c: 3 })] = {
+      t: 'n',
+      v: data ? data.deposit : 0,
+    };
+
+    setFormula(ws, xr, 4, soldeFormula(r, opening), previewSolde(prefill, r, opening), 'n');
+    setFormula(
+      ws,
+      xr,
       5,
-      'formula',
-      soldeFormula(r, restaurant.openingBalance),
-      ' ss:StyleID="soldeMoney"'
+      `=IF(E${r}<=0,"⚠ SOLDE ÉPUISÉ — faire verser ${depositAmount} €","")`,
+      ''
     );
-    rowsXml += cell(
-      r,
-      6,
-      'formula',
-      `=SI(E${r}<=0;"⚠ SOLDE ÉPUISÉ — faire verser ${depositAmount} €";"")`,
-      ' ss:StyleID="alert"'
+    ws[XLSX.utils.encode_cell({ r: xr, c: 6 })] = {
+      t: 's',
+      v: data ? data.paid : 'Non',
+    };
+    setFormula(
+      ws,
+      xr,
+      7,
+      `=IF(C${r}>${alertThreshold},"⚠ Facture > ${alertThreshold} € — à relancer","")`,
+      ''
     );
-
-    if (data) {
-      rowsXml += cell(r, 7, 'string', data.paid);
-    } else {
-      rowsXml += cell(r, 7, 'string', 'Non');
-    }
-
-    rowsXml += cell(
-      r,
+    setFormula(
+      ws,
+      xr,
       8,
-      'formula',
-      `=SI(C${r}>${alertThreshold};"⚠ Facture > ${alertThreshold} € — à relancer";"")`,
-      ' ss:StyleID="alert"'
+      `=SUM($C$2:$C$${maxRow})-SUMIF($G$2:$G$${maxRow},"Oui",$C$2:$C$${maxRow})`,
+      0,
+      'n'
     );
-    rowsXml += cell(
-      r,
+    setFormula(
+      ws,
+      xr,
       9,
-      'formula',
-      `=SOMME($C$2:$C$${maxRow})-SOMME.SI($C$2:$C$${maxRow};$G$2:$G$${maxRow};"Oui")`
+      `=IF(I${r}>${alertThreshold},"⚠ ENVOYER MESSAGE PAIEMENT","")`,
+      ''
     );
-    rowsXml += cell(
-      r,
-      10,
-      'formula',
-      `=SI(I${r}>${alertThreshold};"⚠ ENVOYER MESSAGE PAIEMENT";"")`,
-      ' ss:StyleID="alert"'
-    );
-
-    if (data) {
-      rowsXml += cell(r, 11, 'string', data.messageSent);
-      rowsXml += cell(r, 12, 'string', data.relanceDate);
-    } else {
-      rowsXml += cell(r, 11, 'string', 'Non');
-      rowsXml += cell(r, 12, 'string', '');
+    ws[XLSX.utils.encode_cell({ r: xr, c: 10 })] = {
+      t: 's',
+      v: data ? data.message : 'Non',
+    };
+    if (data?.relance) {
+      ws[XLSX.utils.encode_cell({ r: xr, c: 11 })] = { t: 's', v: data.relance };
     }
-    rowsXml += '</Row>\n';
   }
 
-  return ` <Worksheet ss:Name="${escapeXml(restaurant.sheetName)}">
-  <Table ss:ExpandedColumnCount="12" ss:ExpandedRowCount="${maxRow}" x:FullColumns="1" x:FullRows="1" ss:DefaultColumnWidth="120">
-   <Column ss:Width="95"/>
-   <Column ss:Width="130"/>
-   <Column ss:Width="95"/>
-   <Column ss:Width="115"/>
-   <Column ss:Width="105"/>
-   <Column ss:Width="220"/>
-   <Column ss:Width="85"/>
-   <Column ss:Width="200"/>
-   <Column ss:Width="120"/>
-   <Column ss:Width="200"/>
-   <Column ss:Width="110"/>
-   <Column ss:Width="95"/>
-${rowsXml}
-  </Table>
-  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
-   <FreezePanes/>
-   <FrozenNoSplit/>
-   <SplitHorizontal>1</SplitHorizontal>
-   <TopRowBottomPane>1</TopRowBottomPane>
-   <ActivePane>2</ActivePane>
-  </WorksheetOptions>
- </Worksheet>`;
+  ws['!cols'] = [
+    { wch: 12 },
+    { wch: 18 },
+    { wch: 11 },
+    { wch: 14 },
+    { wch: 12 },
+    { wch: 28 },
+    { wch: 10 },
+    { wch: 26 },
+    { wch: 14 },
+    { wch: 26 },
+    { wch: 14 },
+    { wch: 12 },
+  ];
+  ws['!freeze'] = { xSplit: 0, ySplit: 1, topLeftCell: 'A2', activePane: 'bottomLeft', state: 'frozen' };
+  return ws;
 }
 
-function buildSyntheseXml() {
-  let synthRows = '';
-  synthRows += '<Row ss:StyleID="header">';
-  ['Restaurant', 'Solde crédit actuel (€)', 'Alerte solde', 'Encours impayé (€)', 'Alerte encours'].forEach(
-    (h, i) => {
-      synthRows += cell(1, i + 1, 'string', h, ' ss:StyleID="header"');
-    }
+const restaurants = loadRestaurants();
+const wb = XLSX.utils.book_new();
+
+for (const restaurant of restaurants) {
+  XLSX.utils.book_append_sheet(wb, buildRestaurantSheet(restaurant), restaurant.sheetName);
+}
+
+const synHeaders = [
+  'Restaurant',
+  'Solde crédit actuel (€)',
+  'Alerte solde',
+  'Encours impayé (€)',
+  'Alerte encours',
+];
+const synAoa = [synHeaders];
+for (const r of restaurants) {
+  synAoa.push([r.name, '', '', '', '']);
+}
+const wsSyn = XLSX.utils.aoa_to_sheet(synAoa);
+
+restaurants.forEach((restaurant, idx) => {
+  const row = idx + 1;
+  const excelRow = row + 1;
+  const ref = sheetRef(restaurant.sheetName);
+  const prefill = buildInvoiceRows(restaurant);
+  const cachedE = previewSolde(prefill, lastPrefillRow, restaurant.openingBalance);
+  setFormula(wsSyn, row, 1, `=${ref}!E${lastPrefillRow}`, cachedE, 'n');
+  setFormula(
+    wsSyn,
+    row,
+    2,
+    `=IF(B${excelRow}<=0,"⚠ RECHARGER ${depositAmount} €","OK")`,
+    'OK'
   );
-  synthRows += '</Row>\n';
+  setFormula(
+    wsSyn,
+    row,
+    3,
+    `=SUM(${ref}!$C$2:$C$${maxRow})-SUMIF(${ref}!$G$2:$G$${maxRow},"Oui",${ref}!$C$2:$C$${maxRow})`,
+    0,
+    'n'
+  );
+  setFormula(
+    wsSyn,
+    row,
+    4,
+    `=IF(D${excelRow}>${alertThreshold},"⚠ RELANCER","OK")`,
+    'OK'
+  );
+});
+wsSyn['!cols'] = [{ wch: 24 }, { wch: 16 }, { wch: 18 }, { wch: 14 }, { wch: 14 }];
+XLSX.utils.book_append_sheet(wb, wsSyn, 'Synthèse');
 
-  restaurants.forEach((restaurant, idx) => {
-    const r = idx + 2;
-    const ref = sheetRef(restaurant.sheetName);
-    synthRows += '<Row>';
-    synthRows += cell(r, 1, 'string', restaurant.name);
-    synthRows += cell(r, 2, 'formula', `=${ref}!E${lastPrefillRow}`);
-    synthRows += cell(
-      r,
-      3,
-      'formula',
-      `=SI(B${r}<=0;"⚠ RECHARGER ${depositAmount} €";"OK")`,
-      ' ss:StyleID="alert"'
-    );
-    synthRows += cell(
-      r,
-      4,
-      'formula',
-      `=SOMME(${ref}!$C$2:$C$${maxRow})-SOMME.SI(${ref}!$C$2:$C$${maxRow};${ref}!$G$2:$G$${maxRow};"Oui")`
-    );
-    synthRows += cell(
-      r,
-      5,
-      'formula',
-      `=SI(D${r}>${alertThreshold};"⚠ RELANCER";"OK")`,
-      ' ss:StyleID="alert"'
-    );
-    synthRows += '</Row>\n';
-  });
+const names = restaurants.map((r) => r.name).join(' · ');
+const help = [
+  [`Suivi factures — ${names}`],
+  [''],
+  ['1. Un onglet par restaurant.'],
+  ['2. Colonne C : montant de la facture → solde (E) se met à jour.'],
+  [`3. Colonne D : versement client (${depositAmount} €).`],
+  ['4. EXCEL MAC : cliquez « Activer la modification » (bannière jaune).'],
+  ['5. Saisissez le montant en C puis Entrée ou Tab.'],
+  ['6. Alerte colonne F : solde ≤ 0 → faire verser 500 €.'],
+  ['7. Alerte colonne J : encours impayé > 500 € → relancer le restaurant.'],
+  ['8. Téléchargez toujours le .xlsx sur casadessert.fr/outils/'],
+];
+XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(help), 'Mode emploi');
 
-  return ` <Worksheet ss:Name="Synthèse">
-  <Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="10">
-   <Column ss:Width="180"/>
-   <Column ss:Width="120"/>
-   <Column ss:Width="140"/>
-   <Column ss:Width="120"/>
-   <Column ss:Width="120"/>
-${synthRows}
-  </Table>
- </Worksheet>`;
-}
+wb.Workbook = wb.Workbook || {};
+wb.Workbook.CalcPr = { fullCalcOnLoad: true };
 
-function buildWorkbookXml() {
-  const worksheets = restaurants.map((r) => buildWorksheetXml(r)).join('\n');
+const buf = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx', cellStyles: false });
 
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
- xmlns:o="urn:schemas-microsoft-com:office:office"
- xmlns:x="urn:schemas-microsoft-com:office:excel"
- xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
- xmlns:html="http://www.w3.org/TR/REC-html40">
- <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
-  <Title>Suivi factures restaurants pro — Casa Dessert</Title>
-  <Author>Casa Dessert</Author>
- </DocumentProperties>
- <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
-  <FullCalcOnLoad>1</FullCalcOnLoad>
- </ExcelWorkbook>
- <Styles>
-  <Style ss:ID="Default" ss:Name="Normal">
-   <Alignment ss:Vertical="Center"/>
-   <Font ss:FontName="Calibri" ss:Size="11"/>
-  </Style>
-  <Style ss:ID="header">
-   <Font ss:Bold="1" ss:Color="#FFFFFF"/>
-   <Interior ss:Color="#3D2E24" ss:Pattern="Solid"/>
-   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
-  </Style>
-  <Style ss:ID="alert">
-   <Font ss:Bold="1" ss:Color="#B00020"/>
-   <Alignment ss:WrapText="1"/>
-  </Style>
-  <Style ss:ID="money">
-   <NumberFormat ss:Format="#,##0.00"/>
-  </Style>
-  <Style ss:ID="inputMoney">
-   <NumberFormat ss:Format="#,##0.00"/>
-   <Interior ss:Color="#FFFDE7" ss:Pattern="Solid"/>
-  </Style>
-  <Style ss:ID="soldeHeader">
-   <Font ss:Bold="1" ss:Color="#FFFFFF"/>
-   <Interior ss:Color="#1B5E20" ss:Pattern="Solid"/>
-   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
-  </Style>
-  <Style ss:ID="soldeMoney">
-   <NumberFormat ss:Format="#,##0.00"/>
-   <Interior ss:Color="#E8F5E9" ss:Pattern="Solid"/>
-   <Font ss:Bold="1"/>
-  </Style>
- </Styles>
-${worksheets}
-${buildSyntheseXml()}
- <Worksheet ss:Name="Mode emploi">
-  <Table ss:ExpandedColumnCount="1" ss:ExpandedRowCount="26">
-   <Column ss:Width="580"/>
-   <Row><Cell><Data ss:Type="String">1. Un onglet par restaurant (${restaurants.map((r) => r.name).join(' · ')}).</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">2. Colonne C (jaune) : saisissez le montant de la facture → le solde (E) se recalcule tout seul.</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">3. Colonne D (jaune) : versement client (${depositAmount} €). Formule solde : versements − factures.</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">4. Alerte colonne F : dès que le solde ≤ 0 € → faire verser ${depositAmount} € au client.</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">5. Saisissez ${depositAmount} en colonne D à chaque virement reçu (une ligne peut avoir 0 si pas de versement ce mois-là).</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">6. Colonne « Payé ? » (G) : facture réglée hors prépaiement (encours classique).</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">7. Onglet Synthèse : solde actuel (dernière ligne déc.) + alertes.</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">Téléchargez le .xlsx sur casadessert.fr/outils/ (recommandé). Régénération : node tools/build-suivi-factures-xls.mjs</Data></Cell></Row>
-  </Table>
- </Worksheet>
-</Workbook>
-`;
-}
-
-const xml = buildWorkbookXml();
 for (const outDir of outDirs) {
   fs.mkdirSync(outDir, { recursive: true });
-  const outPath = path.join(outDir, 'suivi-factures-restaurants-pro.xls');
-  fs.writeFileSync(outPath, xml, 'utf8');
-  console.log('Written', outPath);
+  const target = path.join(outDir, fileName);
+  fs.writeFileSync(target, buf);
+  console.log('Written', target);
+  const oldXls = path.join(outDir, 'suivi-factures-restaurants-pro.xls');
+  if (fs.existsSync(oldXls)) {
+    fs.unlinkSync(oldXls);
+    console.log('Removed', oldXls);
+  }
 }
-
-const pyScript = path.join(__dirname, 'build-suivi-factures-xlsx.py');
-execSync(`python3 "${pyScript}"`, { stdio: 'inherit', cwd: __dirname });
