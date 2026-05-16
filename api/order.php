@@ -6,6 +6,19 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/_bootstrap.php';
+require_once dirname(__DIR__) . '/includes/pro_accounts.php';
+
+$proAccount = null;
+$proAccountId = null;
+try {
+    tiramii_ensure_pro_account_tables($pdo);
+    $proAccount = tiramii_pro_current_account($pdo);
+    if ($proAccount !== null) {
+        $proAccountId = (int) $proAccount['id'];
+    }
+} catch (Throwable) {
+    $proAccount = null;
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     tiramii_json_response(['ok' => false, 'error' => 'Méthode non autorisée'], 405);
@@ -165,22 +178,43 @@ try {
 
     $pdo->prepare('DELETE FROM stock_reservations WHERE session_id = ?')->execute([$sessionId]);
 
-    $insO = $pdo->prepare(
-        'INSERT INTO orders (first_name, last_name, phone, address_line, zip, city, delivery_time, note, payment_method, total_eur, created_at)
-         VALUES (?,?,?,?,?,?,?,?,?,?, NOW())'
-    );
-    $insO->execute([
-        $first,
-        $last,
-        $phone,
-        $address,
-        $zip,
-        $city,
-        $deliveryTime,
-        $note,
-        $payment,
-        round($total, 2),
-    ]);
+    $hasProCol = $proAccountId !== null && tiramii_orders_has_pro_account_id($pdo);
+    if ($hasProCol) {
+        $insO = $pdo->prepare(
+            'INSERT INTO orders (pro_account_id, first_name, last_name, phone, address_line, zip, city, delivery_time, note, payment_method, total_eur, created_at)
+             VALUES (?,?,?,?,?,?,?,?,?,?,?, NOW())'
+        );
+        $insO->execute([
+            $proAccountId,
+            $first,
+            $last,
+            $phone,
+            $address,
+            $zip,
+            $city,
+            $deliveryTime,
+            $note,
+            $payment,
+            round($total, 2),
+        ]);
+    } else {
+        $insO = $pdo->prepare(
+            'INSERT INTO orders (first_name, last_name, phone, address_line, zip, city, delivery_time, note, payment_method, total_eur, created_at)
+             VALUES (?,?,?,?,?,?,?,?,?,?, NOW())'
+        );
+        $insO->execute([
+            $first,
+            $last,
+            $phone,
+            $address,
+            $zip,
+            $city,
+            $deliveryTime,
+            $note,
+            $payment,
+            round($total, 2),
+        ]);
+    }
     $orderId = (int) $pdo->lastInsertId();
 
     $insL = $pdo->prepare(
@@ -208,6 +242,7 @@ try {
     }
     require_once dirname(__DIR__) . '/includes/order_notify.php';
     try {
+        $proRestaurant = $proAccount !== null ? trim((string) ($proAccount['restaurant_name'] ?? '')) : '';
         tiramii_notify_new_order(
             $appCfg,
             $orderId,
@@ -221,7 +256,9 @@ try {
             $note,
             $payment,
             round($total, 2),
-            $lines
+            $lines,
+            $proAccountId !== null,
+            $proRestaurant
         );
     } catch (Throwable) {
         /* ne pas faire échouer la commande si l’e-mail / SMS échoue */

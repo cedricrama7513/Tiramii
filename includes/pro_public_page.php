@@ -8,6 +8,7 @@ declare(strict_types=1);
 function tiramii_serve_pro_public_page(): void
 {
     require_once __DIR__ . '/init_public.php';
+    require_once __DIR__ . '/nav_render.php';
 
     try {
         $pdo = require dirname(__DIR__) . '/config/db.php';
@@ -94,9 +95,14 @@ function tiramii_serve_pro_public_page(): void
         exit;
     }
 
-    $navHtml = is_readable($root . '/includes/nav_fragment.html')
-        ? (string) file_get_contents($root . '/includes/nav_fragment.html')
-        : '';
+    $proNavAccount = null;
+    try {
+        require_once __DIR__ . '/pro_accounts.php';
+        $proNavAccount = tiramii_pro_current_account($pdo);
+    } catch (Throwable) {
+        $proNavAccount = null;
+    }
+    $navHtml = tiramii_render_nav_html($proNavAccount);
     if (str_contains($navHtml, '__LOGO_MARK__')) {
         $navHtml = str_replace('__LOGO_MARK__', brand_logo_markup('nav'), $navHtml);
     }

@@ -8,7 +8,7 @@ $pdo = require __DIR__ . '/config/db.php';
 tiramii_ensure_pro_account_tables($pdo);
 
 if (tiramii_pro_current_account($pdo) !== null) {
-    header('Location: pro-boutique.php', true, 302);
+    header('Location: index.php', true, 302);
     exit;
 }
 
@@ -82,7 +82,7 @@ button:disabled{opacity:.55}
       .then(function(x) {
         btn.disabled = false;
         if (x.j && x.j.ok) {
-          window.location.href = next === 'boutique' ? 'pro-boutique.php' : 'pro-boutique.php';
+          window.location.href = 'index.php';
         } else {
           err.textContent = (x.j && x.j.error) ? x.j.error : 'Erreur';
           err.style.display = 'block';

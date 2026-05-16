@@ -1,8 +1,10 @@
 /**
  * Panier, réservations, commande — API PHP (remplace Firebase + EmailJS).
  */
-const BOOT = window.__CASA_DESSERT__ || { csrf: '', products: [] };
+const BOOT = window.__CASA_DESSERT__ || { csrf: '', products: [], isPro: false, proAccount: null };
 const PRODUCTS = BOOT.products || [];
+const IS_PRO = !!BOOT.isPro;
+const PRO_ACCOUNT = BOOT.proAccount || null;
 const FIXED_BOXES = {
   box1: {
     id: 'box1',
@@ -617,7 +619,51 @@ function initReviewsSort() {
   });
 }
 
+function initProCheckout() {
+  if (!IS_PRO || !PRO_ACCOUNT) return;
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el && val) el.value = val;
+  };
+  setVal('firstName', PRO_ACCOUNT.first_name || '');
+  setVal('lastName', PRO_ACCOUNT.last_name || '');
+  setVal('phone', PRO_ACCOUNT.phone || '');
+  setVal('address', PRO_ACCOUNT.address_line || '');
+  setVal('zip', PRO_ACCOUNT.zip || '');
+  setVal('city', PRO_ACCOUNT.city || '');
+  const note = document.getElementById('note');
+  if (note && PRO_ACCOUNT.restaurant_name && !note.value.trim()) {
+    note.value = 'Commande pro — ' + PRO_ACCOUNT.restaurant_name;
+  }
+}
+
+function initProNav() {
+  const logout = document.getElementById('navProLogout');
+  if (!logout) return;
+  logout.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      const r = await fetch(apiUrl('pro_logout.php'), {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': BOOT.csrf },
+        body: '{}',
+      });
+      const data = await r.json().catch(() => ({}));
+      if (data.ok) window.location.href = 'index.php';
+      else showToast(data.error || 'Déconnexion impossible');
+    } catch {
+      showToast('Erreur réseau');
+    }
+  });
+}
+
 async function init() {
+  initProCheckout();
+  initProNav();
+  if (IS_PRO) {
+    showToast('Tarifs pro actifs — ' + (PRO_ACCOUNT?.restaurant_name || 'compte connecté'));
+  }
   try {
     await pullState();
   } catch {

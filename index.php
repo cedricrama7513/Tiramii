@@ -35,6 +35,11 @@ try {
     }
     require_once $catalog;
 
+    require_once __DIR__ . '/includes/pro_accounts.php';
+    require_once __DIR__ . '/includes/ensure_pro_prices.php';
+    require_once __DIR__ . '/includes/pro_shop_helpers.php';
+    require_once __DIR__ . '/includes/nav_render.php';
+
     require_once __DIR__ . '/includes/reviews_render.php';
     $reviewsData = require __DIR__ . '/includes/reviews_data.php';
     if (!is_array($reviewsData)) {
@@ -50,6 +55,11 @@ try {
     tiramii_ensure_new_flavors($pdo);
     tiramii_ensure_box_supreme($pdo);
     tiramii_ensure_stock_levels_for_all_products($pdo);
+    tiramii_ensure_pro_account_tables($pdo);
+    tiramii_ensure_pro_price_column($pdo);
+
+    $proAccount = tiramii_pro_current_account($pdo);
+    $isProShop = $proAccount !== null;
 
     if (function_exists('ini_set')) {
         @ini_set('memory_limit', '256M');
@@ -67,20 +77,14 @@ try {
 
     // box1 / box2 : vendues via la section « Box », pas comme barquettes dans la grille catalogue.
     $excludeFromCatalog = ['box1', 'box2', 'box_supreme'];
-    $notIn = implode(',', array_fill(0, count($excludeFromCatalog), '?'));
-    $stmtProducts = $pdo->prepare(
-        "SELECT id, name, price_eur, description, badge_class, badge_text, img_key, sort_order
-         FROM products WHERE is_active = 1 AND id NOT IN ($notIn) ORDER BY sort_order ASC, id ASC"
-    );
-    $stmtProducts->execute($excludeFromCatalog);
-    $products = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
+    $products = tiramii_fetch_catalog_products($pdo, $excludeFromCatalog, $isProShop);
 
     $stockMap = [];
     foreach ($pdo->query('SELECT product_id, quantity FROM stock_levels')->fetchAll(PDO::FETCH_ASSOC) as $r) {
         $stockMap[$r['product_id']] = (int) $r['quantity'];
     }
 
-    $productGridHtml = tiramii_render_product_grid($products, $stockMap, $imgs);
+    $productGridHtml = tiramii_render_product_grid($products, $stockMap, $imgs, $isProShop);
 
     $productsJson = [];
     foreach ($products as $p) {
@@ -99,6 +103,16 @@ try {
     $appBoot = [
         'csrf' => $csrf,
         'products' => $productsJson,
+        'isPro' => $isProShop,
+        'proAccount' => $isProShop ? [
+            'restaurant_name' => (string) ($proAccount['restaurant_name'] ?? ''),
+            'first_name' => (string) ($proAccount['first_name'] ?? ''),
+            'last_name' => (string) ($proAccount['last_name'] ?? ''),
+            'phone' => (string) ($proAccount['phone'] ?? ''),
+            'address_line' => (string) ($proAccount['address_line'] ?? ''),
+            'zip' => (string) ($proAccount['zip'] ?? ''),
+            'city' => (string) ($proAccount['city'] ?? ''),
+        ] : null,
     ];
 
     $shopJsPath = __DIR__ . '/assets/js/shop.js';
@@ -116,7 +130,17 @@ try {
     if (!is_readable($homeMainPath)) {
         throw new RuntimeException('includes/home_main_fragment.html manquant.');
     }
-    $html = str_replace('__HOME_MAIN__', (string) file_get_contents($homeMainPath), $html);
+    $homeMainHtml = (string) file_get_contents($homeMainPath);
+    $proBanner = tiramii_render_pro_shop_banner($proAccount);
+    if ($proBanner !== '' && str_contains($homeMainHtml, '<section class="hero">')) {
+        $homeMainHtml = preg_replace(
+            '/(<section class="hero">)/',
+            $proBanner . '$1',
+            $homeMainHtml,
+            1
+        ) ?? $homeMainHtml;
+    }
+    $html = str_replace('__HOME_MAIN__', $homeMainHtml, $html);
 
     $boxPath = __DIR__ . '/includes/box_section_fragment.html';
     $boxHtml = is_readable($boxPath) ? (string) file_get_contents($boxPath) : '';
@@ -137,16 +161,16 @@ try {
         }
     }
 
-    $navHtml = is_readable(__DIR__ . '/includes/nav_fragment.html')
-        ? (string) file_get_contents(__DIR__ . '/includes/nav_fragment.html')
-        : '';
+    $navHtml = tiramii_render_nav_html($proAccount);
     if (str_contains($navHtml, '__LOGO_MARK__')) {
         $navHtml = str_replace('__LOGO_MARK__', brand_logo_markup('nav'), $navHtml);
     }
     $footerMainHtml = is_readable(__DIR__ . '/includes/footer_main_fragment.html')
         ? (string) file_get_contents(__DIR__ . '/includes/footer_main_fragment.html')
         : '';
-    $pageTitle = 'Casa Dessert — Les desserts qui régalent !';
+    $pageTitle = $isProShop
+        ? 'Casa Dessert — Tarifs pro'
+        : 'Casa Dessert — Les desserts qui régalent !';
     $html = str_replace(
         ['__PAGE_TITLE__', '__CSRF__', '__PRODUCT_GRID__', '__APP_SCRIPT__', '__NAV__', '__FOOTER_MAIN__', '__REVIEWS_SECTION__'],
         [h($pageTitle), h($csrf), $productGridHtml, $appScript, $navHtml, $footerMainHtml, $reviewsSectionHtml],
