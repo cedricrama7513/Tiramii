@@ -1,1 +1,1 @@
-suivi-xlsx-openpyxl-fr
+suivi-xlsx-mac-excel

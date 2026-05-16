@@ -33,7 +33,8 @@ $xlsV = $xlsOk ? (string) filemtime($xlsPath) : '';
     Télécharger Excel (.xlsx) — à utiliser
   </a>
   <div class="warn">
-    <strong>Important :</strong> n’utilisez pas l’ancien fichier .xls. Supprimez-le, retéléchargez le <strong>.xlsx</strong>, ouvrez avec <strong>Microsoft Excel</strong> (pas Aperçu). Montant en C → touche <strong>Entrée</strong>.
+    <strong>Excel Mac :</strong> cliquez <strong>« Activer la modification »</strong> (bannière jaune en haut), sinon le solde ne calcule pas.<br>
+    Montant en <strong>colonne C</strong> → <strong>Entrée</strong> → <strong>solde (E)</strong> mis à jour.
   </div>
   <?php endif; ?>
   <?php if ($xlsOk): ?>

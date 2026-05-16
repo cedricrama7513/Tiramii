@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
-"""Génère suivi-factures-restaurants-pro.xlsx (formules Excel FR, openpyxl)."""
+"""Génère suivi-factures-restaurants-pro.xlsx (Excel Mac / Windows, formules + aperçu solde)."""
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 
-from openpyxl import Workbook
-from openpyxl.styles import Alignment, Font, PatternFill
-from openpyxl.utils import get_column_letter
+import xlsxwriter
 
 ROOT = Path(__file__).resolve().parent.parent
 TOOLS = Path(__file__).resolve().parent
@@ -35,15 +32,6 @@ HEADERS = [
     "Message envoyé ?",
     "Date relance",
 ]
-
-HEADER_FILL = PatternFill("solid", fgColor="3D2E24")
-HEADER_FONT = Font(bold=True, color="FFFFFF")
-SOLDE_HEADER_FILL = PatternFill("solid", fgColor="1B5E20")
-INPUT_FILL = PatternFill("solid", fgColor="FFFDE7")
-SOLDE_FILL = PatternFill("solid", fgColor="E8F5E9")
-SOLDE_FONT = Font(bold=True)
-ALERT_FONT = Font(bold=True, color="B00020")
-MONEY_FMT = '#,##0.00'
 
 
 def load_restaurants() -> list[dict]:
@@ -80,149 +68,166 @@ def build_invoice_rows(restaurant: dict) -> list[dict]:
 
 
 def solde_formula(row: int, opening: float) -> str:
-    """Solde cumulé : ne dépend pas de la cellule E précédente (recalcule si C change)."""
-    open_part = f"{opening}+" if opening > 0 else ""
-    return f"={open_part}SOMME($D$2:D{row})-SOMME($C$2:C{row})"
+    """Formules en anglais dans le fichier (Excel Mac FR les affiche en SOMME)."""
+    if opening > 0:
+        return f"={opening}+SUM($D$2:D{row})-SUM($C$2:C{row})"
+    return f"=SUM($D$2:D{row})-SUM($C$2:C{row})"
+
+
+def preview_solde(prefill: list[dict], row: int, opening: float) -> float:
+    """Aperçu initial (C vide) : versements cumulés — pour la valeur cache Mac Excel."""
+    dep_sum = sum(
+        (prefill[i]["deposit"] if i < len(prefill) else 0) for i in range(row - 1)
+    )
+    return round(opening + dep_sum, 2)
 
 
 def sheet_ref(name: str) -> str:
     return "'" + name.replace("'", "''") + "'"
 
 
-def style_header_row(ws) -> None:
-    solde_cols = {4, 5, 6}
-    for col, title in enumerate(HEADERS, start=1):
-        cell = ws.cell(row=1, column=col, value=title)
-        cell.font = HEADER_FONT
-        cell.fill = SOLDE_HEADER_FILL if col in solde_cols else HEADER_FILL
-        cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+def build_workbook(path: Path, restaurants: list[dict]) -> None:
+    wb = xlsxwriter.Workbook(str(path))
+    wb.set_calc_mode("auto")
 
+    fmt_header = wb.add_format(
+        {"bold": True, "font_color": "#FFFFFF", "bg_color": "#3D2E24", "align": "center", "valign": "vcenter", "text_wrap": True}
+    )
+    fmt_solde_header = wb.add_format(
+        {"bold": True, "font_color": "#FFFFFF", "bg_color": "#1B5E20", "align": "center", "valign": "vcenter", "text_wrap": True}
+    )
+    fmt_input = wb.add_format({"num_format": "#,##0.00", "bg_color": "#FFFDE7"})
+    fmt_solde = wb.add_format({"num_format": "#,##0.00", "bg_color": "#E8F5E9", "bold": True})
+    fmt_alert = wb.add_format({"bold": True, "font_color": "#B00020", "text_wrap": True})
+    fmt_money = wb.add_format({"num_format": "#,##0.00"})
 
-def build_client_sheet(wb: Workbook, restaurant: dict) -> None:
-    name = str(restaurant.get("sheetName") or restaurant["name"])[:31]
-    ws = wb.create_sheet(title=name)
-    style_header_row(ws)
+    solde_cols = {3, 4, 5}
 
-    opening = float(restaurant.get("openingBalance") or 0)
-    prefill = build_invoice_rows(restaurant)
+    for restaurant in restaurants:
+        name = str(restaurant.get("sheetName") or restaurant["name"])[:31]
+        ws = wb.add_worksheet(name)
+        ws.freeze_panes(1, 0)
 
-    for col, width in enumerate([12, 18, 11, 14, 12, 28, 10, 26, 14, 26, 14, 12], start=1):
-        ws.column_dimensions[get_column_letter(col)].width = width
+        widths = [12, 18, 11, 14, 12, 28, 10, 26, 14, 26, 14, 12]
+        for col, w in enumerate(widths):
+            ws.set_column(col, col, w)
 
-    for r in range(2, MAX_ROW + 1):
-        data = prefill[r - 2] if r - 2 < len(prefill) else None
+        for col, title in enumerate(HEADERS):
+            ws.write(0, col, title, fmt_solde_header if col in solde_cols else fmt_header)
 
-        ws.cell(row=r, column=1, value=data["date"] if data else None)
-        ws.cell(row=r, column=2, value=data["inv"] if data else None)
+        opening = float(restaurant.get("openingBalance") or 0)
+        prefill = build_invoice_rows(restaurant)
 
-        c_cell = ws.cell(row=r, column=3, value=0)
-        c_cell.number_format = MONEY_FMT
-        c_cell.fill = INPUT_FILL
+        for r in range(2, MAX_ROW + 1):
+            xr = r - 1
+            data = prefill[r - 2] if r - 2 < len(prefill) else None
 
-        d_val = data["deposit"] if data else 0
-        d_cell = ws.cell(row=r, column=4, value=d_val)
-        d_cell.number_format = MONEY_FMT
-        d_cell.fill = INPUT_FILL
+            if data:
+                ws.write(xr, 0, data["date"])
+                ws.write(xr, 1, data["inv"])
+            ws.write_blank(xr, 2, None, fmt_input)
 
-        e_cell = ws.cell(row=r, column=5)
-        e_cell.value = solde_formula(r, opening)
-        e_cell.number_format = MONEY_FMT
-        e_cell.fill = SOLDE_FILL
-        e_cell.font = SOLDE_FONT
+            dep = data["deposit"] if data else 0
+            ws.write_number(xr, 3, dep, fmt_input)
 
-        f_cell = ws.cell(row=r, column=6)
-        f_cell.value = (
-            f'=SI(E{r}<=0;"⚠ SOLDE ÉPUISÉ — faire verser {DEPOSIT_AMOUNT} €";"")'
-        )
-        f_cell.font = ALERT_FONT
+            formula = solde_formula(r, opening)
+            cached = preview_solde(prefill, r, opening)
+            ws.write_formula(xr, 4, formula, fmt_solde, cached)
 
-        ws.cell(row=r, column=7, value=data["paid"] if data else "Non")
+            ws.write_formula(
+                xr,
+                5,
+                f'=IF(E{r}<=0,"⚠ SOLDE ÉPUISÉ — faire verser {DEPOSIT_AMOUNT} €","")',
+                fmt_alert,
+                "",
+            )
+            ws.write(xr, 6, data["paid"] if data else "Non")
+            ws.write_formula(
+                xr,
+                7,
+                f'=IF(C{r}>{ALERT_THRESHOLD},"⚠ Facture > {ALERT_THRESHOLD} € — à relancer","")',
+                fmt_alert,
+                "",
+            )
+            ws.write_formula(
+                xr,
+                8,
+                f'=SUM($C$2:$C${MAX_ROW})-SUMIF($G$2:$G${MAX_ROW},"Oui",$C$2:$C${MAX_ROW})',
+                fmt_money,
+                0,
+            )
+            ws.write_formula(
+                xr,
+                9,
+                f'=IF(I{r}>{ALERT_THRESHOLD},"⚠ ENVOYER MESSAGE PAIEMENT","")',
+                fmt_alert,
+                "",
+            )
+            ws.write(xr, 10, data["message"] if data else "Non")
+            if data and data["relance"]:
+                ws.write(xr, 11, data["relance"])
 
-        ws.cell(row=r, column=8).value = (
-            f'=SI(C{r}>{ALERT_THRESHOLD};"⚠ Facture > {ALERT_THRESHOLD} € — à relancer";"")'
-        )
-        ws.cell(row=r, column=8).font = ALERT_FONT
-
-        ws.cell(row=r, column=9).value = (
-            f"=SOMME($C$2:$C${MAX_ROW})-SOMME.SI($C$2:$C${MAX_ROW};$G$2:$G${MAX_ROW};\"Oui\")"
-        )
-        ws.cell(row=r, column=9).number_format = MONEY_FMT
-
-        j_cell = ws.cell(row=r, column=10)
-        j_cell.value = (
-            f'=SI(I{r}>{ALERT_THRESHOLD};"⚠ ENVOYER MESSAGE PAIEMENT";"")'
-        )
-        j_cell.font = ALERT_FONT
-
-        ws.cell(row=r, column=11, value=data["message"] if data else "Non")
-        ws.cell(row=r, column=12, value=data["relance"] if data else "")
-
-    ws.freeze_panes = "A2"
-
-
-def build_synthese(wb: Workbook, restaurants: list[dict]) -> None:
-    ws = wb.create_sheet(title="Synthèse")
-    headers = [
+    ws_syn = wb.add_worksheet("Synthèse")
+    syn_headers = [
         "Restaurant",
         "Solde crédit actuel (€)",
         "Alerte solde",
         "Encours impayé (€)",
         "Alerte encours",
     ]
-    for col, h in enumerate(headers, start=1):
-        c = ws.cell(row=1, column=col, value=h)
-        c.font = HEADER_FONT
-        c.fill = HEADER_FILL
-
-    for idx, restaurant in enumerate(restaurants, start=2):
+    for col, h in enumerate(syn_headers):
+        ws_syn.write(0, col, h, fmt_header)
+    for idx, restaurant in enumerate(restaurants, start=1):
         ref = sheet_ref(str(restaurant.get("sheetName") or restaurant["name"])[:31])
-        ws.cell(row=idx, column=1, value=restaurant["name"])
-        ws.cell(row=idx, column=2).value = f"={ref}!E{LAST_PREFILL_ROW}"
-        ws.cell(row=idx, column=2).number_format = MONEY_FMT
-        ws.cell(row=idx, column=3).value = (
-            f'=SI(B{idx}<=0;"⚠ RECHARGER {DEPOSIT_AMOUNT} €";"OK")'
+        ws_syn.write(idx, 0, restaurant["name"])
+        cached_e = preview_solde(build_invoice_rows(restaurant), LAST_PREFILL_ROW, float(restaurant.get("openingBalance") or 0))
+        ws_syn.write_formula(idx, 1, f"={ref}!E{LAST_PREFILL_ROW}", fmt_money, cached_e)
+        ws_syn.write_formula(
+            idx,
+            2,
+            f'=IF(B{idx + 1}<=0,"⚠ RECHARGER {DEPOSIT_AMOUNT} €","OK")',
+            fmt_alert,
+            "OK",
         )
-        ws.cell(row=idx, column=3).font = ALERT_FONT
-        ws.cell(row=idx, column=4).value = (
-            f"=SOMME({ref}!$C$2:$C${MAX_ROW})-SOMME.SI({ref}!$C$2:$C${MAX_ROW};{ref}!$G$2:$G${MAX_ROW};\"Oui\")"
+        ws_syn.write_formula(
+            idx,
+            3,
+            f'=SUM({ref}!$C$2:$C${MAX_ROW})-SUMIF({ref}!$G$2:$G${MAX_ROW},"Oui",{ref}!$C$2:$C${MAX_ROW})',
+            fmt_money,
+            0,
         )
-        ws.cell(row=idx, column=5).value = (
-            f'=SI(D{idx}>{ALERT_THRESHOLD};"⚠ RELANCER";"OK")'
+        ws_syn.write_formula(
+            idx,
+            4,
+            f'=IF(D{idx + 1}>{ALERT_THRESHOLD},"⚠ RELANCER","OK")',
+            fmt_alert,
+            "OK",
         )
 
-
-def build_help(wb: Workbook, restaurants: list[dict]) -> None:
+    ws_help = wb.add_worksheet("Mode emploi")
+    ws_help.set_column(0, 0, 78)
     names = " · ".join(r["name"] for r in restaurants)
-    ws = wb.create_sheet(title="Mode emploi")
     lines = [
         f"1. Un onglet par restaurant ({names}).",
-        "2. Colonne C (jaune) : montant facture — le solde (E) se recalcule tout seul.",
-        f"3. Colonne D (jaune) : versement client ({DEPOSIT_AMOUNT} €).",
-        "4. Téléchargez le fichier .xlsx sur casadessert.fr/outils/",
-        "5. Ouvrez avec Microsoft Excel (pas Aperçu Mac). Après saisie en C : Entrée.",
-        "6. Si rien ne bouge : Fichier → Options → Formules → Calcul automatique.",
+        "2. Colonne C : montant facture → colonne E (solde) se met à jour.",
+        f"3. Colonne D : versement client ({DEPOSIT_AMOUNT} €).",
+        "4. EXCEL MAC : en haut, cliquez « Activer la modification » (bannière jaune).",
+        "5. Saisissez le montant en C, puis touche Entrée ou Tab.",
+        "6. Si le solde ne bouge pas : Excel → Préférences → Calcul → Automatique.",
+        "7. Retéléchargez le .xlsx sur casadessert.fr/outils/ (pas l’ancien .xls).",
     ]
-    for i, line in enumerate(lines, start=1):
-        ws.cell(row=i, column=1, value=line)
-    ws.column_dimensions["A"].width = 72
+    for i, line in enumerate(lines):
+        ws_help.write(i, 0, line)
+
+    wb.close()
 
 
 def main() -> None:
     restaurants = load_restaurants()
-    wb = Workbook()
-    wb.remove(wb.active)
-    wb.calculation.fullCalcOnLoad = True
-    wb.calculation.calcMode = "auto"
-
-    for restaurant in restaurants:
-        build_client_sheet(wb, restaurant)
-    build_synthese(wb, restaurants)
-    build_help(wb, restaurants)
-
     for out_dir in OUT_DIRS:
         out_dir.mkdir(parents=True, exist_ok=True)
         path = out_dir / BASE_NAME
-        wb.save(path)
+        build_workbook(path, restaurants)
         print("Written", path)
 
 
