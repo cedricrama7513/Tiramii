@@ -9,70 +9,78 @@
 
 ## Objectif
 
-**Un onglet par restaurant** : les factures de l’année sont déjà préremplies (date, numéro, montant). Vous ajustez surtout les montants et le statut « Payé ? ».
+**Un onglet par restaurant** : factures mensuelles 2026 + **compte prépayé** (versements de **500 €** déduits facture par facture).
 
-Dès que :
+Alertes :
 
-- **une facture** dépasse **500 €**, ou  
-- l’**encours impayé** du restaurant dépasse **500 €**,
+- **Solde crédit ≤ 0 €** → le client doit recharger (**500 €**).
+- **Facture > 500 €** ou **encours impayé > 500 €** (suivi classique).
 
-une **alerte** s’affiche pour vous rappeler d’**envoyer un message** pour le paiement.
+## Compte prépayé (500 €)
 
-## Onglets restaurants (un par client pro)
+1. Le client vous envoie **500 €** → saisissez **500** en colonne **D** (Versement reçu) sur la ligne du mois concerné.
+2. Chaque **facture** (colonne **C**) est **déduite** automatiquement du **solde crédit** (colonne **E**).
+3. Dès que le **solde ≤ 0** (colonne **F** : alerte), demandez un nouveau versement de **500 €**.
 
-Exemples actuels : **My French factory**, **My french Cantine** (mêmes noms que dans admin → Pro).
+**Solde (ligne 2)** : `= solde d'ouverture + D2 − C2`  
+**Solde (lignes suivantes)** : `= solde précédent + versement − facture`
+
+## Onglets restaurants
+
+Clients actuels : **My French factory**, **My french Cantine** (noms identiques à admin → Pro).
 
 | Colonne | Contenu |
 |--------|---------|
 | A | Date de la facture |
 | B | N° facture |
 | C | Montant TTC (€) |
-| D | Payé ? (`Oui` ou `Non`) |
-| E | **Alerte** si facture > 500 € (calculée) |
-| F | **Encours impayé** (calculé) |
-| G | **Alerte** si encours > 500 € |
-| H | Message envoyé ? (`Oui` / `Non`) |
-| I | Date de relance |
-
-### Factures préremplies
-
-- **12 lignes par restaurant** : une facture par mois en 2026 (du 1er janvier au 1er décembre).
-- Numéros du type `FAC-BIST-2026-01`, `FAC-STM-2026-01`, etc.
-- Montants mensuels déjà renseignés ; modifiez la colonne C si besoin.
-- Les mois déjà réglés sont en « Payé ? = Oui » (exemples) ; le reste est en « Non ».
+| D | **Versement reçu (€)** — mettre **500** à chaque recharge |
+| E | **Solde crédit (€)** — calculé |
+| F | **Alerte** si solde ≤ 0 € |
+| G | Payé ? (`Oui` / `Non`) — hors prépaiement |
+| H | Alerte si facture > 500 € |
+| I | Encours impayé (calculé) |
+| J | Alerte encours > 500 € |
+| K | Message envoyé ? |
+| L | Date de relance |
 
 ## Onglet « Synthèse »
 
-Les deux restaurants avec l’encours impayé total et une colonne **Alerte > 500 €** (`RELANCER` / `OK`).
+Pour chaque restaurant : **solde crédit actuel**, **alerte solde**, encours impayé, alerte encours.
 
-## Changer les noms ou montants par défaut
+## Régénérer le fichier
 
-Éditez `tools/build-suivi-factures-xls.mjs` (tableau `restaurants`), puis :
+Sur le serveur (avec `config/config.php`) :
 
 ```bash
+php tools/export-pro-clients-json.php
 node tools/build-suivi-factures-xls.mjs
 ```
 
-## Changer le seuil (500 €)
+Ou admin → **Pro** → **Exporter pour le tableur Excel**, puis `node tools/build-suivi-factures-xls.mjs`.
 
-Sur chaque onglet restaurant :
+Dans `tools/pro-clients.json` vous pouvez définir :
 
-- Colonne **E** : remplacez `500` dans la formule.  
-- Colonne **G** : idem sur `F2>500`.  
-- Onglet **Synthèse** : colonne **C**, formule `B2>500`.
+- `openingBalance` : crédit déjà en compte au 1er janvier (ex. **500**).
+- `depositMonths` : mois où un versement de **500 €** est prérempli en colonne D (ex. `[1, 4]`).
 
-**Encours impayé (colonne F, ligne 2)**  
+## Formules utiles (Excel français)
+
+**Solde crédit (E2, avec 500 € d’ouverture en config)**  
 ```excel
-=SOMME($C$2:$C$120)-SOMME.SI($C$2:$C$120;$D$2:$D$120;"Oui")
+=500+D2-C2
 ```
 
-## Bonnes pratiques
+**Solde crédit (E3)**  
+```excel
+=E2+D3-C3
+```
 
-1. **Une ligne = une facture**.  
-2. Mettre **Oui** en colonne D dès réception du virement.  
-3. Après relance, noter **Oui** en colonne H et la date en I.  
-4. Pour renommer un restaurant : onglet + `build-suivi-factures-xls.mjs` puis régénération.
+**Alerte solde (F2)**  
+```excel
+=SI(E2<=0;"⚠ SOLDE ÉPUISÉ — faire verser 500 €";"")
+```
 
 ## Lien avec l’admin du site
 
-Les PDF dans **admin.php → Pro → Factures pro** restent l’archive. Ce tableur sert au **suivi des montants et relances** (non synchronisé avec le site).
+Les PDF dans **admin.php → Pro → Factures pro** restent l’archive. Ce tableur sert au **suivi des montants, prépaiements et relances**.

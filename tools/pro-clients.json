@@ -7,14 +7,18 @@
       "sheetName": "My French factory",
       "invoicePrefix": "FAC-MYFRENCH",
       "monthlyAmounts": [320, 280, 395, 410, 365, 342, 388, 425, 298, 372, 356, 401],
-      "paidMonths": [1, 2]
+      "paidMonths": [1, 2],
+      "openingBalance": 500,
+      "depositMonths": [1]
     },
     {
       "name": "My french Cantine",
       "sheetName": "My french Cantine",
       "invoicePrefix": "FAC-MYFRENCHC",
       "monthlyAmounts": [150, 165, 142, 178, 155, 188, 172, 195, 160, 184, 148, 176],
-      "paidMonths": [1, 2, 3]
+      "paidMonths": [1, 2, 3],
+      "openingBalance": 500,
+      "depositMonths": [1, 4]
     }
   ]
 }
