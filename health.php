@@ -11,7 +11,15 @@ $root = __DIR__;
 echo "casa-dessert-health\n";
 echo 'PHP ' . PHP_VERSION . "\n";
 echo 'memory_limit=' . ini_get('memory_limit') . "\n";
-echo '__DIR__=' . $root . "\n\n";
+echo '__DIR__=' . $root . "\n";
+
+$versionPath = $root . DIRECTORY_SEPARATOR . 'deploy-version.txt';
+if (is_readable($versionPath)) {
+    echo 'deploy-version=' . trim((string) file_get_contents($versionPath)) . " (Git a bien deploye ce commit)\n";
+} else {
+    echo "deploy-version=MANQUANT — Git Hostinger n'a pas deploye les derniers commits GitHub\n";
+}
+echo "\n";
 
 $paths = [
     'index.php',

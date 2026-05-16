@@ -25,7 +25,35 @@ Collez la chaîne dans `config.php` sous la clé `admin_password_hash`.
 
 Vous pouvez supprimer les lignes d’exemple `INSERT INTO orders` / `order_items` dans `database.sql` avant import si vous voulez une base vide.
 
-## 3. Upload des fichiers (FTP / Gestionnaire de fichiers)
+## 3. Déploiement Git Hostinger (recommandé)
+
+Dépôt GitHub : `https://github.com/cedricrama7513/Tiramii` — branche **`main`**.
+
+### Configurer une fois
+
+1. **hPanel** → **Sites** → **casadessert.fr** → **Git** (ou **Avancé** → **Git**).
+2. Connectez le dépôt GitHub `cedricrama7513/Tiramii`, branche **`main`**.
+3. **Répertoire d’installation** : laissez **vide** ou mettez **`public_html`** / **`.`**  
+   **Ne pas** mettre un sous-dossier (`Tiramii`, `public_html/Tiramii`, etc.) : le site doit être directement dans  
+   `/home/…/domains/casadessert.fr/public_html/`.
+4. Cliquez sur **Déployer** (Deploy).
+5. Activez **Déploiement automatique** : copiez l’URL webhook Hostinger → **GitHub** → dépôt **Tiramii** → **Settings** → **Webhooks** → **Add webhook** → collez l’URL, événement **push**.
+
+`config/config.php` n’est **pas** sur Git (`.gitignore`) : créez-le une fois à la main sur le serveur ; il ne sera pas écrasé aux déploiements.
+
+### Vérifier que Git fonctionne
+
+Après chaque `git push`, ouvrez : **https://casadessert.fr/health.php**
+
+| Indicateur | Git OK | Git ne déploie pas |
+|------------|--------|---------------------|
+| `deploy-version=…` | Une ligne avec un hash (ex. `daf9500`) | `deploy-version=MANQUANT` |
+| `devis.php` | `OK devis.php` | `MANQUANT devis.php` |
+| `index.php` | environ **7900+ octets** | environ **7018 octets** (ancienne version) |
+
+Si Git ne met pas à jour le site : cliquez **Déployer** dans hPanel, vérifiez le chemin d’installation, puis le webhook GitHub. En dernier recours, uploadez **`devis.php`** à la main dans `public_html` (voir section 4).
+
+## 4. Upload des fichiers (FTP / Gestionnaire de fichiers)
 
 1. Dans **FileZilla** ou le **Gestionnaire de fichiers Hostinger**, ouvrez le dossier racine du site (souvent `public_html` ou un sous-dossier du domaine).
 2. Uploadez **tout le contenu** du projet :
@@ -35,19 +63,19 @@ Vous pouvez supprimer les lignes d’exemple `INSERT INTO orders` / `order_items
 
 Si `config/` est **en dehors** de `public_html` (recommandé sur certains plans), ajustez les chemins dans `index.php` / `api/_bootstrap.php` ou déplacez uniquement `config.php` hors web et adaptez `config/db.php`.
 
-## 3 bis. Diagnostic si la page d’accueil affiche une erreur 500
+## 4 bis. Diagnostic si la page d’accueil affiche une erreur 500
 
 1. Uploadez `verification-installation.php` à la racine du site (à côté de `index.php`).
 2. Ouvrez dans le navigateur : `https://casadessert.fr/verification-installation.php`
 3. Corrigez tout ce qui est marqué ❌ (souvent : `config.php` absent, tables MySQL non importées, `product_images.php` manquant).
 4. **Supprimez** `verification-installation.php` du serveur une fois terminé.
 
-## 4. Vérifier la configuration PHP
+## 5. Vérifier la configuration PHP
 
 - Version PHP **8.0** minimum (hPanel → Paramètres PHP).
 - Extensions : **pdo_mysql**, **json**, **mbstring**.
 
-## 5. URLs propres
+## 6. URLs propres
 
 Le fichier `.htaccess` définit `DirectoryIndex index.php`. Les pages utilisées :
 
@@ -59,7 +87,7 @@ Le fichier `.htaccess` définit `DirectoryIndex index.php`. Les pages utilisées
 
 Vous pouvez décommenter la redirection **HTTP → HTTPS** dans `.htaccess` une fois le certificat SSL actif.
 
-## 6. Tests après déploiement
+## 7. Tests après déploiement
 
 1. Ouvrir le site : le catalogue s’affiche avec images et prix.
 2. Ajouter un produit au panier : pas d’erreur toast ; vérifier dans les outils développeur (réseau) que `api/sync-reservation.php` répond `{"ok":true}`.
@@ -74,7 +102,8 @@ Vous pouvez décommenter la redirection **HTTP → HTTPS** dans `.htaccess` une 
 - **Erreur PDO** : vérifiez `DB_HOST` (souvent `localhost` ou un hôte fourni par Hostinger), nom de base, utilisateur, mot de passe.
 - **CSRF 403** sur l’API** : cookies de session bloqués ; vérifier même domaine, HTTPS cohérent, pas de navigation privée qui purge la session entre requêtes.
 - **Stock qui ne baisse pas après commande** : en admin, une quantité affichée « Illimité » correspond à **999** en base — dans ce cas le site ne déstocke pas. Pour suivre un stock réel, saisissez un nombre inférieur à 999 (ex. 50). Les nouvelles installations importées depuis `database.sql` utilisent des stocks finis par défaut.
-- **Page devis introuvable (404)** : `pro.php` n’est pas sur le serveur — uploadez-le à la racine avec `api/pro-quote.php` et les fichiers `includes/` listés ci-dessus.
+- **Git ne déploie pas** : voir section 3 — `health.php` doit afficher `deploy-version=…` et `OK devis.php`. Sinon **Déployer** dans hPanel ou upload manuel de `devis.php`.
+- **Page devis introuvable (404)** : uploadez **`devis.php`** à la racine `public_html` (fichier autonome, un seul upload suffit).
 - **« Enregistrement impossible »** à l’envoi du devis : la table `pro_quote_requests` manque — ouvrez `pro.php` une fois (création auto) ou importez `database_pro_b2b.sql` ; vérifiez les droits MySQL `CREATE TABLE`.
 - **« Jeton CSRF invalide »** sur le devis : rechargez la page, même domaine HTTP/HTTPS, cookies autorisés.
 - **Devis reçu en admin mais pas d’e-mail** : renseignez `notify.owner_email` et SMTP dans `config/config.php` (comme pour les commandes).
