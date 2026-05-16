@@ -76,12 +76,41 @@ function escapeXml(s) {
     .replace(/"/g, '&quot;');
 }
 
-function cell(row, col, type, value, extra = '') {
+function cell(row, col, type, value, extra = '', cachedNumber = null) {
   if (type === 'formula') {
-    return `<Cell ss:Index="${col}" ss:Formula="${escapeXml(value)}"><Data ss:Type="String"></Data></Cell>`;
+    let inner = '<Data ss:Type="String"></Data>';
+    if (cachedNumber !== null && !Number.isNaN(cachedNumber)) {
+      inner = `<Data ss:Type="Number">${cachedNumber}</Data>`;
+    }
+    return `<Cell ss:Index="${col}" ss:Formula="${escapeXml(value)}"${extra}>${inner}</Cell>`;
   }
   const dataType = type === 'number' ? 'Number' : 'String';
-  return `<Cell ss:Index="${col}"${extra}><Data ss:Type="${dataType}">${escapeXml(String(value))}</Data></Cell>`;
+  const display = type === 'number' && value === '' ? '' : String(value);
+  return `<Cell ss:Index="${col}"${extra}><Data ss:Type="${dataType}">${escapeXml(display)}</Data></Cell>`;
+}
+
+/** Montant facture (col. C) : vide = 0 dans les formules. */
+function montantForFormula(cRef) {
+  return `SI(ESTNUM(${cRef});${cRef};0)`;
+}
+
+function soldeFormula(row, openingBalance) {
+  const c = montantForFormula(`C${row}`);
+  const open = openingBalance > 0 ? openingBalance : 0;
+  if (row === 2) {
+    return open > 0 ? `=${open}+D2-${c}` : `=D2-${c}`;
+  }
+  return `=E${row - 1}+D${row}-${c}`;
+}
+
+function computeBalanceCache(restaurant, prefill) {
+  let balance = Number(restaurant.openingBalance) || 0;
+  return prefill.map((data) => {
+    const dep = data.deposit !== '' ? Number(data.deposit) : 0;
+    // Colonne C vide à la génération : aperçu solde = versements seuls (C saisi ensuite par l'utilisateur)
+    balance = Math.round((balance + dep) * 100) / 100;
+    return balance;
+  });
 }
 
 function sheetRef(sheetName) {
@@ -107,16 +136,9 @@ function buildInvoiceRows(restaurant) {
   return rows;
 }
 
-function soldeFormula(row, openingBalance) {
-  const open = openingBalance > 0 ? openingBalance : 0;
-  if (row === 2) {
-    return open > 0 ? `=${open}+D2-C2` : '=D2-C2';
-  }
-  return `=E${row - 1}+D${row}-C${row}`;
-}
-
 function buildWorksheetXml(restaurant) {
   const prefill = buildInvoiceRows(restaurant);
+  const balanceCache = computeBalanceCache(restaurant, prefill);
   let rowsXml = '';
 
   rowsXml += '<Row ss:StyleID="header">';
@@ -130,24 +152,28 @@ function buildWorksheetXml(restaurant) {
   for (let r = 2; r <= maxRow; r++) {
     const data = prefill[r - 2];
     rowsXml += '<Row>';
+    const preIdx = r - 2;
     if (data) {
       rowsXml += cell(r, 1, 'string', data.date);
       rowsXml += cell(r, 2, 'string', data.invNum);
-      rowsXml += cell(r, 3, 'number', data.amount, ' ss:StyleID="money"');
-      rowsXml += cell(r, 4, 'number', data.deposit !== '' ? data.deposit : 0, ' ss:StyleID="money"');
+      // Colonne C : à remplir — le solde (E) se recalcule automatiquement
+      rowsXml += cell(r, 3, 'number', '', ' ss:StyleID="inputMoney"');
+      rowsXml += cell(r, 4, 'number', data.deposit !== '' ? data.deposit : 0, ' ss:StyleID="inputMoney"');
     } else {
       rowsXml += cell(r, 1, 'string', '');
       rowsXml += cell(r, 2, 'string', '');
-      rowsXml += cell(r, 3, 'number', '');
-      rowsXml += cell(r, 4, 'number', '');
+      rowsXml += cell(r, 3, 'number', '', ' ss:StyleID="inputMoney"');
+      rowsXml += cell(r, 4, 'number', 0, ' ss:StyleID="inputMoney"');
     }
 
+    const cachedBal = data ? balanceCache[preIdx] : null;
     rowsXml += cell(
       r,
       5,
       'formula',
       soldeFormula(r, restaurant.openingBalance),
-      ' ss:StyleID="soldeMoney"'
+      ' ss:StyleID="soldeMoney"',
+      cachedBal
     );
     rowsXml += cell(
       r,
@@ -285,6 +311,9 @@ function buildWorkbookXml() {
   <Title>Suivi factures restaurants pro — Casa Dessert</Title>
   <Author>Casa Dessert</Author>
  </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <FullCalcOnLoad>1</FullCalcOnLoad>
+ </ExcelWorkbook>
  <Styles>
   <Style ss:ID="Default" ss:Name="Normal">
    <Alignment ss:Vertical="Center"/>
@@ -301,6 +330,10 @@ function buildWorkbookXml() {
   </Style>
   <Style ss:ID="money">
    <NumberFormat ss:Format="#,##0.00"/>
+  </Style>
+  <Style ss:ID="inputMoney">
+   <NumberFormat ss:Format="#,##0.00"/>
+   <Interior ss:Color="#FFFDE7" ss:Pattern="Solid"/>
   </Style>
   <Style ss:ID="soldeHeader">
    <Font ss:Bold="1" ss:Color="#FFFFFF"/>
@@ -319,8 +352,8 @@ ${buildSyntheseXml()}
   <Table ss:ExpandedColumnCount="1" ss:ExpandedRowCount="26">
    <Column ss:Width="580"/>
    <Row><Cell><Data ss:Type="String">1. Un onglet par restaurant (${restaurants.map((r) => r.name).join(' · ')}).</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">2. Compte prépayé : le client verse ${depositAmount} € (colonne D) ; chaque facture (colonne C) est déduite du solde (colonne E).</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">3. Solde crédit (E) : versements cumulés − factures. Ligne 2 : =D2−C2 (+ solde d&apos;ouverture si renseigné).</Data></Cell></Row>
+   <Row><Cell><Data ss:Type="String">2. Colonne C (jaune) : saisissez le montant de la facture → le solde (E) se recalcule tout seul.</Data></Cell></Row>
+   <Row><Cell><Data ss:Type="String">3. Colonne D (jaune) : versement client (${depositAmount} €). Formule solde : versements − factures.</Data></Cell></Row>
    <Row><Cell><Data ss:Type="String">4. Alerte colonne F : dès que le solde ≤ 0 € → faire verser ${depositAmount} € au client.</Data></Cell></Row>
    <Row><Cell><Data ss:Type="String">5. Saisissez ${depositAmount} en colonne D à chaque virement reçu (une ligne peut avoir 0 si pas de versement ce mois-là).</Data></Cell></Row>
    <Row><Cell><Data ss:Type="String">6. Colonne « Payé ? » (G) : facture réglée hors prépaiement (encours classique).</Data></Cell></Row>
