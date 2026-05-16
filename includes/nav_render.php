@@ -19,13 +19,12 @@ function tiramii_render_nav_html(?array $proAccount = null): string
             . '<li><a href="devis.php">Devis</a></li>'
             . '<li><a href="#" id="navProLogout" title="Se déconnecter">Déconnexion</a></li>';
     } else {
-        $proLinks = '<li><a href="devis.php">Devis</a></li>'
-            . '<li><a href="pro-login.php">Connexion pro</a></li>';
+        $proLinks = '<li><a href="devis.php">Devis</a></li>';
     }
 
     $mobilePro = $isPro
         ? '<a href="index.php#catalogue" class="nav-pro-mobile nav-pro-mobile--on" title="' . h($restaurant !== '' ? $restaurant : 'Tarifs pro') . '">Pro ✓</a>'
-        : '<a href="pro-login.php" class="nav-pro-mobile" title="Connexion professionnels">Pro</a>';
+        : '<a href="devis.php" class="nav-pro-mobile" title="Demande de devis pro">Devis</a>';
 
     $boxLink = $isPro ? '' : '<li><a href="index.php#box">Box</a></li>';
 
