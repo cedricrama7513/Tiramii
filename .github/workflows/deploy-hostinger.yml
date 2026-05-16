@@ -1,5 +1,7 @@
-# Déploie sur Hostinger à chaque push sur main (contourne Git Hostinger défaillant).
-# Secrets GitHub requis : FTP_HOST, FTP_USER, FTP_PASS (voir DEPLOYMENT.md).
+# Déploie sur Hostinger par FTP à chaque push sur main.
+# Secrets GitHub (Settings → Secrets → Actions) :
+#   FTP_HOST, FTP_USERNAME, FTP_PASSWORD
+# Optionnel : FTP_REMOTE_DIR (ex. ./ ou public_html/)
 name: Deploy to Hostinger
 
 on:
@@ -11,15 +13,39 @@ jobs:
   ftp-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Vérifier les secrets FTP
+        run: |
+          missing=0
+          if [ -z "${{ secrets.FTP_HOST }}" ]; then
+            echo "::error::Secret FTP_HOST manquant"
+            missing=1
+          fi
+          if [ -z "${{ secrets.FTP_USERNAME }}" ]; then
+            echo "::error::Secret FTP_USERNAME manquant (utilisateur FTP Hostinger)"
+            missing=1
+          fi
+          if [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
+            echo "::error::Secret FTP_PASSWORD manquant"
+            missing=1
+          fi
+          if [ "$missing" -eq 1 ]; then
+            echo ""
+            echo "GitHub → Tiramii → Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          fi
+          echo "Secrets FTP présents."
+
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via FTP
+      - name: Deploy via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
           local-dir: ./
           server-dir: ${{ secrets.FTP_REMOTE_DIR || './' }}
           exclude: |
@@ -34,11 +60,8 @@ jobs:
             config/config.php
             config/*.local.php
             **/database*.sql
-            **/*.md
             admin.html
             index.html
             sync-from-github.php
             verification-installation.php
             once-set-admin-password.php
-            ping.php
-            health.php

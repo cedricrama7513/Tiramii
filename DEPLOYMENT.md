@@ -58,13 +58,16 @@ Si Git ne met pas à jour le site : cliquez **Déployer** dans hPanel, vérifiez
 Le workflow `.github/workflows/deploy-hostinger.yml` envoie les fichiers par **FTP** à chaque `git push` sur `main`.
 
 1. **hPanel** → **Fichiers** → **Comptes FTP** : notez hôte, utilisateur, mot de passe.
-2. **GitHub** → dépôt **Tiramii** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret** :
-   - `FTP_HOST` — ex. `ftp.casadessert.fr` ou l’hôte indiqué par Hostinger
-   - `FTP_USER` — utilisateur FTP
-   - `FTP_PASS` — mot de passe FTP
-   - `FTP_REMOTE_DIR` (optionnel) — chemin distant, souvent `./` ou `/domains/casadessert.fr/public_html/`
-3. **Actions** → workflow **Deploy to Hostinger** → **Run workflow** (ou poussez un commit sur `main`).
-4. Vérifiez https://casadessert.fr/health.php (`deploy-version` + `OK devis.php`).
+2. **GitHub** → dépôt **Tiramii** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret** (noms **exacts**) :
+   - `FTP_HOST` — hôte FTP Hostinger (ex. `ftp.casadessert.fr`, souvent indiqué dans hPanel → FTP)
+   - `FTP_USERNAME` — utilisateur FTP (pas l’e-mail Hostinger)
+   - `FTP_PASSWORD` — mot de passe du compte FTP
+   - `FTP_REMOTE_DIR` (optionnel) — `./` si le FTP ouvre déjà `public_html`, sinon `public_html/` ou le chemin affiché dans hPanel
+3. Testez les identifiants dans **FileZilla** avant de relancer le workflow (erreur fréquente : `530 Login incorrect`).
+4. **Actions** → workflow **Deploy to Hostinger** → cliquez sur l’exécution en échec pour lire le log, ou **Run workflow** pour relancer.
+5. Vérifiez https://casadessert.fr/health.php (`deploy-version` + `OK devis.php`).
+
+Si le workflow échoue en **7 secondes** avec « Secret manquant », les 3 secrets ci-dessus ne sont pas créés. Si **530 Login incorrect**, vérifiez user/mot de passe FTP dans hPanel.
 
 `config/config.php` sur le serveur **n’est pas écrasé** (exclu du déploiement).
 
