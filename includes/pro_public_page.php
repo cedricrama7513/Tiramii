@@ -130,7 +130,7 @@ function tiramii_serve_pro_public_page(): void
 <section class="pro-b2b-page">
   <h1>Commandes &amp; devis professionnels</h1>
   <p class="lead">
-    Retrouvez les <strong>tarifs unitaires pro (HT)</strong> dans le tableau (articles renseignés dans l’admin). Ensuite, choisissez un onglet :
+    Retrouvez les <strong>tarifs unitaires pro HT</strong> dans le tableau ci-dessous. Ensuite, choisissez un onglet :
     <strong>Commander en ligne</strong> pour la boutique partenaires ou <strong>Demande de devis</strong> pour un volume pro.
   </p>
 
@@ -139,7 +139,7 @@ function tiramii_serve_pro_public_page(): void
     <a href="pro-register.php">Créer un compte pro</a> ·
     <a href="pro-login.php">Connexion</a> ·
     <a href="pro-boutique.php">Boutique tarifs partenaires</a>
-    (validation manuelle dans l’admin avant accès).
+    — validation manuelle dans l’admin avant accès.
   </div>
 
   <?php if ($catalog === []): ?>
@@ -175,8 +175,8 @@ function tiramii_serve_pro_public_page(): void
       <div class="order-card">
         <h2 style="font-family:'Playfair Display',serif;font-size:1.35rem;margin-bottom:.75rem">Passer commande</h2>
         <p>
-          Les commandes avec <strong>panier</strong> et <strong>livraison</strong> se font sur la <strong>boutique tarifs partenaires</strong>
-          (catalogue pro uniquement, sans les offres particuliers).
+          Les commandes avec <strong>panier</strong> et <strong>livraison</strong> se font sur la <strong>boutique tarifs partenaires</strong>,
+          catalogue pro uniquement.
         </p>
         <a class="btn-boutique" href="index.php#catalogue">Ouvrir la boutique et commander →</a>
       </div>
@@ -185,20 +185,9 @@ function tiramii_serve_pro_public_page(): void
     <div class="pro-panel" role="tabpanel" id="panel-devis" aria-labelledby="tab-devis" hidden>
       <section class="devis">
         <h2>Votre demande de devis</h2>
-        <p class="hint">Ajoutez des lignes (produit + quantité), renseignez vos coordonnées, puis envoyez.</p>
+        <p class="hint">Renseignez vos coordonnées et décrivez votre projet : nous vous recontactons rapidement.</p>
 
-        <div class="lines-wrap">
-          <div id="lineRows"></div>
-          <button type="button" class="btn-outline" id="addLine">+ Ajouter une ligne</button>
-        </div>
-
-        <div class="quote-lines" id="quoteSummary" style="display:none">
-          <strong>Récapitulatif (aperçu)</strong>
-          <ul id="quoteList"></ul>
-          <p id="quoteTotal" style="margin-top:8px;font-weight:600"></p>
-        </div>
-
-        <form id="quoteForm" class="devis-grid" style="margin-top:1.25rem">
+        <form id="quoteForm" class="devis-grid" style="margin-top:1rem">
           <div class="devis-grid cols-2">
             <div>
               <label for="pro_quote_company">Établissement</label>
@@ -220,8 +209,8 @@ function tiramii_serve_pro_public_page(): void
             </div>
           </div>
           <div>
-            <label for="pro_quote_message">Message (optionnel)</label>
-            <textarea id="pro_quote_message" name="message" maxlength="4000" placeholder="Délai souhaité, adresse de livraison, références internes…"></textarea>
+            <label for="pro_quote_message">Votre projet</label>
+            <textarea id="pro_quote_message" name="message" required minlength="10" maxlength="4000" placeholder="Décrivez votre projet : type d’événement, volumes, saveurs souhaitées, date, lieu de livraison…"></textarea>
           </div>
           <button type="submit" class="btn-primary" id="submitBtn">Envoyer la demande</button>
         </form>
@@ -262,83 +251,7 @@ function tiramii_serve_pro_public_page(): void
   }
 })();
 
-const CATALOG = <?= json_encode($catalog, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>;
 const CSRF = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-
-function addLineRow() {
-  const wrap = document.getElementById('lineRows');
-  const row = document.createElement('div');
-  row.className = 'line-row';
-  const sel = document.createElement('select');
-  sel.required = true;
-  const opt0 = document.createElement('option');
-  opt0.value = '';
-  opt0.textContent = '— Produit —';
-  sel.appendChild(opt0);
-  CATALOG.forEach(p => {
-    const o = document.createElement('option');
-    o.value = p.id;
-    o.textContent = p.name;
-    sel.appendChild(o);
-  });
-  const qty = document.createElement('input');
-  qty.type = 'number';
-  qty.min = 1;
-  qty.max = 9999;
-  qty.value = 1;
-  qty.required = true;
-  const rm = document.createElement('button');
-  rm.type = 'button';
-  rm.className = 'btn-outline';
-  rm.style.padding = '6px 12px';
-  rm.textContent = 'Retirer';
-  rm.onclick = () => { row.remove(); updateSummary(); };
-  row.appendChild(sel);
-  row.appendChild(qty);
-  row.appendChild(rm);
-  wrap.appendChild(row);
-  sel.addEventListener('change', updateSummary);
-  qty.addEventListener('input', updateSummary);
-}
-
-function updateSummary() {
-  const rows = document.querySelectorAll('#lineRows .line-row');
-  const list = document.getElementById('quoteList');
-  const sumEl = document.getElementById('quoteSummary');
-  const totalEl = document.getElementById('quoteTotal');
-  let html = '';
-  let total = 0;
-  let surDevis = [];
-  const seen = new Set();
-  rows.forEach(r => {
-    const sel = r.querySelector('select');
-    const q = parseInt(r.querySelector('input[type=number]').value, 10) || 0;
-    const id = sel.value;
-    if (!id || q < 1) return;
-    if (seen.has(id)) return;
-    seen.add(id);
-    const p = CATALOG.find(x => x.id === id);
-    if (!p) return;
-    if (p.price_pro != null && p.price_pro > 0) {
-      const line = p.price_pro * q;
-      total += line;
-      html += '<li>'+p.name.replace(/</g,'')+' × '+q+' → '+line.toFixed(2).replace('.', ',')+' € HT</li>';
-    } else {
-      surDevis.push(p.name.replace(/</g,'')+' × '+q);
-    }
-  });
-  if (html === '' && surDevis.length === 0) {
-    sumEl.style.display = 'none';
-    return;
-  }
-  sumEl.style.display = 'block';
-  list.innerHTML = html + (surDevis.length ? '<li><em>Sur devis : '+surDevis.join(', ')+'</em></li>' : '');
-  totalEl.textContent = total > 0
-    ? 'Estimation HT (hors lignes sur devis) : ' + total.toFixed(2).replace('.', ',') + ' €'
-    : (surDevis.length ? 'Montant sur devis — nous vous recontactons.' : '');
-}
-
-document.getElementById('addLine').addEventListener('click', () => { addLineRow(); updateSummary(); });
 
 document.getElementById('quoteForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -346,18 +259,10 @@ document.getElementById('quoteForm').addEventListener('submit', async (e) => {
   const btn = document.getElementById('submitBtn');
   msg.className = 'msg';
   msg.textContent = '';
-  const lines = [];
-  const merged = new Map();
-  document.querySelectorAll('#lineRows .line-row').forEach(r => {
-    const id = r.querySelector('select').value;
-    const qty = parseInt(r.querySelector('input[type=number]').value, 10) || 0;
-    if (!id || qty < 1) return;
-    merged.set(id, (merged.get(id) || 0) + qty);
-  });
-  merged.forEach((qty, id) => lines.push({ product_id: id, qty }));
-  if (lines.length === 0) {
+  const project = document.getElementById('pro_quote_message').value.trim();
+  if (project.length < 10) {
     msg.className = 'msg err';
-    msg.textContent = 'Ajoutez au moins une ligne avec un produit.';
+    msg.textContent = 'Décrivez votre projet en quelques lignes.';
     return;
   }
   btn.disabled = true;
@@ -370,18 +275,14 @@ document.getElementById('quoteForm').addEventListener('submit', async (e) => {
         contact_name: document.getElementById('pro_quote_contact').value.trim(),
         email: document.getElementById('pro_quote_email').value.trim(),
         phone: document.getElementById('pro_quote_phone').value.trim(),
-        message: document.getElementById('pro_quote_message').value.trim(),
-        lines
-      })
+        message: project,
+      }),
     });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || 'Erreur');
     msg.className = 'msg ok';
     msg.textContent = 'Demande #' + data.quote_id + ' envoyée. Nous vous recontactons rapidement.';
     document.getElementById('quoteForm').reset();
-    document.getElementById('lineRows').innerHTML = '';
-    addLineRow();
-    updateSummary();
   } catch (err) {
     msg.className = 'msg err';
     msg.textContent = err.message || 'Envoi impossible.';
@@ -389,7 +290,7 @@ document.getElementById('quoteForm').addEventListener('submit', async (e) => {
   btn.disabled = false;
 });
 
-if (CATALOG.length) addLineRow();
+
 </script>
     <?php
     $proMainHtml = ob_get_clean();

@@ -1,7 +1,7 @@
 <?php
 /**
  * POST JSON — enregistrement demande de devis pro + notification e-mail.
- * En-tête : X-CSRF-Token (ou champ csrf_token en form fallback non utilisé ici).
+ * En-tête : X-CSRF-Token
  */
 declare(strict_types=1);
 
@@ -27,10 +27,9 @@ $contact = trim((string) ($data['contact_name'] ?? ''));
 $email = trim((string) ($data['email'] ?? ''));
 $phone = trim((string) ($data['phone'] ?? ''));
 $message = trim((string) ($data['message'] ?? ''));
-$linesIn = $data['lines'] ?? null;
 
 if ($company === '' || mb_strlen($company) > 255) {
-    tiramii_json_response(['ok' => false, 'error' => 'Nom d’établissement obligatoire (255 car. max).'], 422);
+    tiramii_json_response(['ok' => false, 'error' => 'Nom d’établissement obligatoire.'], 422);
 }
 if ($contact === '' || mb_strlen($contact) > 160) {
     tiramii_json_response(['ok' => false, 'error' => 'Nom du contact obligatoire.'], 422);
@@ -41,92 +40,16 @@ if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($em
 if ($phone === '' || !preg_match('/^[0-9\s+().\-]{8,22}$/', $phone)) {
     tiramii_json_response(['ok' => false, 'error' => 'Téléphone invalide.'], 422);
 }
+if ($message === '' || mb_strlen($message) < 10) {
+    tiramii_json_response(['ok' => false, 'error' => 'Décrivez votre projet en quelques lignes.'], 422);
+}
 if (mb_strlen($message) > 4000) {
-    tiramii_json_response(['ok' => false, 'error' => 'Message trop long.'], 422);
-}
-if (!is_array($linesIn) || $linesIn === []) {
-    tiramii_json_response(['ok' => false, 'error' => 'Ajoutez au moins une ligne au devis.'], 422);
-}
-if (count($linesIn) > 80) {
-    tiramii_json_response(['ok' => false, 'error' => 'Trop de lignes (max. 80).'], 422);
+    tiramii_json_response(['ok' => false, 'error' => 'Description du projet trop longue.'], 422);
 }
 
-$ids = [];
-foreach ($linesIn as $row) {
-    if (!is_array($row)) {
-        continue;
-    }
-    $pid = trim((string) ($row['product_id'] ?? ''));
-    $qty = (int) ($row['qty'] ?? 0);
-    if ($pid === '' || !preg_match('/^[a-z0-9_]{1,64}$/i', $pid)) {
-        tiramii_json_response(['ok' => false, 'error' => 'Référence produit invalide.'], 422);
-    }
-    if ($qty < 1 || $qty > 9999) {
-        tiramii_json_response(['ok' => false, 'error' => 'Quantité invalide.'], 422);
-    }
-    if (isset($ids[$pid])) {
-        tiramii_json_response(['ok' => false, 'error' => 'Produit en double : ' . $pid], 422);
-    }
-    $ids[$pid] = $qty;
-}
-
-if ($ids === []) {
-    tiramii_json_response(['ok' => false, 'error' => 'Lignes de devis invalides.'], 422);
-}
-
-$inClause = implode(',', array_fill(0, count($ids), '?'));
-$st = $pdo->prepare(
-    "SELECT id, name, price_eur, pro_price_eur FROM products WHERE is_active = 1 AND id IN ($inClause)"
-);
-$st->execute(array_keys($ids));
-$rows = $st->fetchAll(PDO::FETCH_ASSOC);
-if (count($rows) !== count($ids)) {
-    tiramii_json_response(['ok' => false, 'error' => 'Un ou plusieurs produits ne sont plus disponibles.'], 422);
-}
-
-$resolved = [];
+$linesJson = '[]';
 $estimated = 0.0;
 $hasSurDevis = false;
-$linesTextParts = [];
-
-foreach ($rows as $r) {
-    $pid = (string) $r['id'];
-    $qty = $ids[$pid];
-    $name = (string) $r['name'];
-    $pub = (float) $r['price_eur'];
-    $proRaw = $r['pro_price_eur'];
-    $unit = null;
-    if ($proRaw !== null && $proRaw !== '') {
-        $unit = round((float) $proRaw, 2);
-    }
-    $lineTotal = null;
-    if ($unit !== null && $unit > 0) {
-        $lineTotal = round($unit * $qty, 2);
-        $estimated += $lineTotal;
-    } else {
-        $hasSurDevis = true;
-    }
-
-    $resolved[] = [
-        'product_id' => $pid,
-        'name' => $name,
-        'qty' => $qty,
-        'price_public_eur' => $pub,
-        'price_pro_eur' => $unit,
-        'line_total_eur' => $lineTotal,
-    ];
-
-    $priceLabel = $unit !== null && $unit > 0
-        ? number_format($unit, 2, ',', ' ') . ' € HT × ' . $qty . ' = ' . number_format((float) $lineTotal, 2, ',', ' ') . ' €'
-        : 'Sur devis × ' . $qty;
-    $linesTextParts[] = '  · ' . $name . ' (' . $pid . ') — ' . $priceLabel;
-}
-
-$linesJson = json_encode($resolved, JSON_UNESCAPED_UNICODE);
-if ($linesJson === false) {
-    tiramii_json_response(['ok' => false, 'error' => 'Erreur d’encodage.'], 500);
-}
-$linesText = implode("\n", $linesTextParts);
 
 $configFile = dirname(__DIR__) . '/config/config.php';
 if (!is_readable($configFile)) {
@@ -165,7 +88,7 @@ tiramii_notify_pro_quote_request(
     $email,
     $phone,
     $message,
-    $linesText,
+    '',
     $estimated,
     $hasSurDevis
 );

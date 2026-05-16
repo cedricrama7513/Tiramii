@@ -78,14 +78,10 @@ function tiramii_devis_notify_owner(
     }
     $subject = "Demande de devis pro #{$requestId} — {$company}";
     $totalStr = number_format($estimatedTotal, 2, ',', ' ') . ' € HT';
-    if ($hasSurDevis) {
-        $totalStr .= ' (estimation partielle — lignes « sur devis » en sus)';
-    }
     $body = "Nouvelle demande de devis — Casa Dessert\n\n";
     $body .= "Réf. #{$requestId}\nÉtablissement : {$company}\nContact : {$contact}\n";
     $body .= "E-mail : {$email}\nTéléphone : {$phone}\n\n";
-    $body .= "Estimation : {$totalStr}\n\nDétail :\n{$linesText}\n\n";
-    $body .= 'Message : ' . ($message !== '' ? $message : '—') . "\n";
+    $body .= "Projet décrit par le client :\n" . ($message !== '' ? $message : '—') . "\n";
     $fromEmail = trim((string) ($n['from_email'] ?? ''));
     $fromName = trim((string) ($n['from_name'] ?? 'Casa Dessert'));
     $headers = ['MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8'];
@@ -117,7 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim((string) ($data['email'] ?? ''));
     $phone = trim((string) ($data['phone'] ?? ''));
     $message = trim((string) ($data['message'] ?? ''));
-    $linesIn = $data['lines'] ?? null;
     if ($company === '' || $contact === '' || $email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(422);
         echo json_encode(['ok' => false, 'error' => 'Coordonnées incomplètes ou e-mail invalide.'], JSON_UNESCAPED_UNICODE);
@@ -128,67 +123,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['ok' => false, 'error' => 'Téléphone invalide.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
-    if (!is_array($linesIn) || $linesIn === []) {
+    if ($message === '' || mb_strlen($message) < 10) {
         http_response_code(422);
-        echo json_encode(['ok' => false, 'error' => 'Ajoutez au moins une ligne au devis.'], JSON_UNESCAPED_UNICODE);
+        echo json_encode(['ok' => false, 'error' => 'Décrivez votre projet en quelques lignes.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
-    $ids = [];
-    foreach ($linesIn as $row) {
-        if (!is_array($row)) {
-            continue;
-        }
-        $pid = trim((string) ($row['product_id'] ?? ''));
-        $qty = (int) ($row['qty'] ?? 0);
-        if ($pid === '' || $qty < 1 || $qty > 9999) {
-            http_response_code(422);
-            echo json_encode(['ok' => false, 'error' => 'Ligne invalide.'], JSON_UNESCAPED_UNICODE);
-            exit;
-        }
-        $ids[$pid] = ($ids[$pid] ?? 0) + $qty;
-    }
-    if ($ids === []) {
+    if (mb_strlen($message) > 4000) {
         http_response_code(422);
-        echo json_encode(['ok' => false, 'error' => 'Lignes de devis invalides.'], JSON_UNESCAPED_UNICODE);
-        exit;
-    }
-    $inClause = implode(',', array_fill(0, count($ids), '?'));
-    $st = $pdo->prepare(
-        'SELECT id, name, price_eur, pro_price_eur FROM products WHERE is_active = 1 AND id IN ('
-        . $inClause
-        . ') AND '
-        . tiramii_pro_catalog_sql_condition()
-    );
-    $st->execute(array_keys($ids));
-    $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-    if (count($rows) !== count($ids)) {
-        http_response_code(422);
-        echo json_encode(['ok' => false, 'error' => 'Produit indisponible.'], JSON_UNESCAPED_UNICODE);
+        echo json_encode(['ok' => false, 'error' => 'Description du projet trop longue.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
     $resolved = [];
     $estimated = 0.0;
     $hasSurDevis = false;
-    $linesTextParts = [];
-    foreach ($rows as $r) {
-        $pid = (string) $r['id'];
-        $qty = $ids[$pid];
-        $name = (string) $r['name'];
-        $proRaw = $r['pro_price_eur'];
-        $unit = ($proRaw !== null && $proRaw !== '') ? round((float) $proRaw, 2) : null;
-        $lineTotal = null;
-        if ($unit !== null && $unit > 0) {
-            $lineTotal = round($unit * $qty, 2);
-            $estimated += $lineTotal;
-        } else {
-            $hasSurDevis = true;
-        }
-        $resolved[] = ['product_id' => $pid, 'name' => $name, 'qty' => $qty, 'price_pro_eur' => $unit, 'line_total_eur' => $lineTotal];
-        $priceLabel = $lineTotal !== null
-            ? number_format($unit, 2, ',', ' ') . ' € HT × ' . $qty . ' = ' . number_format($lineTotal, 2, ',', ' ') . ' €'
-            : 'Sur devis × ' . $qty;
-        $linesTextParts[] = '  · ' . $name . ' — ' . $priceLabel;
-    }
     $linesJson = json_encode($resolved, JSON_UNESCAPED_UNICODE);
     if ($linesJson === false) {
         http_response_code(500);
@@ -220,12 +167,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             require_once __DIR__ . '/includes/pro_quote_notify.php';
             tiramii_notify_pro_quote_request(
                 $appCfg, $newId, $company, $contact, $email, $phone, $message,
-                implode("\n", $linesTextParts), $estimated, $hasSurDevis
+                '', $estimated, $hasSurDevis
             );
         } else {
             tiramii_devis_notify_owner(
                 $appCfg, $newId, $company, $contact, $email, $phone, $message,
-                implode("\n", $linesTextParts), $estimated, $hasSurDevis
+                '', $estimated, $hasSurDevis
             );
         }
     }
@@ -238,11 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-tiramii_ensure_pro_price_column($pdo);
-$catalog = tiramii_fetch_pro_devis_catalog($pdo);
-
 $csrf = csrf_token();
-$catalogJson = json_encode($catalog, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG);
 header('Content-Type: text/html; charset=UTF-8');
 ?>
 <!DOCTYPE html>
@@ -286,17 +229,7 @@ textarea{min-height:80px;resize:vertical}
 <div class="wrap">
   <a class="back" href="index.php">← Retour boutique</a>
   <h1>Demande de devis pro</h1>
-  <p class="lead">Volumes professionnels, tarifs HT. Ajoutez vos lignes et envoyez — nous vous recontactons rapidement.</p>
-
-  <div class="card">
-    <div id="lineRows"></div>
-    <button type="button" class="btn-o" id="addLine">+ Ajouter une ligne</button>
-    <div class="summary" id="quoteSummary">
-      <strong>Récapitulatif</strong>
-      <ul id="quoteList"></ul>
-      <p id="quoteTotal" style="margin-top:8px;font-weight:600"></p>
-    </div>
-  </div>
+  <p class="lead">Décrivez votre projet professionnel : nous étudions votre demande et vous recontactons rapidement.</p>
 
   <form id="quoteForm" class="card">
     <div class="grid2">
@@ -307,101 +240,50 @@ textarea{min-height:80px;resize:vertical}
       <div><label for="em">E-mail</label><input id="em" type="email" name="email" required maxlength="180"></div>
       <div><label for="ph">Téléphone</label><input id="ph" type="tel" name="phone" required maxlength="22" placeholder="06…"></div>
     </div>
-    <label for="ms">Message (optionnel)</label>
-    <textarea id="ms" name="message" maxlength="4000" placeholder="Délai, adresse de livraison…"></textarea>
+    <label for="ms">Votre projet</label>
+    <textarea id="ms" name="message" required minlength="10" maxlength="4000" placeholder="Décrivez votre projet : type d’événement, volumes, saveurs souhaitées, date, lieu de livraison…"></textarea>
     <button type="submit" class="btn-p" id="submitBtn">Envoyer la demande</button>
     <div class="msg" id="formMsg" role="status"></div>
   </form>
 </div>
 <script>
-const CATALOG = <?= $catalogJson ?>;
 const CSRF = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-function addLineRow(){
-  const wrap=document.getElementById('lineRows');
-  const row=document.createElement('div');
-  row.className='line-row';
-  const sel=document.createElement('select');
-  sel.required=true;
-  const o0=document.createElement('option');
-  o0.value=''; o0.textContent='— Produit —';
-  sel.appendChild(o0);
-  CATALOG.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.name;sel.appendChild(o);});
-  const qty=document.createElement('input');
-  qty.type='number';qty.min=1;qty.max=9999;qty.value=1;qty.required=true;
-  const rm=document.createElement('button');
-  rm.type='button';rm.className='btn-o';rm.style.padding='6px 12px';rm.textContent='Retirer';
-  rm.onclick=()=>{row.remove();updateSummary();};
-  row.appendChild(sel);row.appendChild(qty);row.appendChild(rm);
-  wrap.appendChild(row);
-  sel.addEventListener('change',updateSummary);
-  qty.addEventListener('input',updateSummary);
-}
-function updateSummary(){
-  const list=document.getElementById('quoteList');
-  const sumEl=document.getElementById('quoteSummary');
-  const totalEl=document.getElementById('quoteTotal');
-  let html='',total=0,sur=[];
-  const seen=new Set();
-  document.querySelectorAll('#lineRows .line-row').forEach(r=>{
-    const id=r.querySelector('select').value;
-    const q=parseInt(r.querySelector('input[type=number]').value,10)||0;
-    if(!id||q<1||seen.has(id))return;
-    seen.add(id);
-    const p=CATALOG.find(x=>x.id===id);
-    if(!p)return;
-    if(p.price_pro!=null&&p.price_pro>0){
-      const line=p.price_pro*q;total+=line;
-      html+='<li>'+p.name+' × '+q+' → '+line.toFixed(2).replace('.',',')+' € HT</li>';
-    }else sur.push(p.name+' × '+q);
-  });
-  if(!html&&!sur.length){sumEl.style.display='none';return;}
-  sumEl.style.display='block';
-  list.innerHTML=html+(sur.length?'<li><em>Sur devis : '+sur.join(', ')+'</em></li>':'');
-  totalEl.textContent=total>0?'Estimation HT : '+total.toFixed(2).replace('.',',')+' €':(sur.length?'Montant sur devis — nous vous recontactons.':'');
-}
-document.getElementById('addLine').onclick=()=>{addLineRow();updateSummary();};
-document.getElementById('quoteForm').onsubmit=async e=>{
+document.getElementById('quoteForm').onsubmit = async (e) => {
   e.preventDefault();
-  const msg=document.getElementById('formMsg');
-  const btn=document.getElementById('submitBtn');
-  msg.className='msg';msg.textContent='';
-  const lines=[],merged=new Map();
-  document.querySelectorAll('#lineRows .line-row').forEach(r=>{
-    const id=r.querySelector('select').value;
-    const qty=parseInt(r.querySelector('input[type=number]').value,10)||0;
-    if(!id||qty<1)return;
-    merged.set(id,(merged.get(id)||0)+qty);
-  });
-  merged.forEach((qty,id)=>lines.push({product_id:id,qty}));
-  if(!lines.length){msg.className='msg err';msg.textContent='Ajoutez au moins une ligne.';return;}
-  btn.disabled=true;
-  try{
-    const res=await fetch('devis.php',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','X-CSRF-Token':CSRF},
-      body:JSON.stringify({
-        company_name:document.getElementById('co').value.trim(),
-        contact_name:document.getElementById('ct').value.trim(),
-        email:document.getElementById('em').value.trim(),
-        phone:document.getElementById('ph').value.trim(),
-        message:document.getElementById('ms').value.trim(),
-        lines
-      })
-    });
-    const data=await res.json();
-    if(!data.ok)throw new Error(data.error||'Erreur');
-    msg.className='msg ok';
-    msg.textContent='Demande #'+data.quote_id+' envoyée. Merci !';
-    document.getElementById('quoteForm').reset();
-    document.getElementById('lineRows').innerHTML='';
-    addLineRow();updateSummary();
-  }catch(err){
-    msg.className='msg err';
-    msg.textContent=err.message||'Envoi impossible.';
+  const msg = document.getElementById('formMsg');
+  const btn = document.getElementById('submitBtn');
+  msg.className = 'msg';
+  msg.textContent = '';
+  const project = document.getElementById('ms').value.trim();
+  if (project.length < 10) {
+    msg.className = 'msg err';
+    msg.textContent = 'Décrivez votre projet en quelques lignes.';
+    return;
   }
-  btn.disabled=false;
+  btn.disabled = true;
+  try {
+    const res = await fetch('devis.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
+      body: JSON.stringify({
+        company_name: document.getElementById('co').value.trim(),
+        contact_name: document.getElementById('ct').value.trim(),
+        email: document.getElementById('em').value.trim(),
+        phone: document.getElementById('ph').value.trim(),
+        message: project,
+      }),
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'Erreur');
+    msg.className = 'msg ok';
+    msg.textContent = 'Demande #' + data.quote_id + ' envoyée. Merci !';
+    document.getElementById('quoteForm').reset();
+  } catch (err) {
+    msg.className = 'msg err';
+    msg.textContent = err.message || 'Envoi impossible.';
+  }
+  btn.disabled = false;
 };
-if(CATALOG.length)addLineRow();
 </script>
 </body>
 </html>

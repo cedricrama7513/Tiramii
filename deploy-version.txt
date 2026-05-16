@@ -1,1 +1,1 @@
-pro-catalog-only
+devis-projet-simple

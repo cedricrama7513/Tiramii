@@ -32,10 +32,6 @@ function tiramii_notify_pro_quote_request(
     }
 
     $subject = "Demande de devis pro #{$requestId} — {$company}";
-    $totalStr = number_format($estimatedTotal, 2, ',', ' ') . ' € HT';
-    if ($hasSurDevis) {
-        $totalStr .= ' (estimation partielle — lignes « sur devis » en sus)';
-    }
 
     $body = "Nouvelle demande de devis professionnel — Casa Dessert\n";
     $body .= str_repeat('=', 44) . "\n\n";
@@ -44,9 +40,7 @@ function tiramii_notify_pro_quote_request(
     $body .= "Contact : {$contact}\n";
     $body .= "E-mail : {$email}\n";
     $body .= "Téléphone : {$phone}\n\n";
-    $body .= "Estimation totale (lignes tarifées) : {$totalStr}\n\n";
-    $body .= "Détail demandé :\n{$linesText}\n\n";
-    $body .= 'Message / précisions : ' . ($message !== '' ? $message : '—') . "\n\n";
+    $body .= "Projet décrit par le client :\n" . ($message !== '' ? $message : '—') . "\n\n";
     $body .= "— Envoyé depuis la page pro du site.\n";
 
     $fromEmail = trim((string) ($n['from_email'] ?? ''));
