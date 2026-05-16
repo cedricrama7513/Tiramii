@@ -2,7 +2,7 @@
 /**
  * À utiliser UNE FOIS sur le serveur si admin_password_hash est vide.
  * 1. Uploader ce fichier à la racine du site (à côté de admin.php).
- * 2. Ouvrir https://tiramii.fr/once-set-admin-password.php
+ * 2. Ouvrir https://casadessert.fr/once-set-admin-password.php
  * 3. Choisir un mot de passe (8 caractères minimum), valider.
  * 4. Le fichier se supprime tout seul ; connectez-vous sur admin.php.
  *

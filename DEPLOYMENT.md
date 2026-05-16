@@ -1,4 +1,4 @@
-# Déploiement Casa Dessert (tiramii.fr) sur Hostinger
+# Déploiement Casa Dessert (casadessert.fr) sur Hostinger
 
 Ce guide suppose un hébergement **Hostinger** avec **PHP 8+** et **MySQL** (phpMyAdmin).
 
@@ -29,8 +29,8 @@ Vous pouvez supprimer les lignes d’exemple `INSERT INTO orders` / `order_items
 
 1. Dans **FileZilla** ou le **Gestionnaire de fichiers Hostinger**, ouvrez le dossier racine du site (souvent `public_html` ou un sous-dossier du domaine).
 2. Uploadez **tout le contenu** du projet :
-   - `index.php`, `admin.php`, `mentions-legales.php`, `.htaccess`
-   - dossiers `api/`, `assets/`, `config/`, `includes/`, `templates/`, `tools/` (optionnel hors prod)
+   - `index.php`, `admin.php`, `mentions-legales.php`, **`pro.php`** (devis pro), `pro-login.php`, `pro-register.php`, `pro-boutique.php`, `.htaccess`
+   - dossiers `api/` (dont **`api/pro-quote.php`**), `assets/`, `config/`, `includes/` (dont `pro_quote_notify.php`, `pro_b2b.php`, `ensure_pro_prices.php`), `templates/`, `tools/` (optionnel hors prod)
 3. **Ne rendez pas** `config.php` téléchargeable : le `.htaccess` fourni bloque l’accès direct à `config/` et à `config.php` au niveau racine si votre hébergeur l’applique.
 
 Si `config/` est **en dehors** de `public_html` (recommandé sur certains plans), ajustez les chemins dans `index.php` / `api/_bootstrap.php` ou déplacez uniquement `config.php` hors web et adaptez `config/db.php`.
@@ -38,7 +38,7 @@ Si `config/` est **en dehors** de `public_html` (recommandé sur certains plans)
 ## 3 bis. Diagnostic si la page d’accueil affiche une erreur 500
 
 1. Uploadez `verification-installation.php` à la racine du site (à côté de `index.php`).
-2. Ouvrez dans le navigateur : `https://votre-domaine.fr/verification-installation.php`
+2. Ouvrez dans le navigateur : `https://casadessert.fr/verification-installation.php`
 3. Corrigez tout ce qui est marqué ❌ (souvent : `config.php` absent, tables MySQL non importées, `product_images.php` manquant).
 4. **Supprimez** `verification-installation.php` du serveur une fois terminé.
 
@@ -52,9 +52,10 @@ Si `config/` est **en dehors** de `public_html` (recommandé sur certains plans)
 Le fichier `.htaccess` définit `DirectoryIndex index.php`. Les pages utilisées :
 
 - Boutique : `index.php` (ou `/` si `index.php` est l’index).
-- Admin : `admin.php`
+- **Devis professionnels** : `https://casadessert.fr/devis` ou `index.php?page=devis` (évite le 404 si `pro.php` n’est pas encore uploadé). Ancienne URL : `pro.php?tab=devis`.
+- Admin : `admin.php` (demandes reçues : onglet **Pro** → section « Demandes de devis »).
 - Mentions légales : `mentions-legales.php`
-- API : `api/state.php`, `api/sync-reservation.php`, `api/order.php`
+- API : `api/state.php`, `api/sync-reservation.php`, `api/order.php`, **`api/pro-quote.php`**
 
 Vous pouvez décommenter la redirection **HTTP → HTTPS** dans `.htaccess` une fois le certificat SSL actif.
 
@@ -65,6 +66,7 @@ Vous pouvez décommenter la redirection **HTTP → HTTPS** dans `.htaccess` une 
 3. Ouvrir `admin.php`, se connecter, modifier un stock (ex. box1 = 5), enregistrer, recharger la boutique : disponibilité cohérente.
 4. Passer une commande test avec un code postal en 75, 91, 92, 93 ou 94 (sinon la commande est refusée).
 5. Dans phpMyAdmin, vérifier une ligne dans `orders` et `order_items`, et que les quantités dans `stock_levels` ont bien diminué pour les articles commandés.
+6. **Devis pro** : ouvrir `https://casadessert.fr/devis` (ou `index.php?page=devis`), ajouter une ligne produit, envoyer un test. Vérifier dans `admin.php?tab=pro` qu’une ligne apparaît dans « Demandes de devis ». Dans **admin.php** (onglet Particulier), renseigner les **Prix pro (€)** pour que l’estimation HT s’affiche (champ vide = « Sur devis » pour ce produit).
 
 ## Dépannage
 
@@ -72,3 +74,7 @@ Vous pouvez décommenter la redirection **HTTP → HTTPS** dans `.htaccess` une 
 - **Erreur PDO** : vérifiez `DB_HOST` (souvent `localhost` ou un hôte fourni par Hostinger), nom de base, utilisateur, mot de passe.
 - **CSRF 403** sur l’API** : cookies de session bloqués ; vérifier même domaine, HTTPS cohérent, pas de navigation privée qui purge la session entre requêtes.
 - **Stock qui ne baisse pas après commande** : en admin, une quantité affichée « Illimité » correspond à **999** en base — dans ce cas le site ne déstocke pas. Pour suivre un stock réel, saisissez un nombre inférieur à 999 (ex. 50). Les nouvelles installations importées depuis `database.sql` utilisent des stocks finis par défaut.
+- **Page devis introuvable (404)** : `pro.php` n’est pas sur le serveur — uploadez-le à la racine avec `api/pro-quote.php` et les fichiers `includes/` listés ci-dessus.
+- **« Enregistrement impossible »** à l’envoi du devis : la table `pro_quote_requests` manque — ouvrez `pro.php` une fois (création auto) ou importez `database_pro_b2b.sql` ; vérifiez les droits MySQL `CREATE TABLE`.
+- **« Jeton CSRF invalide »** sur le devis : rechargez la page, même domaine HTTP/HTTPS, cookies autorisés.
+- **Devis reçu en admin mais pas d’e-mail** : renseignez `notify.owner_email` et SMTP dans `config/config.php` (comme pour les commandes).

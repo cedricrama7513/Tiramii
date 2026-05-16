@@ -4,6 +4,16 @@
  */
 declare(strict_types=1);
 
+$routePage = isset($_GET['page']) ? strtolower(trim((string) $_GET['page'])) : '';
+if ($routePage === 'devis' || $routePage === 'pro') {
+    $proPage = __DIR__ . '/includes/pro_public_page.php';
+    if (is_readable($proPage)) {
+        require_once $proPage;
+        tiramii_serve_pro_public_page();
+        exit;
+    }
+}
+
 if (function_exists('ini_set')) {
     @ini_set('memory_limit', '256M');
 }
@@ -155,7 +165,7 @@ try {
     echo '</ul>';
     echo '<p>Uploadez aussi <code>verification-installation.php</code> depuis le dépôt, ouvrez-le une fois dans le navigateur, puis supprimez-le.</p>';
     echo '<p>Tests : <a href="ping.php">ping.php</a> → <code>ok</code> ; <a href="health.php">health.php</a> → liste des fichiers.</p>';
-    echo '<p><strong>Si ping.php et health.php sont en 404</strong>, le déploiement Git (ou les fichiers) n’est pas dans le dossier racine du domaine (hPanel → Fichiers → <code>public_html</code> pour ce site, ou chemin indiqué pour tiramii.fr).</p>';
+    echo '<p><strong>Si ping.php et health.php sont en 404</strong>, le déploiement Git (ou les fichiers) n’est pas dans le dossier racine du domaine (hPanel → Fichiers → <code>public_html</code> pour ce site, ou chemin indiqué pour casadessert.fr).</p>';
     echo '<p style="color:#555;font-size:.9rem">Logs PHP : hPanel → Avancé → journaux d’erreurs (ou équivalent).</p>';
     echo '</body></html>';
 }

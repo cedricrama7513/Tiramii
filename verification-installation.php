@@ -1,7 +1,7 @@
 <?php
 /**
  * Diagnostic déploiement Hostinger — ouvrir UNE FOIS dans le navigateur :
- *   https://tiramii.fr/verification-installation.php
+ *   https://casadessert.fr/verification-installation.php
  * Puis SUPPRIMER ce fichier (sécurité).
  */
 declare(strict_types=1);
@@ -63,6 +63,23 @@ line(
     is_readable($root . '/api/state.php')
 );
 
+line(
+    'Page devis pro.php',
+    is_readable($root . '/pro.php'),
+    'Formulaire « Demande de devis » : uploadez pro.php à la racine du site (à côté de index.php).'
+);
+
+line(
+    'API devis api/pro-quote.php',
+    is_readable($root . '/api/pro-quote.php'),
+    'Requis pour envoyer les demandes de devis depuis pro.php.'
+);
+
+line(
+    'Notification devis includes/pro_quote_notify.php',
+    is_readable($root . '/includes/pro_quote_notify.php')
+);
+
 // PDO + tables
 if (!is_readable($cfgPath)) {
     line('Connexion MySQL', false, 'Impossible sans config.php.');
@@ -109,6 +126,27 @@ if (!is_readable($cfgPath)) {
             );
         }
 
+        $stQuote = $pdo->query("SHOW TABLES LIKE 'pro_quote_requests'");
+        $hasQuoteTable = $stQuote && $stQuote->fetch() !== false;
+        line(
+            'Table pro_quote_requests (demandes de devis)',
+            $hasQuoteTable,
+            $hasQuoteTable
+                ? 'Créée automatiquement au premier chargement de pro.php ou admin.php (onglet Pro).'
+                : 'Ouvrez <a href="pro.php">pro.php</a> ou <a href="admin.php?tab=pro">admin.php?tab=pro</a> une fois sur le serveur, ou importez database_pro_b2b.sql.'
+        );
+
+        if ($pdo->query("SHOW TABLES LIKE 'products'")->fetch()) {
+            $hasProPrice = $pdo->query("SHOW COLUMNS FROM products LIKE 'pro_price_eur'")->fetch() !== false;
+            line(
+                'Colonne products.pro_price_eur (tarifs pro / devis)',
+                $hasProPrice,
+                $hasProPrice
+                    ? 'Renseignez les prix pro dans admin.php (onglet Particulier) ou laissez vide pour « Sur devis ».'
+                    : 'Ouvrez pro.php ou admin.php une fois : la colonne est ajoutée automatiquement.'
+            );
+        }
+
         $adminHash = trim((string) (($cfg['admin_password_hash'] ?? '')));
         line(
             'Mot de passe admin (admin.php)',
@@ -131,7 +169,7 @@ echo '<hr><p><strong>PHP :</strong> ' . PHP_VERSION . '</p>';
 echo '<p><strong>Extensions :</strong> pdo_mysql = ' . (extension_loaded('pdo_mysql') ? 'oui' : 'NON') . '</p>';
 
 if ($ok) {
-    echo '<p style="color:green"><strong>Tout semble correct.</strong> Testez <a href="index.php">index.php</a> puis supprimez ce fichier verification-installation.php.</p>';
+    echo '<p style="color:green"><strong>Tout semble correct.</strong> Testez <a href="index.php">index.php</a>, <a href="pro.php?tab=devis">pro.php?tab=devis</a> (formulaire devis), puis supprimez ce fichier verification-installation.php.</p>';
 } else {
     echo '<p style="color:#b00020"><strong>Corrigez les points en échec ci-dessus.</strong> Ensuite supprimez verification-installation.php.</p>';
 }

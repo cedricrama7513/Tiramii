@@ -204,7 +204,7 @@ $legalBrandLogo = brand_logo_markup('legal');
 
     <section id="activite">
       <h2>2. Activité</h2>
-      <p>Le site <strong>tiramii.fr</strong> présente une activité de <strong>vente de desserts artisanaux</strong> (notamment tiramisus) et permet de <strong>passer commande en ligne</strong> avec livraison selon les modalités indiquées sur le site. Les informations tarifaires et pratiques figurant sur les pages du site sont données à titre indicatif et peuvent être ajustées ; seules les conditions validées lors d’une commande font foi.</p>
+      <p>Le site <strong>casadessert.fr</strong> présente une activité de <strong>vente de desserts artisanaux</strong> (notamment tiramisus) et permet de <strong>passer commande en ligne</strong> avec livraison selon les modalités indiquées sur le site. Les informations tarifaires et pratiques figurant sur les pages du site sont données à titre indicatif et peuvent être ajustées ; seules les conditions validées lors d’une commande font foi.</p>
     </section>
 
     <section id="hebergement">
