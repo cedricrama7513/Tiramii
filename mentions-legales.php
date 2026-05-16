@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/init_public.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$pageTitle = 'Mentions légales — ' . brand_name();
+$pageTitle = 'Mentions légales — Casa Dessert';
 $lastUpdate = '1er mai 2026';
 $legalBrandLogo = brand_logo_markup('legal');
 ?>
@@ -165,7 +165,7 @@ $legalBrandLogo = brand_logo_markup('legal');
 </head>
 <body>
   <header class="top">
-    <a class="logo" href="index.php"><?= $legalBrandLogo ?><?= $legalBrandLogo === '' ? h(brand_name()) : '' ?></a>
+    <a class="logo" href="index.php"><?= $legalBrandLogo ?><?= $legalBrandLogo === '' ? 'Casa Dessert' : '' ?></a>
     <a class="back" href="index.php">← Retour à la boutique</a>
   </header>
 
@@ -191,7 +191,7 @@ $legalBrandLogo = brand_logo_markup('legal');
     <section id="editeur">
       <h2>1. Éditeur du site</h2>
       <div class="card">
-        <p><strong>Dénomination / nom commercial&nbsp;:</strong> <?= h(brand_name()) ?></p>
+        <p><strong>Dénomination / nom commercial&nbsp;:</strong> Casa Dessert</p>
         <p><strong>Responsable de la publication&nbsp;:</strong> Cedric Ramahefaharison</p>
         <p><strong>Statut&nbsp;:</strong> Entrepreneur individuel (micro-entrepreneur)</p>
         <p><strong>Adresse du siège&nbsp;:</strong> 60 rue François&nbsp;1<sup>er</sup>, 75008 Paris, France</p>

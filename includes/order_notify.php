@@ -63,9 +63,9 @@ function tiramii_notify_new_order(
     $fullAddress = trim($address . ', ' . $zip . ' ' . $city);
     $clientName = trim($first . ' ' . $last);
 
-    $fromName = trim((string) ($n['from_name'] ?? brand_name()));
+    $fromName = trim((string) ($n['from_name'] ?? 'Casa Dessert'));
     if ($fromName === '') {
-        $fromName = brand_name();
+        $fromName = 'Casa Dessert';
     }
 
     $body = "Nouvelle commande {$fromName}\n";

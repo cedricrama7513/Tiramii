@@ -77,7 +77,7 @@ function tiramii_serve_pro_public_page(): void
     }
 
     $csrf = csrf_token();
-    $pageTitle = 'Espace pro — ' . brand_name();
+    $pageTitle = 'Espace pro — Casa Dessert';
     $appBoot = [
         'csrf' => $csrf,
         'products' => $productsJson,

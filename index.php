@@ -169,8 +169,8 @@ try {
         ? (string) file_get_contents(__DIR__ . '/includes/footer_main_fragment.html')
         : '';
     $pageTitle = $isProShop
-        ? brand_name() . ' — Tarifs pro'
-        : brand_name() . ' — Les desserts qui régalent !';
+        ? 'Casa Dessert — Tarifs pro'
+        : 'Casa Dessert — Les desserts qui régalent !';
     $html = str_replace(
         ['__PAGE_TITLE__', '__CSRF__', '__PRODUCT_GRID__', '__APP_SCRIPT__', '__NAV__', '__FOOTER_MAIN__', '__REVIEWS_SECTION__'],
         [h($pageTitle), h($csrf), $productGridHtml, $appScript, $navHtml, $footerMainHtml, $reviewsSectionHtml],
@@ -182,7 +182,7 @@ try {
 } catch (Throwable) {
     http_response_code(500);
     header('Content-Type: text/html; charset=UTF-8');
-    echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>' . h(brand_name()) . ' — configuration</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem">';
+    echo '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Casa Dessert — configuration</title></head><body style="font-family:sans-serif;max-width:560px;margin:2rem auto;padding:1rem">';
     echo '<h1>Le site ne peut pas s’afficher</h1>';
     echo '<p><strong>À vérifier sur Hostinger :</strong></p><ul>';
     echo '<li>Tout le projet est dans le dossier du domaine (souvent <code>public_html</code>), pas seulement <code>index.php</code>.</li>';

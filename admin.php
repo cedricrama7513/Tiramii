@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin stock casadessert — session PHP + mot de passe (hash dans config.php).
+ * Admin stock Casa Dessert — session PHP + mot de passe (hash dans config.php).
  * Vérification de session : chaque action protégée contrôle $_SESSION['admin_ok'].
  */
 declare(strict_types=1);
@@ -680,7 +680,7 @@ $csrf = csrf_token();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= h(brand_name()) ?> — Admin</title>
+<title>Casa Dessert — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{--v:#d4c4b0;--vd:#A68966;--vk:#1a1a1a;--bg:#F9F9F7;--card:#ffffff;--ok:#2e7d32;--danger:#d64545}
@@ -779,7 +779,7 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
 <div class="lock">
   <div class="card">
     <h1>Connexion admin</h1>
-    <p class="sub">Accès réservé à <?= h(brand_name()) ?> — stock et commandes.</p>
+    <p class="sub">Accès réservé à Casa Dessert — stock et commandes.</p>
     <?php foreach ($errors as $err): ?>
       <p class="alert-bad"><?= h($err) ?></p>
     <?php endforeach; ?>
@@ -793,7 +793,7 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
 </div>
 <?php else: ?>
 <div class="header">
-  <div class="brand"><?= brand_logo_markup('admin') ?> <?= h(brand_name()) ?></div>
+  <div class="brand"><?= brand_logo_markup('admin') ?></div>
   <p class="sub"><strong>Particuliers</strong> (stock + commandes site) · <strong>Stats</strong> (saveurs = <em>uniquement</em> commandes particuliers sur le site) · <strong>Pro</strong> (B2B, hors site).</p>
   <nav class="admin-tabs" aria-label="Sections admin">
     <a href="admin.php" class="<?= $adminTab === 'particulier' ? 'active' : '' ?>">Particuliers</a>

@@ -33,7 +33,7 @@ return [
         'emailjs_service_id' => '',
         'emailjs_template_id' => '',
         'from_email' => 'contact@casadessert.fr',
-        'from_name' => 'casadessert',
+        'from_name' => 'Casa Dessert',
         'smtp_host' => 'smtp.hostinger.com',
         'smtp_port' => 465,
         'smtp_user' => 'contact@casadessert.fr',

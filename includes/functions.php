@@ -37,12 +37,6 @@ function csrf_token_from_request(): ?string
     return is_string($p) ? $p : null;
 }
 
-/** Nom affiché sur le site et dans les e-mails (marque casadessert). */
-function brand_name(): string
-{
-    return 'casadessert';
-}
-
 /**
  * Logo marque : fichier dans assets/img/logo-casa-dessert.{svg,png,webp}, sinon initiale C (sauf mentions légales : rien).
  *
@@ -65,8 +59,7 @@ function brand_logo_markup(string $variant = 'nav'): string
         } elseif ($variant === 'legal') {
             $classes .= ' brand-logo-img--legal';
         }
-        $img = '<span class="brand-logo-wrap"><img src="' . h($rel) . '?v=' . h($v) . '" alt="' . h(brand_name()) . '" class="' . h($classes) . '" decoding="async"></span>';
-        return $variant === 'nav' ? $img . brand_name_nav_markup() : $img;
+        return '<span class="brand-logo-wrap"><img src="' . h($rel) . '?v=' . h($v) . '" alt="Casa Dessert" class="' . h($classes) . '" decoding="async"></span>';
     }
     if ($variant === 'admin') {
         return '<div class="logo">C</div>';
@@ -74,11 +67,5 @@ function brand_logo_markup(string $variant = 'nav'): string
     if ($variant === 'legal') {
         return '';
     }
-    $markup = '<div class="logo-circle"><span>C</span></div>';
-    return $variant === 'nav' ? $markup . brand_name_nav_markup() : $markup;
-}
-
-function brand_name_nav_markup(): string
-{
-    return '<span class="nav-brand-name">' . h(brand_name()) . '</span>';
+    return '<div class="logo-circle"><span>C</span></div>';
 }
