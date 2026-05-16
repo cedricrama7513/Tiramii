@@ -79,13 +79,13 @@ function tiramii_devis_notify_owner(
     if ($hasSurDevis) {
         $totalStr .= ' (estimation partielle — lignes « sur devis » en sus)';
     }
-    $body = "Nouvelle demande de devis — Casa Dessert\n\n";
+    $body = 'Nouvelle demande de devis — ' . brand_name() . "\n\n";
     $body .= "Réf. #{$requestId}\nÉtablissement : {$company}\nContact : {$contact}\n";
     $body .= "E-mail : {$email}\nTéléphone : {$phone}\n\n";
     $body .= "Estimation : {$totalStr}\n\nDétail :\n{$linesText}\n\n";
     $body .= 'Message : ' . ($message !== '' ? $message : '—') . "\n";
     $fromEmail = trim((string) ($n['from_email'] ?? ''));
-    $fromName = trim((string) ($n['from_name'] ?? 'Casa Dessert'));
+    $fromName = trim((string) ($n['from_name'] ?? brand_name()));
     $headers = ['MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8'];
     if ($fromEmail !== '' && filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
         $headers[] = 'From: ' . ($fromName !== '' ? "{$fromName} <{$fromEmail}>" : $fromEmail);
@@ -264,7 +264,7 @@ header('Content-Type: text/html; charset=UTF-8');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="<?= h($csrf) ?>">
-<title>Devis pro — Casa Dessert</title>
+<title>Devis pro — <?= h(brand_name()) ?></title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--vk:#3d2b1f;--vd:#A68966;--bg:#f5f3ef}

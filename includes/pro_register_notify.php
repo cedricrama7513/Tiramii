@@ -35,7 +35,7 @@ function tiramii_notify_pro_registration_pending(array $cfg, array $info): void
 
     $ownerEmail = trim((string) ($n['owner_email'] ?? ''));
     $fromEmail = trim((string) ($n['from_email'] ?? ''));
-    $fromName = trim((string) ($n['from_name'] ?? "TIRA'MII"));
+    $fromName = trim((string) ($n['from_name'] ?? brand_name()));
     $smtpHost = trim((string) ($n['smtp_host'] ?? ''));
     $smtpPort = (int) ($n['smtp_port'] ?? 465);
     if ($smtpPort < 1 || $smtpPort > 65535) {

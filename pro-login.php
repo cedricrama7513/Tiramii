@@ -22,7 +22,7 @@ header('Content-Type: text/html; charset=UTF-8');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="<?= h($csrf) ?>">
-<title>Connexion — TIRA'MII Pro</title>
+<title>Connexion pro — <?= h(brand_name()) ?></title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#111;--line:#ddd;--muted:#666}
@@ -45,7 +45,7 @@ button:disabled{opacity:.55}
 <body>
 <div class="card">
   <h1>Connexion pro</h1>
-  <p>Compte validé par TIRA'MII uniquement.</p>
+  <p>Compte validé par <?= h(brand_name()) ?> uniquement.</p>
   <form id="f">
     <label for="email">E-mail</label>
     <input id="email" name="email" type="email" required autocomplete="email">

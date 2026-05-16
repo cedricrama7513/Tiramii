@@ -37,7 +37,7 @@ function tiramii_notify_pro_quote_request(
         $totalStr .= ' (estimation partielle — lignes « sur devis » en sus)';
     }
 
-    $body = "Nouvelle demande de devis professionnel — Casa Dessert\n";
+    $body = 'Nouvelle demande de devis professionnel — ' . brand_name() . "\n";
     $body .= str_repeat('=', 44) . "\n\n";
     $body .= "Réf. #{$requestId}\n";
     $body .= "Établissement : {$company}\n";
@@ -50,7 +50,7 @@ function tiramii_notify_pro_quote_request(
     $body .= "— Envoyé depuis la page pro du site.\n";
 
     $fromEmail = trim((string) ($n['from_email'] ?? ''));
-    $fromName = trim((string) ($n['from_name'] ?? 'Casa Dessert'));
+    $fromName = trim((string) ($n['from_name'] ?? brand_name()));
     $smtpHost = trim((string) ($n['smtp_host'] ?? ''));
     $smtpPort = (int) ($n['smtp_port'] ?? 465);
     if ($smtpPort < 1 || $smtpPort > 65535) {

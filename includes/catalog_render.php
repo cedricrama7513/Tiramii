@@ -24,7 +24,7 @@ function tiramii_render_product_grid(array $products, array $stockMap, array $im
             $imgSrc = 'data:image/svg+xml,' . rawurlencode(
                 '<svg xmlns="http://www.w3.org/2000/svg" width="560" height="360" viewBox="0 0 560 360">'
                 . '<rect fill="#ece6de" width="560" height="360"/>'
-                . '<text x="280" y="175" text-anchor="middle" fill="#A68966" font-family="system-ui,sans-serif" font-size="15">Casa Dessert</text>'
+                . '<text x="280" y="175" text-anchor="middle" fill="#A68966" font-family="system-ui,sans-serif" font-size="15">casadessert</text>'
                 . '<text x="280" y="202" text-anchor="middle" fill="#5c5650" font-family="system-ui,sans-serif" font-size="12">Photo à configurer</text>'
                 . '</svg>'
             );

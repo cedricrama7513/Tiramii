@@ -21,7 +21,7 @@ header('Content-Type: text/html; charset=UTF-8');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="<?= h($csrf) ?>">
-<title>Inscription pro — TIRA'MII</title>
+<title>Inscription pro — <?= h(brand_name()) ?></title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#111;--line:#ddd;--muted:#666}
@@ -47,7 +47,7 @@ button:disabled{opacity:.55}
 <body>
 <div class="wrap">
   <h1>Créer un compte pro</h1>
-  <p class="sub">Après inscription, votre compte est <strong>en attente</strong> jusqu’à validation par TIRA'MII. Vous recevrez un e-mail si nécessaire.</p>
+  <p class="sub">Après inscription, votre compte est <strong>en attente</strong> jusqu’à validation par <?= h(brand_name()) ?>. Vous recevrez un e-mail si nécessaire.</p>
   <form id="reg">
     <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <label for="restaurant_name">Nom de l’établissement *</label>
