@@ -18,7 +18,9 @@ Dès que :
 
 une **alerte** s’affiche pour vous rappeler d’**envoyer un message** pour le paiement.
 
-## Onglets restaurants (ex. « Le Petit Bistrot », « Salon Thé Marais »)
+## Onglets restaurants (un par client pro)
+
+Exemples actuels : **My French factory**, **My french Cantine** (mêmes noms que dans admin → Pro).
 
 | Colonne | Contenu |
 |--------|---------|
