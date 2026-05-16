@@ -1,0 +1,44 @@
+# Déploie sur Hostinger à chaque push sur main (contourne Git Hostinger défaillant).
+# Secrets GitHub requis : FTP_HOST, FTP_USER, FTP_PASS (voir DEPLOYMENT.md).
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_REMOTE_DIR || './' }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.cursor/**
+            **/a-telecharger/**
+            **/tools/**
+            **/.env
+            **/.env.*
+            config/config.php
+            config/*.local.php
+            **/database*.sql
+            **/*.md
+            admin.html
+            index.html
+            sync-from-github.php
+            verification-installation.php
+            once-set-admin-password.php
+            ping.php
+            health.php

@@ -53,6 +53,21 @@ Après chaque `git push`, ouvrez : **https://casadessert.fr/health.php**
 
 Si Git ne met pas à jour le site : cliquez **Déployer** dans hPanel, vérifiez le chemin d’installation, puis le webhook GitHub. En dernier recours, uploadez **`devis.php`** à la main dans `public_html` (voir section 4).
 
+### Déploiement automatique GitHub Actions (recommandé si Git Hostinger bloque)
+
+Le workflow `.github/workflows/deploy-hostinger.yml` envoie les fichiers par **FTP** à chaque `git push` sur `main`.
+
+1. **hPanel** → **Fichiers** → **Comptes FTP** : notez hôte, utilisateur, mot de passe.
+2. **GitHub** → dépôt **Tiramii** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret** :
+   - `FTP_HOST` — ex. `ftp.casadessert.fr` ou l’hôte indiqué par Hostinger
+   - `FTP_USER` — utilisateur FTP
+   - `FTP_PASS` — mot de passe FTP
+   - `FTP_REMOTE_DIR` (optionnel) — chemin distant, souvent `./` ou `/domains/casadessert.fr/public_html/`
+3. **Actions** → workflow **Deploy to Hostinger** → **Run workflow** (ou poussez un commit sur `main`).
+4. Vérifiez https://casadessert.fr/health.php (`deploy-version` + `OK devis.php`).
+
+`config/config.php` sur le serveur **n’est pas écrasé** (exclu du déploiement).
+
 ## 4. Upload des fichiers (FTP / Gestionnaire de fichiers)
 
 1. Dans **FileZilla** ou le **Gestionnaire de fichiers Hostinger**, ouvrez le dossier racine du site (souvent `public_html` ou un sous-dossier du domaine).
