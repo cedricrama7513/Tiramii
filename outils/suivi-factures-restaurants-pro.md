@@ -9,76 +9,68 @@
 
 ## Objectif
 
-Vous saisissez **chaque facture** (montant, restaurant, payé ou non). Dès que :
+**Un onglet par restaurant** : les factures de l’année sont déjà préremplies (date, numéro, montant). Vous ajustez surtout les montants et le statut « Payé ? ».
+
+Dès que :
 
 - **une facture** dépasse **500 €**, ou  
-- l’**encours impayé** d’un restaurant (toutes factures non payées) dépasse **500 €**,
+- l’**encours impayé** du restaurant dépasse **500 €**,
 
-une **alerte** s’affiche pour vous rappeler d’**envoyer un message au restaurant** pour le paiement.
+une **alerte** s’affiche pour vous rappeler d’**envoyer un message** pour le paiement.
 
-## Onglet « Suivi » — colonnes
+## Onglets restaurants (ex. « Le Petit Bistrot », « Salon Thé Marais »)
 
 | Colonne | Contenu |
 |--------|---------|
-| A | Nom du restaurant |
-| B | Date de la facture |
-| C | N° facture |
-| D | Montant TTC (€) |
-| E | Payé ? (`Oui` ou `Non`) |
-| F | **Alerte** si facture > 500 € (calculée) |
-| G | **Encours impayé** du restaurant (calculé) |
-| H | **Alerte** si encours > 500 € → relancer |
-| I | Message envoyé ? (`Oui` / `Non`) |
-| J | Date de relance (à remplir à la main) |
+| A | Date de la facture |
+| B | N° facture |
+| C | Montant TTC (€) |
+| D | Payé ? (`Oui` ou `Non`) |
+| E | **Alerte** si facture > 500 € (calculée) |
+| F | **Encours impayé** (calculé) |
+| G | **Alerte** si encours > 500 € |
+| H | Message envoyé ? (`Oui` / `Non`) |
+| I | Date de relance |
 
-### Exemples fournis
+### Factures préremplies
 
-- **Le Petit Bistrot** : 320 € + 280 € non payés → encours **600 €** → alerte encours.  
-- **Brasserie Sud** : une facture à **620 €** → alerte facture + encours.
-
-Supprimez ou modifiez ces lignes d’exemple selon vos vrais clients.
+- **12 lignes par restaurant** : une facture par mois en 2026 (du 1er janvier au 1er décembre).
+- Numéros du type `FAC-BIST-2026-01`, `FAC-STM-2026-01`, etc.
+- Montants mensuels déjà renseignés ; modifiez la colonne C si besoin.
+- Les mois déjà réglés sont en « Payé ? = Oui » (exemples) ; le reste est en « Non ».
 
 ## Onglet « Synthèse »
 
-Liste des restaurants avec l’encours impayé total et une colonne **Alerte > 500 €** (`RELANCER` / `OK`).
+Les deux restaurants avec l’encours impayé total et une colonne **Alerte > 500 €** (`RELANCER` / `OK`).
 
-Ajoutez les noms de vos restaurants en colonne A (l’onglet Suivi doit contenir les mêmes noms pour que les totaux correspondent).
+## Changer les noms ou montants par défaut
+
+Éditez `tools/build-suivi-factures-xls.mjs` (tableau `restaurants`), puis :
+
+```bash
+node tools/build-suivi-factures-xls.mjs
+```
 
 ## Changer le seuil (500 €)
 
-Dans Excel, sur l’onglet **Suivi** :
+Sur chaque onglet restaurant :
 
-- Colonne **F** : remplacez `500` dans la formule, par ex. `750`.  
-- Colonne **H** : idem sur `G2>500`.  
+- Colonne **E** : remplacez `500` dans la formule.  
+- Colonne **G** : idem sur `F2>500`.  
 - Onglet **Synthèse** : colonne **C**, formule `B2>500`.
 
-Formules (Excel français, point-virgule) :
-
-**Alerte facture (colonne F, ligne 2)**  
+**Encours impayé (colonne F, ligne 2)**  
 ```excel
-=SI(D2>500;"⚠ Facture > 500 € — à relancer";"")
+=SOMME($C$2:$C$120)-SOMME.SI($C$2:$C$120;$D$2:$D$120;"Oui")
 ```
-
-**Encours impayé restaurant (colonne G, ligne 2)**  
-```excel
-=SOMME.SI($D$2:$D$500;$A$2:$A$500;A2)-SOMME.SI.ENS($D$2:$D$500;$A$2:$A$500;A2;$E$2:$E$500;"Oui")
-```
-
-**Alerte encours (colonne H, ligne 2)**  
-```excel
-=SI(G2>500;"⚠ ENVOYER MESSAGE PAIEMENT";"")
-```
-
-*(Sur Google Sheets, remplacez les `;` par `,` si votre région l’exige.)*
 
 ## Bonnes pratiques
 
-1. **Une ligne = une facture** (ne pas fusionner plusieurs factures sur une ligne).  
-2. Mettre **Oui** en colonne E dès que vous avez reçu le virement.  
-3. Après envoi du message, noter **Oui** en colonne I et la date en J.  
-4. Garder le **même nom** de restaurant partout (ex. pas « Bistrot » puis « Le Petit Bistrot »).
+1. **Une ligne = une facture**.  
+2. Mettre **Oui** en colonne D dès réception du virement.  
+3. Après relance, noter **Oui** en colonne H et la date en I.  
+4. Pour renommer un restaurant : onglet + `build-suivi-factures-xls.mjs` puis régénération.
 
 ## Lien avec l’admin du site
 
-Les PDF déposés dans **admin.php → Pro → Factures pro** restent l’archive des fichiers.  
-Ce tableur sert au **suivi des montants et des relances** (non synchronisé automatiquement avec le site).
+Les PDF dans **admin.php → Pro → Factures pro** restent l’archive. Ce tableur sert au **suivi des montants et relances** (non synchronisé avec le site).
