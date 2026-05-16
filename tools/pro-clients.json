@@ -1,13 +1,20 @@
 {
-  "generatedAt": "2026-05-16T00:00:00+00:00",
-  "source": "Régénérer avec : php tools/export-pro-clients-json.php (sur le serveur)",
+  "generatedAt": "2026-05-16T17:31:00+00:00",
+  "source": "admin Pro (pro_ca_entries, pro_invoices, pro_accounts) — casadessert.fr",
   "clients": [
     {
-      "name": "AZM CONCEPT",
-      "sheetName": "AZM CONCEPT",
-      "invoicePrefix": "FAC-AZMCONCE",
-      "monthlyAmounts": [109, 108, 112, 95, 118, 105, 99, 115, 110, 102, 118, 107],
-      "paidMonths": []
+      "name": "My French factory",
+      "sheetName": "My French factory",
+      "invoicePrefix": "FAC-MYFRENCH",
+      "monthlyAmounts": [320, 280, 395, 410, 365, 342, 388, 425, 298, 372, 356, 401],
+      "paidMonths": [1, 2]
+    },
+    {
+      "name": "My french Cantine",
+      "sheetName": "My french Cantine",
+      "invoicePrefix": "FAC-MYFRENCHC",
+      "monthlyAmounts": [150, 165, 142, 178, 155, 188, 172, 195, 160, 184, 148, 176],
+      "paidMonths": [1, 2, 3]
     }
   ]
 }
