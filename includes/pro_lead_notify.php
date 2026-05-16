@@ -34,7 +34,7 @@ function tiramii_notify_pro_lead(array $cfg, array $lead): void
     $intent = (string) ($lead['intent'] ?? '');
     $message = (string) ($lead['message'] ?? '');
 
-    $body = "Nouvelle demande — Espace pro TIRA'MII\n";
+    $body = "Nouvelle demande — Espace pro Casa Dessert\n";
     $body .= "=====================================\n\n";
     $body .= "Établissement : {$restaurant}\n";
     $body .= "Contact : {$contact}\n";
@@ -46,7 +46,7 @@ function tiramii_notify_pro_lead(array $cfg, array $lead): void
 
     $ownerEmail = trim((string) ($n['owner_email'] ?? ''));
     $fromEmail = trim((string) ($n['from_email'] ?? ''));
-    $fromName = trim((string) ($n['from_name'] ?? "TIRA'MII"));
+    $fromName = trim((string) ($n['from_name'] ?? "Casa Dessert"));
     $smtpHost = trim((string) ($n['smtp_host'] ?? ''));
     $smtpPort = (int) ($n['smtp_port'] ?? 465);
     if ($smtpPort < 1 || $smtpPort > 65535) {

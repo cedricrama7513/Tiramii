@@ -39,7 +39,7 @@ if (!$row || !password_verify($password, (string) $row['password_hash'])) {
 
 $status = (string) ($row['status'] ?? '');
 if ($status === 'pending') {
-    tiramii_json_response(['ok' => false, 'error' => 'Compte en attente de validation par TIRA\'MII.'], 403);
+    tiramii_json_response(['ok' => false, 'error' => 'Compte en attente de validation par Casa Dessert.'], 403);
 }
 if ($status === 'suspended') {
     tiramii_json_response(['ok' => false, 'error' => 'Compte suspendu. Contactez-nous.'], 403);

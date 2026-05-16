@@ -38,7 +38,7 @@ function resolveBox(boxKey) {
 
 const SESSION_KEY = 'tiramii_pro_session_id';
 const CART_KEY = 'tiramii_pro_cart';
-const DELIVERY_TIME_LABEL = 'À convenir avec TIRA’MII';
+const DELIVERY_TIME_LABEL = 'À convenir avec Casa Dessert';
 
 const sessionId = localStorage.getItem(SESSION_KEY) || crypto.randomUUID();
 localStorage.setItem(SESSION_KEY, sessionId);
