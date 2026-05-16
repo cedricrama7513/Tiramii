@@ -44,17 +44,19 @@ const restaurants = loadRestaurants();
 const headers = [
   'Date facture',
   'N° facture',
-  'Montant TTC (€)',
-  `Versement reçu (€) — +${depositAmount} si recharge`,
-  'Solde crédit (€)',
-  'Alerte solde ≤ 0 €',
+  'Montant facture (€)',
+  `Versement (€)`,
+  'Solde (€)',
+  'Alerte solde',
   'Payé ? (Oui / Non)',
-  'Alerte si facture > 500 €',
+  'Alerte facture > 500 €',
   'Encours impayé (€)',
-  'Alerte encours > 500 €',
-  'Message envoyé ? (Oui / Non)',
+  'Alerte encours',
+  'Message envoyé ?',
   'Date relance',
 ];
+/** Colonnes D–F : compte prépayé (mise en évidence). */
+const soldeHeaderCols = new Set([4, 5, 6]);
 
 function colLetter(n) {
   let s = '';
@@ -119,7 +121,9 @@ function buildWorksheetXml(restaurant) {
 
   rowsXml += '<Row ss:StyleID="header">';
   headers.forEach((h, i) => {
-    rowsXml += cell(1, i + 1, 'string', h, ' ss:StyleID="header"');
+    const col = i + 1;
+    const style = soldeHeaderCols.has(col) ? ' ss:StyleID="soldeHeader"' : ' ss:StyleID="header"';
+    rowsXml += cell(1, col, 'string', h, style);
   });
   rowsXml += '</Row>\n';
 
@@ -143,7 +147,7 @@ function buildWorksheetXml(restaurant) {
       5,
       'formula',
       soldeFormula(r, restaurant.openingBalance),
-      ' ss:StyleID="money"'
+      ' ss:StyleID="soldeMoney"'
     );
     rowsXml += cell(
       r,
@@ -297,6 +301,16 @@ function buildWorkbookXml() {
   </Style>
   <Style ss:ID="money">
    <NumberFormat ss:Format="#,##0.00"/>
+  </Style>
+  <Style ss:ID="soldeHeader">
+   <Font ss:Bold="1" ss:Color="#FFFFFF"/>
+   <Interior ss:Color="#1B5E20" ss:Pattern="Solid"/>
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+  </Style>
+  <Style ss:ID="soldeMoney">
+   <NumberFormat ss:Format="#,##0.00"/>
+   <Interior ss:Color="#E8F5E9" ss:Pattern="Solid"/>
+   <Font ss:Bold="1"/>
   </Style>
  </Styles>
 ${worksheets}

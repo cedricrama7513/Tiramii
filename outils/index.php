@@ -2,7 +2,9 @@
 declare(strict_types=1);
 header('Content-Type: text/html; charset=utf-8');
 $xls = 'suivi-factures-restaurants-pro.xls';
-$xlsOk = is_readable(__DIR__ . DIRECTORY_SEPARATOR . $xls);
+$xlsPath = __DIR__ . DIRECTORY_SEPARATOR . $xls;
+$xlsOk = is_readable($xlsPath);
+$xlsV = $xlsOk ? (string) filemtime($xlsPath) : '';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,11 +22,12 @@ $xlsOk = is_readable(__DIR__ . DIRECTORY_SEPARATOR . $xls);
 </head>
 <body>
   <h1>Outils Casa Dessert</h1>
-  <p>Suivi des factures restaurants pro : alerte automatique au-delà de 500&nbsp;€ (facture ou encours impayé).</p>
+  <p>Suivi factures pro : onglets <strong>My French factory</strong> et <strong>My french Cantine</strong>. Colonnes vertes <strong>D Versement</strong>, <strong>E Solde</strong>, <strong>F Alerte solde</strong> (compte prépayé 500&nbsp;€).</p>
   <?php if ($xlsOk): ?>
-  <a class="dl" href="<?= htmlspecialchars($xls, ENT_QUOTES, 'UTF-8') ?>" download="<?= htmlspecialchars($xls, ENT_QUOTES, 'UTF-8') ?>">
+  <a class="dl" href="<?= htmlspecialchars($xls . ($xlsV !== '' ? '?v=' . $xlsV : ''), ENT_QUOTES, 'UTF-8') ?>" download="<?= htmlspecialchars($xls, ENT_QUOTES, 'UTF-8') ?>">
     Télécharger le tableur Excel (.xls)
   </a>
+  <p style="font-size:.88rem;margin-top:.75rem">Si vous ne voyez pas les colonnes Versement / Solde, supprimez l’ancien fichier et retéléchargez ici (pas l’ancienne copie dans Téléchargements).</p>
   <?php else: ?>
   <p class="err">Fichier Excel introuvable sur le serveur. Réessayez après le prochain déploiement.</p>
   <?php endif; ?>
