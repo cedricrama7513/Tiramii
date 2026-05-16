@@ -2,10 +2,11 @@
 
 **Télécharger le fichier Excel :**
 
-- Sur votre PC : dossier [`a-telecharger/suivi-factures-restaurants-pro.xls`](../a-telecharger/suivi-factures-restaurants-pro.xls)
-- Sur le site (après déploiement) : [casadessert.fr/outils/](https://casadessert.fr/outils/) ou [lien direct .xls](./suivi-factures-restaurants-pro.xls)
+- **Recommandé** : [`suivi-factures-restaurants-pro.xlsx`](../a-telecharger/suivi-factures-restaurants-pro.xlsx) (formules solde fiables)
+- Ancien format : [`suivi-factures-restaurants-pro.xls`](../a-telecharger/suivi-factures-restaurants-pro.xls)
+- Sur le site : [casadessert.fr/outils/](https://casadessert.fr/outils/)
 
-(Ouvrir avec Excel ou LibreOffice Calc.)
+Ouvrir le **.xlsx** avec **Microsoft Excel**. Saisir le montant en colonne **C**, puis **Entrée** : le solde (E) se recalcule.
 
 ## Objectif
 
@@ -54,10 +55,13 @@ Sur le serveur (avec `config/config.php`) :
 
 ```bash
 php tools/export-pro-clients-json.php
+cd tools && npm install && cd ..
 node tools/build-suivi-factures-xls.mjs
 ```
 
-Ou admin → **Pro** → **Exporter pour le tableur Excel**, puis `node tools/build-suivi-factures-xls.mjs`.
+Génère **.xlsx** (recommandé) et **.xls**.
+
+Ou admin → **Pro** → **Exporter pour le tableur Excel**, puis les commandes ci-dessus.
 
 Dans `tools/pro-clients.json` vous pouvez définir :
 

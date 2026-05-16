@@ -1,5 +1,6 @@
 config/config.php
 /data/
+tools/node_modules/
 
 # Secrets / environment files
 .env

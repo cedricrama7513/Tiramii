@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import * as XLSX from 'xlsx';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDirs = [
@@ -76,41 +77,47 @@ function escapeXml(s) {
     .replace(/"/g, '&quot;');
 }
 
-function cell(row, col, type, value, extra = '', cachedNumber = null) {
+/** Attribut XML (formules) : un seul passage, pas de &amp;lt; double. */
+function escapeAttr(s) {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function cell(row, col, type, value, extra = '') {
   if (type === 'formula') {
-    let inner = '<Data ss:Type="String"></Data>';
-    if (cachedNumber !== null && !Number.isNaN(cachedNumber)) {
-      inner = `<Data ss:Type="Number">${cachedNumber}</Data>`;
-    }
-    return `<Cell ss:Index="${col}" ss:Formula="${escapeXml(value)}"${extra}>${inner}</Cell>`;
+    return `<Cell ss:Index="${col}" ss:Formula="${escapeAttr(value)}"${extra}><Data ss:Type="String"></Data></Cell>`;
   }
   const dataType = type === 'number' ? 'Number' : 'String';
   const display = type === 'number' && value === '' ? '' : String(value);
   return `<Cell ss:Index="${col}"${extra}><Data ss:Type="${dataType}">${escapeXml(display)}</Data></Cell>`;
 }
 
-/** Montant facture (col. C) : vide = 0 dans les formules. */
-function montantForFormula(cRef) {
-  return `SI(ESTNUM(${cRef});${cRef};0)`;
-}
-
-function soldeFormula(row, openingBalance) {
-  const c = montantForFormula(`C${row}`);
-  const open = openingBalance > 0 ? openingBalance : 0;
+/** Formules solde : C vide = 0 en Excel (soustraction). */
+function soldeFormulaFr(row, openingBalance) {
+  const open = Number(openingBalance) || 0;
   if (row === 2) {
-    return open > 0 ? `=${open}+D2-${c}` : `=D2-${c}`;
+    return open > 0 ? `=${open}+D2-C2` : `=D2-C2`;
   }
-  return `=E${row - 1}+D${row}-${c}`;
+  return `=E${row - 1}+D${row}-C${row}`;
 }
 
-function computeBalanceCache(restaurant, prefill) {
-  let balance = Number(restaurant.openingBalance) || 0;
-  return prefill.map((data) => {
-    const dep = data.deposit !== '' ? Number(data.deposit) : 0;
-    // Colonne C vide à la génération : aperçu solde = versements seuls (C saisi ensuite par l'utilisateur)
-    balance = Math.round((balance + dep) * 100) / 100;
-    return balance;
-  });
+function soldeFormulaEn(row, openingBalance) {
+  const open = Number(openingBalance) || 0;
+  if (row === 2) {
+    return open > 0 ? `${open}+D2-C2` : `D2-C2`;
+  }
+  return `E${row - 1}+D${row}-C${row}`;
+}
+
+function alertSoldeFormulaFr(row) {
+  return `=SI(E${row}<=0;"⚠ SOLDE ÉPUISÉ — faire verser ${depositAmount} €";"")`;
+}
+
+function alertSoldeFormulaEn(row) {
+  return `IF(E${row}<=0,"⚠ SOLDE ÉPUISÉ — faire verser ${depositAmount} €","")`;
 }
 
 function sheetRef(sheetName) {
@@ -138,7 +145,6 @@ function buildInvoiceRows(restaurant) {
 
 function buildWorksheetXml(restaurant) {
   const prefill = buildInvoiceRows(restaurant);
-  const balanceCache = computeBalanceCache(restaurant, prefill);
   let rowsXml = '';
 
   rowsXml += '<Row ss:StyleID="header">';
@@ -152,36 +158,27 @@ function buildWorksheetXml(restaurant) {
   for (let r = 2; r <= maxRow; r++) {
     const data = prefill[r - 2];
     rowsXml += '<Row>';
-    const preIdx = r - 2;
     if (data) {
       rowsXml += cell(r, 1, 'string', data.date);
       rowsXml += cell(r, 2, 'string', data.invNum);
       // Colonne C : à remplir — le solde (E) se recalcule automatiquement
-      rowsXml += cell(r, 3, 'number', '', ' ss:StyleID="inputMoney"');
+      rowsXml += cell(r, 3, 'string', '', ' ss:StyleID="inputMoney"');
       rowsXml += cell(r, 4, 'number', data.deposit !== '' ? data.deposit : 0, ' ss:StyleID="inputMoney"');
     } else {
       rowsXml += cell(r, 1, 'string', '');
       rowsXml += cell(r, 2, 'string', '');
-      rowsXml += cell(r, 3, 'number', '', ' ss:StyleID="inputMoney"');
+      rowsXml += cell(r, 3, 'string', '', ' ss:StyleID="inputMoney"');
       rowsXml += cell(r, 4, 'number', 0, ' ss:StyleID="inputMoney"');
     }
 
-    const cachedBal = data ? balanceCache[preIdx] : null;
     rowsXml += cell(
       r,
       5,
       'formula',
-      soldeFormula(r, restaurant.openingBalance),
-      ' ss:StyleID="soldeMoney"',
-      cachedBal
+      soldeFormulaFr(r, restaurant.openingBalance),
+      ' ss:StyleID="soldeMoney"'
     );
-    rowsXml += cell(
-      r,
-      6,
-      'formula',
-      `=SI(E${r}&lt;=0;&quot;⚠ SOLDE ÉPUISÉ — faire verser ${depositAmount} €&quot;;&quot;&quot;)`,
-      ' ss:StyleID="alert"'
-    );
+    rowsXml += cell(r, 6, 'formula', alertSoldeFormulaFr(r), ' ss:StyleID="alert"');
 
     if (data) {
       rowsXml += cell(r, 7, 'string', data.paid);
@@ -193,20 +190,20 @@ function buildWorksheetXml(restaurant) {
       r,
       8,
       'formula',
-      `=SI(C${r}&gt;${alertThreshold};&quot;⚠ Facture &gt; ${alertThreshold} € — à relancer&quot;;&quot;&quot;)`,
+      `=SI(C${r}>${alertThreshold};"⚠ Facture > ${alertThreshold} € — à relancer";"")`,
       ' ss:StyleID="alert"'
     );
     rowsXml += cell(
       r,
       9,
       'formula',
-      `=SOMME($C$2:$C$${maxRow})-SOMME.SI($C$2:$C$${maxRow};$G$2:$G$${maxRow};&quot;Oui&quot;)`
+      `=SOMME($C$2:$C$${maxRow})-SOMME.SI($C$2:$C$${maxRow};$G$2:$G$${maxRow};"Oui")`
     );
     rowsXml += cell(
       r,
       10,
       'formula',
-      `=SI(I${r}&gt;${alertThreshold};&quot;⚠ ENVOYER MESSAGE PAIEMENT&quot;;&quot;&quot;)`,
+      `=SI(I${r}>${alertThreshold};"⚠ ENVOYER MESSAGE PAIEMENT";"")`,
       ' ss:StyleID="alert"'
     );
 
@@ -266,20 +263,20 @@ function buildSyntheseXml() {
       r,
       3,
       'formula',
-      `=SI(B${r}&lt;=0;&quot;⚠ RECHARGER ${depositAmount} €&quot;;&quot;OK&quot;)`,
+      `=SI(B${r}<=0;"⚠ RECHARGER ${depositAmount} €";"OK")`,
       ' ss:StyleID="alert"'
     );
     synthRows += cell(
       r,
       4,
       'formula',
-      `=SOMME(${ref}!$C$2:$C$${maxRow})-SOMME.SI(${ref}!$C$2:$C$${maxRow};${ref}!$G$2:$G$${maxRow};&quot;Oui&quot;)`
+      `=SOMME(${ref}!$C$2:$C$${maxRow})-SOMME.SI(${ref}!$C$2:$C$${maxRow};${ref}!$G$2:$G$${maxRow};"Oui")`
     );
     synthRows += cell(
       r,
       5,
       'formula',
-      `=SI(D${r}&gt;${alertThreshold};&quot;⚠ RELANCER&quot;;&quot;OK&quot;)`,
+      `=SI(D${r}>${alertThreshold};"⚠ RELANCER";"OK")`,
       ' ss:StyleID="alert"'
     );
     synthRows += '</Row>\n';
@@ -365,10 +362,117 @@ ${buildSyntheseXml()}
 `;
 }
 
+function buildClientSheetXlsx(restaurant) {
+  const prefill = buildInvoiceRows(restaurant);
+  const rows = [headers];
+  for (let r = 2; r <= maxRow; r++) {
+    const data = prefill[r - 2];
+    const row = Array(12).fill('');
+    if (data) {
+      row[0] = data.date;
+      row[1] = data.invNum;
+      row[3] = data.deposit !== '' ? data.deposit : 0;
+      row[6] = data.paid;
+      row[10] = data.messageSent;
+      row[11] = data.relanceDate;
+    } else {
+      row[3] = 0;
+      row[6] = 'Non';
+      row[10] = 'Non';
+    }
+    rows.push(row);
+  }
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  for (let r = 2; r <= maxRow; r++) {
+    ws[`E${r}`] = { t: 'n', f: soldeFormulaEn(r, restaurant.openingBalance) };
+    ws[`F${r}`] = { t: 's', f: alertSoldeFormulaEn(r) };
+    ws[`H${r}`] = {
+      t: 's',
+      f: `IF(C${r}>${alertThreshold},"⚠ Facture > ${alertThreshold} € — à relancer","")`,
+    };
+    ws[`I${r}`] = {
+      t: 'n',
+      f: `SUM($C$2:$C$${maxRow})-SUMIF($G$2:$G$${maxRow},"Oui",$C$2:$C$${maxRow})`,
+    };
+    ws[`J${r}`] = {
+      t: 's',
+      f: `IF(I${r}>${alertThreshold},"⚠ ENVOYER MESSAGE PAIEMENT","")`,
+    };
+  }
+  ws['!cols'] = [
+    { wch: 12 },
+    { wch: 18 },
+    { wch: 10 },
+    { wch: 14 },
+    { wch: 12 },
+    { wch: 28 },
+    { wch: 10 },
+    { wch: 26 },
+    { wch: 14 },
+    { wch: 26 },
+    { wch: 14 },
+    { wch: 12 },
+  ];
+  return ws;
+}
+
+function buildSyntheseSheetXlsx() {
+  const synthHeaders = [
+    'Restaurant',
+    'Solde crédit actuel (€)',
+    'Alerte solde',
+    'Encours impayé (€)',
+    'Alerte encours',
+  ];
+  const rows = [synthHeaders];
+  restaurants.forEach((restaurant) => {
+    rows.push([restaurant.name, '', '', '', '']);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  restaurants.forEach((restaurant, idx) => {
+    const r = idx + 2;
+    const ref = `'${restaurant.sheetName.replace(/'/g, "''")}'`;
+    ws[`B${r}`] = { t: 'n', f: `${ref}!E${lastPrefillRow}` };
+    ws[`C${r}`] = {
+      t: 's',
+      f: `IF(B${r}<=0,"⚠ RECHARGER ${depositAmount} €","OK")`,
+    };
+    ws[`D${r}`] = {
+      t: 'n',
+      f: `SUM(${ref}!$C$2:$C$${maxRow})-SUMIF(${ref}!$G$2:$G$${maxRow},"Oui",${ref}!$C$2:$C$${maxRow})`,
+    };
+    ws[`E${r}`] = { t: 's', f: `IF(D${r}>${alertThreshold},"⚠ RELANCER","OK")` };
+  });
+  return ws;
+}
+
+function buildWorkbookXlsx() {
+  const wb = XLSX.utils.book_new();
+  for (const restaurant of restaurants) {
+    XLSX.utils.book_append_sheet(wb, buildClientSheetXlsx(restaurant), restaurant.sheetName);
+  }
+  XLSX.utils.book_append_sheet(wb, buildSyntheseSheetXlsx(), 'Synthèse');
+  const help = [
+    ['1. Un onglet par restaurant (' + restaurants.map((r) => r.name).join(' · ') + ').'],
+    ['2. Colonne C : montant facture → le solde (E) se recalcule automatiquement.'],
+    [`3. Colonne D : versement client (${depositAmount} €).`],
+    ['4. Ouvrez ce fichier .xlsx avec Microsoft Excel (recommandé).'],
+    ['5. Après saisie en C, appuyez sur Entrée si le solde ne bouge pas.'],
+  ];
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(help), 'Mode emploi');
+  return wb;
+}
+
 const xml = buildWorkbookXml();
+const wbXlsx = buildWorkbookXlsx();
+const baseName = 'suivi-factures-restaurants-pro';
+
 for (const outDir of outDirs) {
   fs.mkdirSync(outDir, { recursive: true });
-  const outPath = path.join(outDir, 'suivi-factures-restaurants-pro.xls');
-  fs.writeFileSync(outPath, xml, 'utf8');
-  console.log('Written', outPath);
+  const xlsPath = path.join(outDir, `${baseName}.xls`);
+  const xlsxPath = path.join(outDir, `${baseName}.xlsx`);
+  fs.writeFileSync(xlsPath, xml, 'utf8');
+  XLSX.writeFile(wbXlsx, xlsxPath, { bookType: 'xlsx', cellStyles: false });
+  console.log('Written', xlsPath);
+  console.log('Written', xlsxPath);
 }
