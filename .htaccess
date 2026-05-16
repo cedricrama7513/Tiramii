@@ -6,8 +6,8 @@
   # Évite l’ancienne page statique index.html (souvent non à jour vs index.php)
   RewriteRule ^index\.html$ / [R=301,L]
 
-  # Devis pro sans pro.php sur le serveur (utilise index.php?page=devis)
-  RewriteRule ^devis/?$ index.php?page=devis&tab=devis [L,QSA]
+  # Devis pro (devis.php si mod_rewrite ; sinon uploadez devis/ ou devis.php)
+  RewriteRule ^devis/?$ devis.php [L,QSA]
   RewriteRule ^espace-pro/?$ index.php?page=pro [L,QSA]
 
   # HTTP → HTTPS (décommentez si certificat SSL actif sur le domaine)

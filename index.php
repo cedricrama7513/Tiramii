@@ -12,6 +12,10 @@ if ($routePage === 'devis' || $routePage === 'pro') {
         tiramii_serve_pro_public_page();
         exit;
     }
+    if ($routePage === 'devis' && is_readable(__DIR__ . '/devis.php')) {
+        header('Location: devis.php', true, 302);
+        exit;
+    }
 }
 
 if (function_exists('ini_set')) {
