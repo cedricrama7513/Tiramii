@@ -38,6 +38,7 @@ require_once __DIR__ . '/includes/pro_accounts.php';
 tiramii_ensure_pro_tables($pdo);
 tiramii_ensure_pro_price_column($pdo);
 tiramii_ensure_pro_account_tables($pdo);
+require_once __DIR__ . '/includes/admin_livreur_helpers.php';
 
 $proClientFilter = isset($_GET['pro_client']) ? mb_substr(trim((string) $_GET['pro_client']), 0, 255) : '';
 
@@ -235,7 +236,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_order'])) {
                 $_SESSION['admin_flash_success'] = 'Commande #' . $oid . ' marquée comme validée.';
             }
             if ($errors === []) {
-                header('Location: admin.php#order-' . $oid);
+                $returnTab = trim((string) ($_POST['return_tab'] ?? ''));
+                if ($returnTab === 'livreur') {
+                    $returnJour = tiramii_admin_livreur_parse_day(
+                        isset($_POST['return_jour']) ? (string) $_POST['return_jour'] : null,
+                        new DateTimeZone('Europe/Paris')
+                    );
+                    $q = 'tab=livreur&jour=' . rawurlencode($returnJour);
+                    if (isset($_POST['return_fait']) && (string) $_POST['return_fait'] === '1') {
+                        $q .= '&fait=1';
+                    }
+                    header('Location: admin.php?' . $q . '#livreur-' . $oid);
+                } else {
+                    header('Location: admin.php#order-' . $oid);
+                }
                 exit;
             }
         }
@@ -511,7 +525,6 @@ if ($loggedIn) {
 
 /** @var array<string, array{orders: list<array<string, mixed>>, ca: float, count: int}> */
 $ordersGroupedByDay = [];
-$adminTzParis = new DateTimeZone('Europe/Paris');
 if ($ordersList !== []) {
     foreach ($ordersList as $o) {
         $raw = (string) ($o['created_at'] ?? '');
@@ -536,7 +549,38 @@ foreach ($ordersGroupedByDay as $bucket) {
 }
 
 $tabParam = isset($_GET['tab']) ? (string) $_GET['tab'] : '';
-$adminTab = in_array($tabParam, ['pro', 'stats'], true) ? $tabParam : 'particulier';
+$adminTab = in_array($tabParam, ['pro', 'stats', 'livreur'], true) ? $tabParam : 'particulier';
+
+$adminTzParis = new DateTimeZone('Europe/Paris');
+$livreurDay = '';
+$livreurOrders = [];
+$livreurOrderItems = [];
+$livreurPrevDay = '';
+$livreurNextDay = '';
+$livreurShowDone = isset($_GET['fait']) && (string) $_GET['fait'] === '1';
+if ($loggedIn && $adminTab === 'livreur') {
+    $livreurDay = tiramii_admin_livreur_parse_day(isset($_GET['jour']) ? (string) $_GET['jour'] : null, $adminTzParis);
+    [$livreurPrevDay, $livreurNextDay] = tiramii_admin_livreur_adjacent_days($livreurDay, $adminTzParis);
+    $livHasVal = tiramii_admin_orders_has_validated_at($pdo);
+    $livHasPro = tiramii_orders_has_pro_account_id($pdo);
+    $livreurOrders = tiramii_admin_fetch_orders_for_livreur_day($pdo, $livreurDay, $adminTzParis, $livHasVal, $livHasPro);
+    if (!$livreurShowDone && $livHasVal) {
+        $livreurOrders = array_values(array_filter(
+            $livreurOrders,
+            static function (array $o): bool {
+                $v = $o['validated_at'] ?? null;
+
+                return $v === null || $v === '' || (string) $v === '0000-00-00 00:00:00';
+            }
+        ));
+    }
+    if ($livreurOrders !== []) {
+        $livreurOrderItems = tiramii_admin_fetch_order_items_by_ids(
+            $pdo,
+            array_map('intval', array_column($livreurOrders, 'id'))
+        );
+    }
+}
 
 $proCaEntries = [];
 $proCaSummaryByMonth = [];
@@ -747,6 +791,24 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
 .stat-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--vd),var(--v));min-width:4px}
 .stats-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;background:#ede8df;color:var(--vd)}
 .stats-pill.box{background:#fff8e6;color:#b8860b}
+.livreur-toolbar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:16px 0 18px;padding:14px 16px;background:#f7f5f0;border-radius:16px;border:1px solid #e5e0d6}
+.livreur-toolbar label{font-size:.82rem;font-weight:600;color:var(--vd)}
+.livreur-toolbar input[type=date]{padding:10px 12px;border:1.5px solid #d8d0c4;border-radius:12px;font-size:.95rem}
+.livreur-toolbar .day-nav{display:flex;gap:8px;flex-wrap:wrap}
+.livreur-card{border:1px solid #e5e0d6;border-radius:18px;padding:16px 18px;margin-top:14px;background:#fff}
+.livreur-card.is-done{opacity:.72;background:#f9faf8}
+.livreur-card-head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:10px}
+.livreur-card-head h3{margin:0;font-size:1.05rem;font-family:'Playfair Display',serif}
+.livreur-card-meta{font-size:.82rem;color:#5c574f}
+.livreur-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.livreur-actions a{padding:10px 16px;border-radius:999px;font-weight:700;font-size:.86rem;text-decoration:none}
+.livreur-actions a.tel{background:#e3f2fd;color:#1565c0}
+.livreur-actions a.maps{background:#e8f5e9;color:#2e7d32}
+.livreur-address{font-size:1rem;line-height:1.45;margin:8px 0 4px;font-weight:600}
+.livreur-items{font-size:.88rem;color:#5c574f;line-height:1.45;margin-top:8px;padding-top:8px;border-top:1px dashed #e5e0d6}
+.livreur-note{font-size:.86rem;margin-top:8px;padding:10px 12px;background:#fff8e1;border-radius:12px;border:1px solid #ffe082}
+.livreur-empty{padding:20px 0;color:#5c574f}
+@media print{.header,.admin-tabs,.livreur-toolbar,.order-actions,form{display:none!important} .livreur-card{break-inside:avoid;page-break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -770,9 +832,10 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
 <?php else: ?>
 <div class="header">
   <div class="brand"><?= brand_logo_markup('admin') ?></div>
-  <p class="sub"><strong>Particuliers</strong> (stock + commandes site) · <strong>Stats</strong> (saveurs = <em>uniquement</em> commandes particuliers sur le site) · <strong>Pro</strong> (B2B, hors site).</p>
+  <p class="sub"><strong>Particuliers</strong> (stock + commandes) · <strong>Livreur</strong> (tournée du jour) · <strong>Stats</strong> · <strong>Pro</strong> (B2B).</p>
   <nav class="admin-tabs" aria-label="Sections admin">
     <a href="admin.php" class="<?= $adminTab === 'particulier' ? 'active' : '' ?>">Particuliers</a>
+    <a href="admin.php?tab=livreur" class="<?= $adminTab === 'livreur' ? 'active' : '' ?>">Livreur</a>
     <a href="admin.php?tab=stats" class="<?= $adminTab === 'stats' ? 'active' : '' ?>" title="Uniquement les commandes particuliers sur le site">Stats</a>
     <a href="admin.php?tab=pro" class="<?= $adminTab === 'pro' ? 'active' : '' ?>">Pro</a>
   </nav>
@@ -944,6 +1007,112 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
       </details>
       <?php endforeach; ?>
       </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </div>
+</div>
+<?php elseif ($adminTab === 'livreur'): ?>
+<div class="wrap stack">
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <div class="badge">🚚 Tournée livreur</div>
+        <p class="helper">Commandes du jour avec <strong>adresse</strong>, <strong>téléphone</strong> et lien <strong>Google Maps</strong>. Par défaut : commandes <strong>non validées</strong> (à livrer). Les commandes sont regroupées par <strong>date de commande</strong> (Europe/Paris).</p>
+      </div>
+    </div>
+
+    <form class="livreur-toolbar" method="get" action="admin.php">
+      <input type="hidden" name="tab" value="livreur">
+      <label for="livreur-jour">Jour</label>
+      <input type="date" id="livreur-jour" name="jour" value="<?= h($livreurDay) ?>">
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+        <input type="checkbox" name="fait" value="1" <?= $livreurShowDone ? 'checked' : '' ?>>
+        Afficher aussi les livrées (validées)
+      </label>
+      <button type="submit" class="primary btn-small">Voir</button>
+      <div class="day-nav">
+        <a class="btn-link secondary btn-small" href="admin.php?tab=livreur&amp;jour=<?= h($livreurPrevDay) ?><?= $livreurShowDone ? '&amp;fait=1' : '' ?>">← Jour préc.</a>
+        <a class="btn-link secondary btn-small" href="admin.php?tab=livreur&amp;jour=<?= h((new DateTimeImmutable('now', $adminTzParis))->format('Y-m-d')) ?><?= $livreurShowDone ? '&amp;fait=1' : '' ?>">Aujourd’hui</a>
+        <a class="btn-link secondary btn-small" href="admin.php?tab=livreur&amp;jour=<?= h($livreurNextDay) ?><?= $livreurShowDone ? '&amp;fait=1' : '' ?>">Jour suiv. →</a>
+        <button type="button" class="secondary btn-small" onclick="window.print()">🖨 Imprimer</button>
+      </div>
+    </form>
+
+    <p class="order-period-ca" style="margin-top:0">
+      <strong><?= h(tiramii_admin_day_heading($livreurDay)) ?></strong>
+      — <?= (int) count($livreurOrders) ?> livraison<?= count($livreurOrders) > 1 ? 's' : '' ?>
+      <?php if (!$livreurShowDone): ?>
+        <span class="muted">(hors commandes déjà validées)</span>
+      <?php endif; ?>
+    </p>
+
+    <?php if ($livreurOrders === []): ?>
+      <p class="livreur-empty">Aucune commande à livrer pour ce jour<?= $livreurShowDone ? '' : ' (ou tout est déjà validé — cochez « Afficher aussi les livrées »)' ?>.</p>
+    <?php else: ?>
+      <?php foreach ($livreurOrders as $lo):
+          $loid = (int) $lo['id'];
+          $items = $livreurOrderItems[$loid] ?? [];
+          $fullName = tiramii_admin_order_full_name($lo);
+          $fullAddr = tiramii_admin_order_full_address($lo);
+          $mapsUrl = tiramii_admin_order_maps_url($lo);
+          $phone = preg_replace('/\s+/', '', (string) ($lo['phone'] ?? ''));
+          $validatedRaw = $lo['validated_at'] ?? null;
+          $isDone = $validatedRaw !== null && $validatedRaw !== '' && (string) $validatedRaw !== '0000-00-00 00:00:00';
+          $isProOrd = isset($lo['pro_account_id']) && (int) $lo['pro_account_id'] > 0;
+          $when = '—';
+          if ((string) ($lo['created_at'] ?? '') !== '') {
+              $ts = strtotime((string) $lo['created_at']);
+              if ($ts !== false) {
+                  $when = (new DateTimeImmutable('@' . $ts))->setTimezone($adminTzParis)->format('H:i');
+              }
+          }
+          $creneau = trim((string) ($lo['delivery_time'] ?? ''));
+          $note = trim((string) ($lo['note'] ?? ''));
+          ?>
+      <article class="livreur-card<?= $isDone ? ' is-done' : '' ?>" id="livreur-<?= $loid ?>">
+        <div class="livreur-card-head">
+          <h3>#<?= $loid ?> — <?= h($fullName) ?></h3>
+          <?php if ($isProOrd): ?>
+            <span class="status-pill" style="background:#1a237e;color:#fff">PRO</span>
+          <?php endif; ?>
+          <?php if ($isDone): ?>
+            <span class="status-pill status-done">Validée</span>
+          <?php else: ?>
+            <span class="status-pill status-pending">À livrer</span>
+          <?php endif; ?>
+          <span class="livreur-card-meta">Commande <?= h($when) ?></span>
+          <?php if ($creneau !== ''): ?>
+            <span class="livreur-card-meta">· <?= h($creneau) ?></span>
+          <?php endif; ?>
+          <span class="livreur-card-meta">· <?= h(number_format((float) $lo['total_eur'], 2, ',', ' ')) ?> €</span>
+        </div>
+        <p class="livreur-address"><?= h($fullAddr !== '' ? $fullAddr : '— adresse manquante —') ?></p>
+        <div class="livreur-actions">
+          <?php if ($phone !== ''): ?>
+          <a class="tel" href="tel:<?= h($phone) ?>">📞 Appeler</a>
+          <?php endif; ?>
+          <?php if ($mapsUrl !== ''): ?>
+          <a class="maps" href="<?= h($mapsUrl) ?>" target="_blank" rel="noopener noreferrer">📍 Google Maps</a>
+          <?php endif; ?>
+          <a class="btn-link secondary btn-small" href="admin.php#order-<?= $loid ?>">Détail admin</a>
+        </div>
+        <p class="livreur-items"><strong>Articles :</strong> <?= h(tiramii_admin_order_items_summary($items)) ?></p>
+        <?php if ($note !== ''): ?>
+        <p class="livreur-note"><strong>Note client :</strong> <?= h($note) ?></p>
+        <?php endif; ?>
+        <?php if (!$isDone && tiramii_admin_orders_has_validated_at($pdo)): ?>
+        <div class="order-actions">
+          <form method="post" action="admin.php?tab=livreur&amp;jour=<?= h($livreurDay) ?><?= $livreurShowDone ? '&amp;fait=1' : '' ?>#livreur-<?= $loid ?>">
+            <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+            <input type="hidden" name="return_tab" value="livreur">
+            <input type="hidden" name="return_jour" value="<?= h($livreurDay) ?>">
+            <?php if ($livreurShowDone): ?><input type="hidden" name="return_fait" value="1"><?php endif; ?>
+            <input type="hidden" name="order_id" value="<?= $loid ?>">
+            <button type="submit" name="validate_order" value="1" class="primary btn-small">✓ Livrée / validée</button>
+          </form>
+        </div>
+        <?php endif; ?>
+      </article>
       <?php endforeach; ?>
     <?php endif; ?>
   </div>
