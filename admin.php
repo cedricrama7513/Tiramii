@@ -523,6 +523,8 @@ if ($loggedIn) {
     }
 }
 
+$adminTzParis = new DateTimeZone('Europe/Paris');
+
 /** @var array<string, array{orders: list<array<string, mixed>>, ca: float, count: int}> */
 $ordersGroupedByDay = [];
 if ($ordersList !== []) {
@@ -551,7 +553,6 @@ foreach ($ordersGroupedByDay as $bucket) {
 $tabParam = isset($_GET['tab']) ? (string) $_GET['tab'] : '';
 $adminTab = in_array($tabParam, ['pro', 'stats', 'livreur'], true) ? $tabParam : 'particulier';
 
-$adminTzParis = new DateTimeZone('Europe/Paris');
 $livreurDay = '';
 $livreurOrders = [];
 $livreurOrderItems = [];
