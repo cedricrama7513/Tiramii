@@ -39,6 +39,7 @@ tiramii_ensure_pro_tables($pdo);
 tiramii_ensure_pro_price_column($pdo);
 tiramii_ensure_pro_account_tables($pdo);
 require_once __DIR__ . '/includes/admin_livreur_helpers.php';
+require_once __DIR__ . '/includes/admin_orders_delete.php';
 
 $proClientFilter = isset($_GET['pro_client']) ? mb_substr(trim((string) $_GET['pro_client']), 0, 255) : '';
 
@@ -204,6 +205,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pro_account_suspend']
             } catch (Throwable) {
                 $errors[] = 'Mise à jour impossible.';
             }
+        }
+    }
+}
+
+// Supprimer toutes les commandes d’un jour (Europe/Paris)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_orders_day'])) {
+    if (empty($_SESSION['admin_ok'])) {
+        http_response_code(403);
+        $errors[] = 'Non authentifié.';
+    } elseif (!csrf_verify(csrf_token_from_request())) {
+        $errors[] = 'Jeton CSRF invalide.';
+    } else {
+        $dayKey = tiramii_admin_livreur_parse_day(
+            isset($_POST['orders_day']) ? (string) $_POST['orders_day'] : null,
+            new DateTimeZone('Europe/Paris')
+        );
+        $ids = tiramii_admin_order_ids_for_day($pdo, $dayKey, new DateTimeZone('Europe/Paris'));
+        if ($ids === []) {
+            $errors[] = 'Aucune commande pour ce jour.';
+        } else {
+            try {
+                $n = tiramii_admin_delete_orders_for_day($pdo, $dayKey, new DateTimeZone('Europe/Paris'));
+                $_SESSION['admin_flash_success'] = $n . ' commande(s) supprimée(s) pour le '
+                    . tiramii_admin_day_heading($dayKey) . ' (#' . implode(', #', $ids) . ').';
+            } catch (Throwable) {
+                $errors[] = 'Suppression impossible : ' . $e->getMessage();
+            }
+        }
+        if ($errors === []) {
+            header('Location: admin.php');
+            exit;
         }
     }
 }
@@ -914,6 +946,11 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
           <h3><?= h(tiramii_admin_day_heading($dayKey)) ?></h3>
           <span class="day-count"><?= (int) $bucket['count'] ?> commande<?= $bucket['count'] > 1 ? 's' : '' ?></span>
           <span class="day-ca">CA jour : <strong><?= h(number_format($bucket['ca'], 2, ',', ' ')) ?> €</strong></span>
+          <form method="post" action="admin.php" style="margin-left:auto" onsubmit="return confirm('Supprimer définitivement toutes les commandes du <?= h(tiramii_admin_day_heading($dayKey)) ?> ?');">
+            <input type="hidden" name="csrf_token" value="<?= h($csrf) ?>">
+            <input type="hidden" name="orders_day" value="<?= h($dayKey) ?>">
+            <button type="submit" name="delete_orders_day" value="1" class="secondary btn-small" style="padding:6px 12px;color:#b71c1c;border:1px solid #ffcdd2">Supprimer ce jour</button>
+          </form>
         </div>
       <?php foreach ($bucket['orders'] as $o):
           $oid = (int) $o['id'];
