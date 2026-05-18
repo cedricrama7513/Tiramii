@@ -81,7 +81,6 @@ jobs:
             config/config.php
             config/*.local.php
             **/database*.sql
-            admin.html
             index.html
             sync-from-github.php
             verification-installation.php

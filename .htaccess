@@ -10,6 +10,9 @@
   RewriteRule ^devis/?$ devis.php [L,QSA]
   RewriteRule ^espace-pro/?$ index.php?page=pro [L,QSA]
 
+  # Ancienne page admin statique (mot de passe navigateur) → admin PHP
+  RewriteRule ^admin\.html$ admin.php [R=302,L]
+
   # HTTP → HTTPS (décommentez si certificat SSL actif sur le domaine)
   # RewriteCond %{HTTPS} !=on
   # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
