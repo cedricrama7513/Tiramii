@@ -1,1 +1,1 @@
-admin-supprimer-commandes-jour
+livreur-waze

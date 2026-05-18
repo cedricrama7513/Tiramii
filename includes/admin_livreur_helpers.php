@@ -77,16 +77,24 @@ function tiramii_admin_order_full_address(array $order): string
 }
 
 /**
+ * Lien Waze (itinéraire) vers l’adresse de livraison.
+ *
  * @param array<string, mixed> $order
  */
-function tiramii_admin_order_maps_url(array $order): string
+function tiramii_admin_order_waze_url(array $order): string
 {
     $q = tiramii_admin_order_full_address($order);
     if ($q === '') {
         return '';
     }
 
-    return 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($q);
+    return 'https://waze.com/ul?q=' . rawurlencode($q) . '&navigate=yes';
+}
+
+/** @deprecated Utiliser tiramii_admin_order_waze_url() */
+function tiramii_admin_order_maps_url(array $order): string
+{
+    return tiramii_admin_order_waze_url($order);
 }
 
 /**

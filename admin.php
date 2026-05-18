@@ -836,7 +836,7 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
 .livreur-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
 .livreur-actions a{padding:10px 16px;border-radius:999px;font-weight:700;font-size:.86rem;text-decoration:none}
 .livreur-actions a.tel{background:#e3f2fd;color:#1565c0}
-.livreur-actions a.maps{background:#e8f5e9;color:#2e7d32}
+.livreur-actions a.waze{background:#e3f2fd;color:#1565c0}
 .livreur-address{font-size:1rem;line-height:1.45;margin:8px 0 4px;font-weight:600}
 .livreur-items{font-size:.88rem;color:#5c574f;line-height:1.45;margin-top:8px;padding-top:8px;border-top:1px dashed #e5e0d6}
 .livreur-note{font-size:.86rem;margin-top:8px;padding:10px 12px;background:#fff8e1;border-radius:12px;border:1px solid #ffe082}
@@ -1055,7 +1055,7 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
     <div class="topbar">
       <div>
         <div class="badge">🚚 Tournée livreur</div>
-        <p class="helper">Commandes du jour avec <strong>adresse</strong>, <strong>téléphone</strong> et lien <strong>Google Maps</strong>. Par défaut : commandes <strong>non validées</strong> (à livrer). Les commandes sont regroupées par <strong>date de commande</strong> (Europe/Paris).</p>
+        <p class="helper">Commandes du jour avec <strong>adresse</strong>, <strong>téléphone</strong> et lien <strong>Waze</strong> (navigation). Par défaut : commandes <strong>non validées</strong> (à livrer). Regroupement par <strong>date de commande</strong> (Europe/Paris).</p>
       </div>
     </div>
 
@@ -1092,7 +1092,7 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
           $items = $livreurOrderItems[$loid] ?? [];
           $fullName = tiramii_admin_order_full_name($lo);
           $fullAddr = tiramii_admin_order_full_address($lo);
-          $mapsUrl = tiramii_admin_order_maps_url($lo);
+          $wazeUrl = tiramii_admin_order_waze_url($lo);
           $phone = preg_replace('/\s+/', '', (string) ($lo['phone'] ?? ''));
           $validatedRaw = $lo['validated_at'] ?? null;
           $isDone = $validatedRaw !== null && $validatedRaw !== '' && (string) $validatedRaw !== '0000-00-00 00:00:00';
@@ -1129,8 +1129,8 @@ code{background:#f0ebe4;padding:2px 6px;border-radius:8px}
           <?php if ($phone !== ''): ?>
           <a class="tel" href="tel:<?= h($phone) ?>">📞 Appeler</a>
           <?php endif; ?>
-          <?php if ($mapsUrl !== ''): ?>
-          <a class="maps" href="<?= h($mapsUrl) ?>" target="_blank" rel="noopener noreferrer">📍 Google Maps</a>
+          <?php if ($wazeUrl !== ''): ?>
+          <a class="waze" href="<?= h($wazeUrl) ?>" target="_blank" rel="noopener noreferrer">🚗 Waze</a>
           <?php endif; ?>
           <a class="btn-link secondary btn-small" href="admin.php#order-<?= $loid ?>">Détail admin</a>
         </div>
