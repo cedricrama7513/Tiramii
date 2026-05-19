@@ -24,6 +24,16 @@ $xlsxV = $xlsxOk ? (string) filemtime($xlsxPath) : '';
 <body>
   <h1>Outils Casa Dessert</h1>
   <p>Suivi factures pro : <strong>My French factory</strong> et <strong>My french Cantine</strong>. Saisissez le montant en <strong>colonne C</strong> → le <strong>solde (E)</strong> se met à jour.</p>
+  <?php
+  $planPdf = 'plan-action-ca-casa-dessert.pdf';
+  $planPath = __DIR__ . DIRECTORY_SEPARATOR . $planPdf;
+  if (is_readable($planPath)):
+    $planV = (string) filemtime($planPath);
+  ?>
+  <a class="dl" style="margin-top:12px;background:#5a4336" href="<?= htmlspecialchars($planPdf . '?v=' . $planV, ENT_QUOTES, 'UTF-8') ?>" download="<?= htmlspecialchars($planPdf, ENT_QUOTES, 'UTF-8') ?>">
+    Plan d'action CA (PDF)
+  </a>
+  <?php endif; ?>
   <?php if ($xlsxOk): ?>
   <a class="dl" href="<?= htmlspecialchars($xlsx . ($xlsxV !== '' ? '?v=' . $xlsxV : ''), ENT_QUOTES, 'UTF-8') ?>" download="<?= htmlspecialchars($xlsx, ENT_QUOTES, 'UTF-8') ?>">
     Télécharger Excel (.xlsx)
