@@ -1,0 +1,1524 @@
+dept,nom,adresse,ville,cp,type,cuisine,statut_dessert,raison,lat,lon
+92,Accent Thaï,39 Rue du Gué,,92500,restaurant,thai,sans_dessert_probable,cuisine thai,48.8776521,2.1829886
+92,Afrika,,,,restaurant,african,sans_dessert_probable,cuisine african,48.8967642,2.2913029
+92,Al Duomo,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8203752,2.2499866
+92,Al San Marco,31 Avenue Victor Cresson,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8224139,2.2675523
+92,Alfred Burger,Rue du Château,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.874457,2.1811316
+92,Almanac,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.9128356,2.2537758
+92,Ama,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8330824,2.2513714
+92,Amago Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8145741,2.2967729
+92,Ambia,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8799415,2.2318409
+92,Amma Lisa,80,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7850427,2.3068013
+92,Amwaj,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8895708,2.2804582
+92,Anadolia,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8275061,2.2413034
+92,Anatolie,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7627087,2.2797128
+92,Andrea,Cour Michelet,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8879723,2.2482995
+92,Anouh,169 Rue Gallieni,,,restaurant,vietnamese;thai,sans_dessert_probable,cuisine vietnamese;thai,48.8359664,2.23554
+92,Antalya,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7793486,2.2830903
+92,Apollo Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8788735,2.2097332
+92,Asahi Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8960936,2.2524274
+92,Asia Fusion,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8380869,2.2398177
+92,Asia King,13 Rue d'Estienne d'Orves,,92270,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9156603,2.2714355
+92,Asia express,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8977648,2.2202502
+92,Asian Box,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8345211,2.2457695
+92,Asian Wok,,,,restaurant,asian,sans_dessert_probable,nom,48.9271131,2.2883843
+92,Asiati-k,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8400487,2.2377409
+92,Asko,,,,restaurant,breakfast;brunch;chicken;french;juice;salad;bagel,sans_dessert_probable,cuisine breakfast;brunch;chicken;french;juice;salad;bagel,48.8975723,2.2947946
+92,Asnières Céleste,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9066823,2.2854163
+92,Au Comptoir d'asie,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8215725,2.2034233
+92,Au Jardin Suspendu,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8879733,2.248116
+92,Au Petit Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8929174,2.1961982
+92,Au Shakti Indien,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8889563,2.1833905
+92,Au Soleil Levant,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8213685,2.2024913
+92,Aubestof,,,,restaurant,asian;vietnamese,sans_dessert_probable,cuisine asian;vietnamese,48.8688805,2.2250453
+92,Aux Portes d'Istanbul,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8929135,2.1959324
+92,Aux Saveurs de l'Inde,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7768817,2.3218893
+92,Ayako teppanyaki,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7925401,2.2707427
+92,Aykoo Sushi,,,,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.905991,2.267961
+92,Baba Ghannouj,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7617104,2.308464
+92,Baby burger,27 Boulevard Jean Jaurès,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8984658,2.3073157
+92,Baguettes Chinoises,35-36,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8893619,2.2472795
+92,Bali,11 Rue de Paris,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8165085,2.2475633
+92,Bang Kang,164 Avenue de Verdun,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8182716,2.251505
+92,Bangkok Factory,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.9139578,2.2836488
+92,Basilic & Co,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8721992,2.2315401
+92,Bateau japonais,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8034447,2.2620262
+92,Beity,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8900898,2.2893763
+92,Bella Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.81242,2.2732299
+92,Bella Venezia,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8907784,2.194358
+92,Bellaciao,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.898733,2.3070717
+92,Bigbang,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.825224,2.214937
+92,Bishoku,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8628181,2.2238678
+92,Bistro Thaï,20 Grande Rue Charles de Gaulle,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.906467,2.28646
+92,Bistrot d'Asnières,,,,restaurant,french;burger;regional,sans_dessert_probable,cuisine french;burger;regional,48.9100642,2.2923036
+92,Bla Bla Pizza,,,,restaurant,,sans_dessert_probable,nom,48.9012806,2.2172049
+92,Bo Sushi,239 bis Boulevard Jean Jaurès,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8294795,2.2459734
+92,Bohjan,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8119197,2.3031781
+92,Bolly Streets,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8959256,2.2972953
+92,Bollywood,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8184858,2.1974741
+92,Bomunsa,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8160549,2.3100954
+92,Bonheur De Clichy,,,,restaurant,chinese;buffet,sans_dessert_probable,cuisine chinese;buffet,48.9006172,2.3159633
+92,Brasao,26 Avenue Puvis de Chavannes,,,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.8986333,2.2346664
+92,Brooklyn Avenue,52,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8995261,2.305392
+92,Bulgo,4 Rue Charles et René Auffray,,92110,restaurant,korean,sans_dessert_probable,cuisine korean,48.9015958,2.3034303
+92,Casa Corleone,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9019828,2.2432559
+92,Casa Milano,41,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9034569,2.3107808
+92,Cent Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8022882,2.2866965
+92,Cetrobon,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7850372,2.3020833
+92,Chang Thai,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8685823,2.2267824
+92,Chez Bedros,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8238526,2.2677519
+92,Chez Huang,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8684059,2.2278709
+92,Chez Kimi,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.9101776,2.2403873
+92,Chez La',,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8184798,2.3087124
+92,Chez Lau,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8962263,2.248601
+92,Chez Lin,105 Rue de Silly,,,restaurant,chinese;asian,sans_dessert_probable,cuisine chinese;asian,48.8349118,2.2328397
+92,Chez Liu,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.904837,2.256242
+92,Chez Or Thaï I Am,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.823333,2.2080299
+92,Chez P'tit Viet,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.7598458,2.3073092
+92,Chez Papa,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8156507,2.32058
+92,Chez Quyen-Chi,53 Avenue de la Division Leclerc,,92160,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.7485498,2.3042334
+92,Chez Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8850965,2.2632053
+92,Chez Tony,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8834488,2.2464286
+92,Chiang Rai Jao,,,92120,restaurant,lao;thai,sans_dessert_probable,cuisine lao;thai,48.8139506,2.3232016
+92,Chicken City,,,,restaurant,,sans_dessert_probable,nom,48.7891017,2.318853
+92,Chikayo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.834032,2.2492429
+92,Chilan,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8276245,2.2415257
+92,Chuan Yang,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8248279,2.2717121
+92,Ciao Bella,112 Avenue Victor Hugo,,,restaurant,italian;pasta;pizza,sans_dessert_probable,cuisine italian;pasta;pizza,48.8349623,2.2441668
+92,Class’ Burger,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.9144932,2.27453
+92,Club Nippon,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8985738,2.2931946
+92,Coffee Bharath,13,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9101928,2.3069314
+92,Coki B&B,52 Quai Georges Gorse,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8253218,2.2350529
+92,Coq Noir,,,,restaurant,african,sans_dessert_probable,cuisine african,48.9006998,2.3166185
+92,Cot Cot Poulet,,,,restaurant,,sans_dessert_probable,nom,48.8807346,2.2368045
+92,Coté Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8261826,2.2785303
+92,Coussin du Bengale,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9021779,2.2682649
+92,Crispy soul,,,,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.8321977,2.2533286
+92,Croq'vit,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8931423,2.2458425
+92,Crousty Fresh,,,,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.8911904,2.1950849
+92,Côté Italie,5 Place des Impressionnistes,,,restaurant,italian;pizza;italian_pizza,sans_dessert_probable,cuisine italian;pizza;italian_pizza,48.8890396,2.165239
+92,Da Giuliana,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8000985,2.2623288
+92,Daikichi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8190906,2.2512723
+92,Dance Sushi,,,,restaurant,asian,sans_dessert_probable,nom,48.9092852,2.2376578
+92,Diabl'o Wok,2,,,restaurant,asian,sans_dessert_probable,nom,48.8874303,2.2077399
+92,Dolce Vita,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8296783,2.2835276
+92,Dolcetto,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7380659,2.3021708
+92,Dolemon Sushi,29,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8986729,2.2623562
+92,Don Luigi,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9031057,2.2683584
+92,Don'Air,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8066215,2.2937169
+92,Doppio Malto,,,,restaurant,burger;italian;steak_house,sans_dessert_probable,cuisine burger;italian;steak_house,48.8901491,2.2371164
+92,Dosla,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8421287,2.2398345
+92,Dream Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8359913,2.2492327
+92,Dream Sushi,1 Galerie des Marchands,,92360,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.7865835,2.2268176
+92,Dudi,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8078287,2.2419878
+92,Due Fratelli,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8903444,2.1971701
+92,Délices de Chine,48,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.902326,2.3142361
+92,Délices de Nanterre,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8947821,2.1959317
+92,Délices du Kashmir,,,,restaurant,pakistani;indian,sans_dessert_probable,cuisine pakistani;indian,48.8906694,2.1942758
+92,E-Ban,14 Avenue de la République,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.8262449,2.2733453
+92,Edo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8963359,2.2962554
+92,Edo Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8167718,2.3285908
+92,Eke,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.777221,2.293501
+92,Ermano,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9240938,2.2952888
+92,Escale à Hanoi,,,92340,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.7853596,2.3173207
+92,Esmeralda,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9173498,2.3067046
+92,Eurasia,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9032601,2.2426272
+92,Festin des Vallées,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9146786,2.2577616
+92,Five,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.9001782,2.2396475
+92,Five Pizza Original,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9239063,2.2574547
+92,Fofo,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8261873,2.278288
+92,Fou Lo,27 Avenue du Général Leclerc,,92340,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7854653,2.3179619
+92,Fratelli Bois-Colombes,7 Rue du Moulin Bailly,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.9082393,2.2579471
+92,Fratellino,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9095022,2.2403674
+92,French Touch,137,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.9006521,2.2321074
+92,Fuji,160 Rue du Vieux Pont de Sèvres,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8308915,2.2402959
+92,Fujiyama,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8410819,2.2293643
+92,Fun Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.89922,2.262154
+92,Fusion N'Rolls Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7791775,2.315004
+92,Futo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8589191,2.2136499
+92,Gangnam Grill,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.9049304,2.2566858
+92,Gitanjali,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8270596,2.2222806
+92,Gril 92,21 Rue Henri Barbusse,,92110,restaurant,korean,sans_dessert_probable,cuisine korean,48.8984688,2.3023324
+92,Grill Istanbul,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8972006,2.2478433
+92,Grill and Burgers,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8973116,2.2905411
+92,Haki Ramen,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8913157,2.2856336
+92,Hako,,,,restaurant,ramen,sans_dessert_probable,cuisine ramen,48.8947658,2.2268443
+92,Hanoi Cà Phê,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8908725,2.2365659
+92,Hanoi au Vietnam,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8869201,2.1724953
+92,Happy Bento,,,,restaurant,asian;japanese,sans_dessert_probable,cuisine asian;japanese,48.8962073,2.296085
+92,Happy Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7823135,2.2431104
+92,Haveli,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8741738,2.1812787
+92,Hayaci,60,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9003632,2.2610029
+92,Hayashi Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9316473,2.2666198
+92,Heavy's,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8954585,2.2966971
+92,Hikari Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.797163,2.3219344
+92,Hinata,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.910179,2.2890297
+92,Hoki Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8792771,2.2413387
+92,Hokkaido,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8272472,2.2424271
+92,Hokkaido,96 Rue Anatole France,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.893809,2.283746
+92,Hong Kong Palace,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8796801,2.1841325
+92,Hua Ta Fa,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8620865,2.2125242
+92,I Chiban,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.826504,2.2200684
+92,I Gusti d'Italia,156 Rue de Verdun,,92800,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8792566,2.2360893
+92,IT,86 Esplanade du Général de Gaulle,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8900531,2.2434345
+92,Ichimi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8962629,2.2405486
+92,Il CaraBistro,151 Grande Rue,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8445334,2.1874639
+92,Il Segreto,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8185908,2.3226402
+92,In Casa,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8967612,2.2758141
+92,In Paradiso,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8946189,2.2667966
+92,Indian Palace,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7466259,2.303917
+92,Indiawalaa,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.896423,2.297468
+92,Issy Tokyo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.828173,2.2668087
+92,Istanbul Kitchen,,,92000,restaurant,kebab;turkish,sans_dessert_probable,cuisine kebab;turkish,48.8946224,2.1961035
+92,Istanbul's Grill,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7386405,2.3022903
+92,Italien Kitchen,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8322117,2.2529381
+92,Itouya,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8434574,2.2322843
+92,Itto,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8987003,2.2938121
+92,Japan Sakura,1 Place des Impressionnistes,,,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.8891496,2.1654048
+92,Japan Sakura,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8518864,2.2041294
+92,Jardin Secret,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8627297,2.2171205
+92,Jardin d'Asie,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8124084,2.3008926
+92,Jardin de Thé,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8847629,2.266674
+92,Jing Du,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8432845,2.1865151
+92,Jokei,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7494397,2.3039617
+92,Jour Boulogne,,,,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.8367548,2.2403071
+92,Joya,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8909714,2.1948959
+92,Julius Caffé,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.888801,2.2125921
+92,Kaneman,5,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.909554,2.3080155
+92,Kanoya,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9033709,2.2566873
+92,Kawasaki,80 Rue Jean Jaurès,,92800,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8834982,2.2430302
+92,Kawasaki,,,,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.9031891,2.3143923
+92,Kayani,8 Place Bir-Hakeim,,,restaurant,indian;pakistani,sans_dessert_probable,cuisine indian;pakistani,48.8299602,2.2392518
+92,Kazoku,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8195235,2.306519
+92,Khao Lak,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8221259,2.266193
+92,Kilikia,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8020213,2.2644396
+92,Kim,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8334172,2.2553585
+92,Kim Bánh,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8270723,2.2644096
+92,Kim Thai,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.9007828,2.3166022
+92,Kim Yang,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8163508,2.1943464
+92,Kiraku Ramen,,,,restaurant,japanese;ramen,sans_dessert_probable,cuisine japanese;ramen,48.7788151,2.3152218
+92,Kiwamiya Ramen,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8315939,2.2470252
+92,Ko Samui,42,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.891786,2.2880892
+92,Kodeo,28 Avenue du Bas-Meudon,,,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.8227274,2.2472294
+92,Koedo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8905513,2.2432514
+92,Koh Tao,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8625195,2.1934762
+92,Koji Restaurant Teppan Yaki,34b Rue Ernest Renan,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8282759,2.2812497
+92,Korea Kit'chen,,,,restaurant,japanese;korean,sans_dessert_probable,cuisine japanese;korean,48.8366143,2.2524709
+92,Kyo,45 Boulevard Georges Clemenceau,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9030091,2.2695791
+92,Kyoko,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8339147,2.2478543
+92,Kyoto,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8913934,2.282568
+92,Kyoto Sakura II,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9237816,2.2523463
+92,Kyoto Sushi,,,,restaurant,,sans_dessert_probable,nom,48.8261848,2.2475463
+92,Kyûden,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8931065,2.2853501
+92,L'Atelier Grill Burger,85 Rue de Bezons,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8977506,2.2473561
+92,L'Olivier,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.829884,2.2838334
+92,L'Orient Express,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8828135,2.1803766
+92,L'Étoile d'or,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8254342,2.2157146
+92,La Beyrouthine,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7468089,2.3034221
+92,La Bénédiction,2 bis Rue Royale,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8420233,2.2210343
+92,La Can Tin'h,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8347537,2.2519691
+92,La Capricciosa,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8824673,2.2767716
+92,La Couronne Dorée,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8284725,2.2816377
+92,La Diva,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.9071474,2.2432583
+92,La Défense Première,,,,restaurant,chinese;japanese,sans_dessert_probable,cuisine chinese;japanese,48.8891764,2.2528293
+92,La Factory Burger,16 Rue René Jacques,,92130,restaurant,burger,sans_dessert_probable,cuisine burger,48.8233221,2.2606889
+92,La Fenicia,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8912251,2.1926675
+92,La Fontana,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.764699,2.3098255
+92,La Maison des nouilles,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8131857,2.316162
+92,La Muraille Du Phénix,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7819854,2.2559643
+92,La Padella,2 Rue Heinrich,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8278592,2.2464301
+92,La Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8141311,2.2957478
+92,La Pizza du dimanche soir,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8390295,2.1861668
+92,La Romana,29,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8917311,2.287934
+92,La Route des Indes,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7765889,2.2954896
+92,La Samb,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.896374,2.297355
+92,La Scala,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.826424,2.2782802
+92,La Squadra,8 Place du 8 Mai 1945,,92500,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8710467,2.2036203
+92,La Squisita,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8943284,2.297274
+92,La bella Vita,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7923764,2.2717614
+92,La cantine d'Issy,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8291039,2.262839
+92,La lune d’Or,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.9040425,2.2496995
+92,La taverne de Zhao,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8420224,2.2298546
+92,Lassani,121,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8984467,2.2647099
+92,Laura,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8261562,2.265933
+92,Le 35,,,,restaurant,burger;pizza,sans_dessert_probable,cuisine burger;pizza,48.8881814,2.2230646
+92,Le B des Champs,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.9149466,2.2824728
+92,Le Bellagio,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.835771,2.2446483
+92,Le Belvédère,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8339314,2.2450596
+92,Le Bienvenu,,,,restaurant,pizza;french,sans_dessert_probable,cuisine pizza;french,48.8902434,2.1959872
+92,Le Bistrot de Courbevoie,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8979142,2.2403144
+92,Le Bobo,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8085504,2.2960518
+92,Le Buron à Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.826074,2.2660804
+92,Le Bô Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8958222,2.2562652
+92,Le Campus,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9042336,2.208773
+92,Le César,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8401156,2.2368245
+92,Le Garage,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.833573,2.2527382
+92,Le Girafon,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8445792,2.211143
+92,Le Grand Mandarin de Montrouge,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8181621,2.3297025
+92,Le Jade Royal,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8031656,2.288199
+92,Le Jardin de Clichy,29 Boulevard Jean Jaurès,,92110,restaurant,asian;chinese,sans_dessert_probable,cuisine asian;chinese,48.8985619,2.3072295
+92,Le Kori doré,,,,restaurant,african,sans_dessert_probable,cuisine african,48.8789336,2.2420396
+92,Le Koull,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.9228006,2.2949845
+92,Le Lys du Soleil,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8299748,2.2839684
+92,Le Mandarin de Neuilly,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8841835,2.263476
+92,Le Palais de Hon Sing,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.898896,2.2468014
+92,Le Petit Braisé,,,,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.9126693,2.2538893
+92,Le QG 961,41 Boulevard Jean Jaurès,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8322338,2.251239
+92,Le Roi Saint-Georges,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9312132,2.2592069
+92,Le Royal Grill,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8985951,2.2951314
+92,Le Sing Chuen,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9153107,2.2310212
+92,Le Soleil Levant,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8324143,2.2390416
+92,Le Séoul,Avenue du Général Leclerc,,92340,restaurant,korean,sans_dessert_probable,cuisine korean,48.7808596,2.3158049
+92,Le Taj Mahal,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.832714,2.2429751
+92,Le Tajmahal,3 Rue de la Garenne,,92310,restaurant,indian,sans_dessert_probable,cuisine indian,48.8214845,2.2059553
+92,Le Temps de Sushis,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8234459,2.2820576
+92,Le Toquet,,,,restaurant,burger;steak_house,sans_dessert_probable,cuisine burger;steak_house,48.9228128,2.2978178
+92,Le Val d'Or,,,,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.9232657,2.2511918
+92,Le libanais de Montrouge,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8208213,2.3123157
+92,Les 3 Atlas,,,,restaurant,moroccan;pizza;burger;sandwich;kebab,sans_dessert_probable,cuisine moroccan;pizza;burger;sandwich;kebab,48.9032575,2.2703844
+92,Les Délices du Kashmir,,,,restaurant,indian;pakistanese,sans_dessert_probable,cuisine indian;pakistanese,48.8956636,2.2816694
+92,Les Trois Napoli,,,,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.8095105,2.2707564
+92,Little Burger,,,,restaurant,,sans_dessert_probable,nom,48.8229089,2.3076118
+92,Loc Lac,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8973643,2.2942712
+92,Luckey,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8199918,2.305405
+92,Lunch Time,,,,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.8970657,2.1873396
+92,Ma Cuisine Privée,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8356731,2.2333163
+92,Mac Doner,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.923265,2.2513955
+92,Madame Phim,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.9061383,2.2556067
+92,Maestro Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8676857,2.2255752
+92,Mahamaya,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9147043,2.2550867
+92,Maila,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8400544,2.237682
+92,Maison Kebab Canteen,28 Rue des Bourguignons,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.9122401,2.2723996
+92,Maison Wok,,,,restaurant,asian,sans_dessert_probable,nom,48.8841537,2.2652938
+92,Maison de la Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.811557,2.2807878
+92,Mama & Co,,,,restaurant,african,sans_dessert_probable,cuisine african,48.8289098,2.2422403
+92,Mama Kitchen Caffè,Promenade Cœur de Ville,,,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.8260954,2.2742545
+92,Mamma mia,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8567634,2.1931944
+92,Manaslu,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8214773,2.2536012
+92,Manayaki,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8116728,2.3154989
+92,Marco Marco,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8876843,2.2507652
+92,Marmara grill,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9037284,2.2561267
+92,Matsuri,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8790076,2.2796325
+92,Maxim Chicken,44,,,restaurant,chicken;burger;fast_food,sans_dessert_probable,cuisine chicken;burger;fast_food,48.902123,2.3145073
+92,Med Grill,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8867262,2.2007793
+92,MezMez,263 Boulevard Jean Jaurès,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8261343,2.247939
+92,Mezzé Shop,139 Rue de Billancourt,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8352379,2.2370738
+92,Mezzé du Village,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7794986,2.3145652
+92,Michiko,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8727392,2.1930061
+92,Mikase,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9150987,2.2731527
+92,Mikisushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8915447,2.1953445
+92,Minato,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8406358,2.2310483
+92,Minoko,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.821949,2.2056127
+92,Misaki,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8092571,2.271965
+92,Misato,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8197234,2.311557
+92,Mister Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7394202,2.2996391
+92,Miyakito,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8193411,2.3103481
+92,Mizzica,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7809696,2.2391128
+92,Mona Lisa,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8790202,2.2413881
+92,Moshimo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9301055,2.2828405
+92,Mozaik Pizza,99 Avenue de Verdun,,,restaurant,,sans_dessert_probable,nom,48.8200382,2.2579726
+92,Mozz Art,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8938665,2.2919199
+92,Msushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9188804,2.2738364
+92,Muki Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7946898,2.303455
+92,Muskan,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.808744,2.2716001
+92,Mèng Lak,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.885147,2.2237455
+92,Nagomi,75 Avenue Jean Baptiste Clément,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8452328,2.2357033
+92,Nakashima,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8910793,2.2921021
+92,Nameste,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8884799,2.1681394
+92,Nara,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8967999,2.2878266
+92,Nawar,10 Place de l'Hôtel de Ville,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7532128,2.2966514
+92,Nem,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8336009,2.2556464
+92,Nem Shop,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.7893915,2.2615229
+92,New Bishoku,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8889781,2.2122967
+92,New Delice,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8793229,2.2412448
+92,New Kathmandu,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.842929,2.1840653
+92,New Kumano,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8221407,2.3036166
+92,New Sayuri Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8244945,2.186107
+92,New Shri Ganesh,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9003443,2.2451301
+92,New Tandoori House,3 Place des Arts,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7869538,2.2271329
+92,Nina Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8992518,2.2816748
+92,Ninasushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8841946,2.2600876
+92,Noboru,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8794558,2.1839276
+92,Nomiya,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8850834,2.2583653
+92,Nori Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8867516,2.2602635
+92,Nouilles 92,26 Rue Bapst,,92600,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.90935,2.28743
+92,Noura,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8380708,2.2395457
+92,Nouveau Jardin Thaïlandais,83 Avenue Henri Barbusse,,92140,restaurant,asian;chinese;thai,sans_dessert_probable,cuisine asian;chinese;thai,48.8116918,2.2580524
+92,O Liban,,,92400,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.9001027,2.2396563
+92,O' Sole Mio,6 Rue de la Procession,,92150,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.8637719,2.2119821
+92,O'Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8888699,2.1684984
+92,OPS Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8126111,2.326371
+92,OZ,,,,restaurant,pizza;sushi,sans_dessert_probable,cuisine pizza;sushi,48.8871067,2.2602368
+92,Oasie,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8361711,2.2372413
+92,Ocean's Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8858428,2.214757
+92,Oh! Zitouna,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8961453,2.1961745
+92,Oishi Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.923066,2.2553963
+92,Okado,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8742752,2.234539
+92,Okayama,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8294115,2.2831354
+92,Oki,41 Avenue de la Division Leclerc,,92160,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7505979,2.3046696
+92,Oki Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9023508,2.3048168
+92,Oky Sushi,14 Rue Jean-Jacques Rousseau,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8229136,2.2603388
+92,Osaka,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8697785,2.2281218
+92,Osaka Bagneux,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7997127,2.3076924
+92,Osaka Océane,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8928328,2.1730524
+92,Osaka Royal,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8421692,2.2203766
+92,Osaka Sushi,149 Boulevard National,,92500,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8910578,2.1780848
+92,Otoko Yama,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8177627,2.3028268
+92,Oui chef !,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8095034,2.2720408
+92,Oyama,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7896612,2.3145105
+92,Ozaka,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8222611,2.3054756
+92,Oïsushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8163747,2.2474381
+92,PB Poulet Braisé,4 Rue René Jacques,,,restaurant,chicken;burger,sans_dessert_probable,cuisine chicken;burger,48.8239655,2.2618749
+92,Palais Céleste,129 Rue de Silly,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.833875,2.2333015
+92,Palki,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.878574,2.2350184
+92,Pane e Vino,,,,restaurant,italian_pizza;pizza,sans_dessert_probable,cuisine italian_pizza;pizza,48.9014291,2.3056759
+92,Papi Thai,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.76066,2.2791734
+92,Paradise Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.900056,2.2297002
+92,Paris Dakar,,,,restaurant,african,sans_dessert_probable,cuisine african,48.8630391,2.2015818
+92,Paris Istanbul,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.9180789,2.2245692
+92,Pepone Traiteur,,,,restaurant,pasta;pizza;italian,sans_dessert_probable,cuisine pasta;pizza;italian,48.9018713,2.3143344
+92,Peppe,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8945628,2.2801838
+92,Peppino,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8795342,2.2425167
+92,Pho Hao,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.7507201,2.304678
+92,Pho Kitchen,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8194329,2.3232871
+92,Phuket,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.7612752,2.2902091
+92,Phô Hanoi,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.9189129,2.2815963
+92,Phô Kitchen,84 Rue de Billancourt,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8373138,2.2363446
+92,Piezeria Pomozza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7772709,2.314194
+92,Pizza Camilia,57,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.895682,2.2753491
+92,Pizza Capri,10 Allée des Charmes,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8672776,2.1965517
+92,Pizza Carnot,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8892672,2.2031431
+92,Pizza Cosy,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9147956,2.2530522
+92,Pizza Hut,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8224232,2.2075203
+92,Pizza Hut,39 Avenue du Général de Gaulle,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7869801,2.2257419
+92,Pizza Italia,,,,restaurant,italian,sans_dessert_probable,nom,48.8322528,2.2511039
+92,Pizza Mido,,,,restaurant,italian,sans_dessert_probable,nom,48.903052,2.2580125
+92,Pizza Paparotti,12 Place Jacques Madaule,,,restaurant,italian,sans_dessert_probable,nom,48.823832,2.2612936
+92,Pizza Roma,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8166143,2.3214767
+92,Pizza Siciliana,164 Avenue de Verdun,,,restaurant,italian,sans_dessert_probable,nom,48.8183243,2.2516576
+92,Pizza Time,,,,restaurant,italian,sans_dessert_probable,nom,48.9236987,2.2523157
+92,Pizza al Forno,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8068747,2.2675862
+92,Pizza au Feu de Bois,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.895159,2.1925184
+92,Pizza del Arte,,,,restaurant,italian,sans_dessert_probable,nom,48.838025,2.2393708
+92,Pizza des Roissys,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8074969,2.2771255
+92,Pizzaria Picola Calabria,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8184994,2.3009105
+92,Pizzeria Gruppomimo,27 Rue Carnot,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8899702,2.2882153
+92,Pizzeria Pazzia,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9234657,2.2560682
+92,Pizzeria Siciliana,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8095951,2.2950637
+92,Pizzeria Venizia,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8950058,2.2242834
+92,Planet Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8922175,2.1959245
+92,Point B,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8359504,2.2503914
+92,Poisson Riz,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.857847,2.2115551
+92,Poke Break,,,,restaurant,,sans_dessert_probable,nom,48.8790648,2.24176
+92,Pomozza,126 Avenue du Général Leclerc,,92340,restaurant,pasta;pizza,sans_dessert_probable,cuisine pasta;pizza,48.7774078,2.3142627
+92,Pooja,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8798682,2.2334836
+92,Positano,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7773665,2.292652
+92,Pyramide,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.9065252,2.2863358
+92,Quattro stagioni,5 Rue de Paris,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8966535,2.3082132
+92,Quota,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9259777,2.2417534
+92,Rajastan,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7353015,2.2878538
+92,Restaurant AWL,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8191042,2.3033158
+92,Restaurant Gülberfin,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9015158,2.3166783
+92,Restaurant Mangal,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7784046,2.2792721
+92,Restaurant du Bonheur,2 Rue Madiraa,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.906052,2.2693122
+92,Resto Paradis,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9081703,2.2384212
+92,Royal Inde,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8401868,2.2358592
+92,Royal Kashmir,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8688064,2.2262519
+92,Royal Tokyo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7804364,2.2617777
+92,S Comme Sushi,1 Rue Roussel,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9080506,2.2385471
+92,S Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8337228,2.2480349
+92,SPOK - Levallois Pompidou,,,,restaurant,burger;diner;french,sans_dessert_probable,cuisine burger;diner;french,48.8992664,2.2826536
+92,Saint Cyril,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7989408,2.3050397
+92,Sakae,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8857319,2.2608514
+92,Sakana,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.890713,2.1944718
+92,Sakura,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8422318,2.219924
+92,Sakura,32,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8960904,2.2489213
+92,Saké,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8470307,2.1958989
+92,Samaya,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8369144,2.2407566
+92,Samurai,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8238953,2.2611101
+92,Sanki,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8363726,2.251739
+92,Santa Maria,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8185736,2.2971811
+92,Sarrail,74 Boulevard de la République,,92250,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.9069066,2.2451
+92,Sawadi,83 Rue de Paris,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.900782,2.3037773
+92,Sayori Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8138137,2.2861012
+92,Sayuri,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8124666,2.3263896
+92,Seguin Sound,Parvis de l'Île Seguin,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8251534,2.2309002
+92,Sen Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8934483,2.2481424
+92,Shawar’Mama,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8739788,2.2300317
+92,Shin Juku,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8848556,2.2584062
+92,Shinobi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.912451,2.272462
+92,Shishido Ramen Bar,27 Rue Rousselle,,92800,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8840301,2.2424527
+92,Shizuoka,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8267792,2.2207481
+92,Shogun,48 Rue Jean-Pierre Timbaud,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8188554,2.2495009
+92,Shogun,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8766155,2.1850495
+92,Shogun Shusi,41 Rue Jean Jaurès,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8906853,2.2917439
+92,Shri Ganesh,17,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8910286,2.2815453
+92,Sibel,Boulevard Jean Jaurès,,92110,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8983857,2.3073704
+92,Sofra Grill,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8340901,2.245541
+92,Sole Mio,,,,restaurant,pizza;pasta;italian,sans_dessert_probable,cuisine pizza;pasta;italian,48.905452,2.2874828
+92,Song Giang,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8268561,2.1897137
+92,Sotto Casa,19 Rue Henri Barbusse,,92110,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8983917,2.3021422
+92,Soy Soy,,,,restaurant,japanese;korean;thai,sans_dessert_probable,cuisine japanese;korean;thai,48.9046907,2.293374
+92,Speed Burger,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8298713,2.251675
+92,Spicy World,109,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9014087,2.3088807
+92,Sunshine Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9063999,2.2475177
+92,Sushi Aime,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.944142,2.3259246
+92,Sushi Ajisen,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8208297,2.313849
+92,Sushi Antony,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7410529,2.2820091
+92,Sushi Bar,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9007041,2.2444861
+92,Sushi Bo-Bun,Rue du Château,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8745051,2.1809639
+92,Sushi Club,,,92250,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9052476,2.2555412
+92,Sushi Do,85 Rue de Silly,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8358993,2.2324845
+92,Sushi Do,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8219683,2.2936381
+92,Sushi Goo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7701358,2.3160504
+92,Sushi Izakaya,38 bis,,,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.8251672,2.2895392
+92,Sushi Maison,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8298615,2.284575
+92,Sushi Nanterre,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8865038,2.2108221
+92,Sushi Paradise,149 Rue de Silly,,,restaurant,,sans_dessert_probable,nom,48.8329136,2.2337672
+92,Sushi Sun,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9010006,2.3154005
+92,Sushi Time's,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8869137,2.2324331
+92,Sushi Tokyo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8979547,2.2362167
+92,Sushi Wallace,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.879035,2.2418409
+92,Sushi White,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8917743,2.2059221
+92,Sushi White,304 Avenue des Grésillons,,92600,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9205814,2.3177277
+92,Sushi YR,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8891454,2.2830433
+92,Sushi château,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9161602,2.2753882
+92,Sushi de la Jatte,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8951303,2.2657624
+92,Sushi in thai,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8812902,2.2211563
+92,Sushi Éclair,Rue Henri Barbusse,,,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.899,2.3035736
+92,Sushi-Ba Vanves,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8217445,2.2874415
+92,Tachibana Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8329937,2.2459629
+92,Taj Mahal,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9106201,2.292191
+92,Tajmahal Express,15 Rue de Paris,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8162734,2.2473883
+92,Tandoori House,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8209466,2.3124908
+92,Tandoori Kitchen,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8204728,2.2849429
+92,Thai Corner,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.9224783,2.2984638
+92,Thaï in Box,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8407271,2.2396364
+92,Thaï in Box,39 Avenue Léon Gambetta,,92120,restaurant,thai,sans_dessert_probable,cuisine thai,48.8140688,2.3219918
+92,Thaï in Box,68,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8903957,2.2911349
+92,Thaï in box,18 Rue du Fief,,92100,restaurant,thai,sans_dessert_probable,cuisine thai,48.8318886,2.2557488
+92,Thon,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8175649,2.2490205
+92,Tinki's,,,,restaurant,african,sans_dessert_probable,cuisine african,48.8386143,2.230431
+92,To & Cie,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8192816,2.3106044
+92,Toast&Pizz,,,,restaurant,burger;italian;sandwich,sans_dessert_probable,cuisine burger;italian;sandwich,48.8964047,2.2373057
+92,Tokara,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8643423,2.1807978
+92,Tokio,5 Rue Camille Pelletan,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8955501,2.2886162
+92,Tokushima,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9064381,2.2472315
+92,Tokyo,92 bis Avenue Henri Barbusse,,92140,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.812033,2.2583114
+92,Tokyo La Défense,,,,restaurant,asian;chinese;japanese,sans_dessert_probable,cuisine asian;chinese;japanese,48.8957505,2.2365586
+92,Tokyo Sakura,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9125299,2.2848131
+92,Top pizza,,,,restaurant,,sans_dessert_probable,nom,48.7818598,2.3012218
+92,Toscanini,32 Rue Jean-Pierre Timbaud,,92130,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.820316,2.2497057
+92,Toyama,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8794944,2.1832476
+92,Toyosushi,48 Avenue Victor Cresson,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8226193,2.2675678
+92,Traiteur Bonjour,,,,restaurant,chinese;vietnamese,sans_dessert_probable,cuisine chinese;vietnamese,48.8014591,2.266557
+92,Traiteur Chinois,Boulevard Jean Jaurès,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9001277,2.3059266
+92,Traiteur Panda,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8899954,2.1968292
+92,Traiteur bon appétit,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9031474,2.3134616
+92,Tripletta,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8160097,2.3179075
+92,Tsubasa,24 Rue des Bourets,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8689271,2.2277496
+92,Tsukiji,78 Avenue Aristide Briand,,92120,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8160947,2.3253809
+92,Twilsons,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.9179225,2.3070707
+92,Térèse,75 Avenue de la Marne,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.9088252,2.284897
+92,Umami Ramen,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.828788,2.2376396
+92,Umo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9110832,2.2931137
+92,Unagi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9123402,2.253812
+92,Urban Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8299961,2.2840208
+92,VIPause,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.8887154,2.2123436
+92,Valentino Pizzeria,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8959237,2.2521351
+92,Vallon du Liban,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8685692,2.2245926
+92,Vallée Du Liban,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.780059,2.2411782
+92,Venise,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8422166,2.22001
+92,Villa Firenze,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8188024,2.3258578
+92,Villa Min,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.8991473,2.2457779
+92,Villa Sun 92,,,,restaurant,chinese;thai;japanese;sushi;maki;california,sans_dessert_probable,cuisine chinese;thai;japanese;sushi;maki;california,48.8859263,2.2131404
+92,Villa de Chine,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.906006,2.2504318
+92,Village Tao Tao,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8725561,2.1952303
+92,Vinh Ha Long,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.7840147,2.2678106
+92,Wahaha,24 Avenue Pierre Larousse,,92240,restaurant,korean,sans_dessert_probable,cuisine korean,48.8232451,2.3027677
+92,Wako,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8906176,2.1943823
+92,Website Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8462794,2.197721
+92,West Kitchen,,,,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.8883089,2.2478185
+92,Win Sushi,Rue du Val d'Or,,,restaurant,,sans_dessert_probable,nom,48.8598997,2.221339
+92,Wok Fusion,,,,restaurant,asian,sans_dessert_probable,nom,48.8769839,2.2333944
+92,Wok Grill,440 Avenue de la Division Leclerc,,,restaurant,asian,sans_dessert_probable,nom,48.7689925,2.251026
+92,Woodiz Factory,7 Rue Liot,,92100,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8320972,2.241082
+92,Xin Xing,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7830426,2.2461418
+92,Xuang,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9239961,2.2540357
+92,Yamada 8,567 Avenue Roger Salengro,,,restaurant,korean;japanese,sans_dessert_probable,cuisine korean;japanese,48.8159158,2.1942456
+92,Yamada 8,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8873208,2.2844618
+92,Yamato,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8686228,2.226687
+92,Yanagawa,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8896897,2.2803751
+92,Yasami,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8625427,2.2074231
+92,Yoko Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8797586,2.2356759
+92,Yokohama,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7888896,2.2605149
+92,Yoshito,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9071001,2.2420466
+92,Yugen,Rue Michel Jazy,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8272203,2.2646032
+92,Yuki,40 Route de la Reine,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.839278,2.2459934
+92,Yummy,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8953417,2.2241125
+92,Yushin,77 Rue Chauveau,,92200,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.8938214,2.2700249
+92,Z Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7976899,2.3165832
+92,Ze Kiff,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.899318,2.266785
+92,Ze Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8101682,2.2693698
+92,Zen Sushi,33 Rue Godefroy,,92800,restaurant,,sans_dessert_probable,nom,48.882115,2.240488
+92,Zensushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.813034,2.3197042
+92,Zerin,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9246649,2.2944238
+92,Zico,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8249056,2.2694158
+92,fuga,87 Rue de Silly,,,restaurant,french;thai,sans_dessert_probable,cuisine french;thai,48.8358226,2.2325102
+92,oumuni,88 Rue Salvador Allende,,92000,restaurant,korean,sans_dessert_probable,cuisine korean,48.894638,2.2231811
+92,Étoile de l'Inde,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8005986,2.2882815
+92,Étoile du Kashmir,59,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9057367,2.2475852
+92,Ôz Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.9115147,2.2853624
+92,GIOVĀ,5 Rue de l'Église,Antony,92160,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7543057,2.2972101
+92,La Terrasse,2 Place de l'Hôtel de Ville,Antony,92160,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.7532633,2.2964228
+92,La Trinita,164 Avenue du Bois de Verrières,Antony,92160,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7566509,2.2818877
+92,Pizza Fiesta,8 Place de la Résidence,Antony,92160,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7699645,2.3162632
+92,Pizza Verona,Avenue de la Division Leclerc,Antony,92160,restaurant,italian;italian_pizza;pasta;mediterranean;pizza,sans_dessert_probable,cuisine italian;italian_pizza;pasta;mediterranean;pizza,48.7471418,2.3035209
+92,Sushi Antony,124 Avenue Aristide Briand,Antony,92160,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7609353,2.3081784
+92,Sushi Yaki,Avenue de la Division Leclerc,Antony,92160,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7472065,2.3039839
+92,amo pizza romana,24 Avenue de la Division Leclerc,Antony,92160,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.7521841,2.3040357
+92,Bistro de la Gare,Avenue des Grésillons,Asnières-sur-Seine,92600,restaurant,french;pizza,sans_dessert_probable,cuisine french;pizza,48.919726,2.3149703
+92,Gruppomimo,2 Rue Denis Papin,Asnières-sur-Seine,92600,restaurant,italian;pizza;pasta,sans_dessert_probable,cuisine italian;pizza;pasta,48.9063073,2.2837595
+92,Hanh,28 Rue de Normandie,Asnières-sur-Seine,92600,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.9062457,2.2849594
+92,Hokkaido Huang,6 Grande Rue Charles de Gaulle,Asnières-sur-Seine,92600,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9055588,2.2873213
+92,Poke'up,27 Grande Rue Charles de Gaulle,Asnières-sur-Seine,92600,restaurant,hawaiian;poke,sans_dessert_probable,nom,48.9062544,2.2861424
+92,Yutaka,19 Avenue Faidherbe,Asnières-sur-Seine,92600,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.9080631,2.2676004
+92,Casa Del Condor,72 Avenue de Bourg-la-Reine,Bagneux,92220,restaurant,american;mexican,sans_dessert_probable,cuisine american;mexican,48.785063,2.3072893
+92,Everest,10 Avenue Henri Ravera,Bagneux,92220,restaurant,nepalese;indian,sans_dessert_probable,cuisine nepalese;indian,48.7967727,2.3017814
+92,Le Lanta Wok,90 Avenue Albert Petit,Bagneux,92220,restaurant,asian,sans_dessert_probable,nom,48.7959053,2.3183125
+92,Little Long House,17 Avenue Victor Hugo,Bagneux,92220,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8049524,2.3222631
+92,Pizza Hut,144 Avenue Aristide Briand,Bagneux,92220,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7970641,2.3219005
+92,Sawasdee Thaî,15 Avenue Victor Hugo,Bagneux,92220,restaurant,thai,sans_dessert_probable,cuisine thai,48.8048353,2.3221199
+92,Baciami,12 Place Gabriel Péri,Bois-Colombes,92270,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.9139361,2.2724291
+92,Compose,10 Place de la Renaissance,Bois-Colombes,92270,restaurant,salad;pizza,sans_dessert_probable,cuisine salad;pizza,48.907187,2.261934
+92,Hoki Sushi,2 Place de la Renaissance,Bois-Colombes,92270,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.907542,2.261772
+92,Étoile du Liban,Rue des Bourguignons,Bois-Colombes,92270,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.9128921,2.2726191
+92,21 Corée,15 Rue Carnot,Boulogne-Billancourt,92100,restaurant,korean,sans_dessert_probable,cuisine korean,48.8344287,2.2415073
+92,Ajisai,3 Rue Michelet,Boulogne-Billancourt,92100,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.834114,2.2289076
+92,Bella Vita,58 Rue de Sèvres,Boulogne-Billancourt,92100,restaurant,italian;pizza;italian_pizza,sans_dessert_probable,cuisine italian;pizza;italian_pizza,48.8334753,2.2286478
+92,Chez Madeleine,39 Rue de Paris,Boulogne-Billancourt,92100,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8399763,2.2453585
+92,Go Ramen,99 Rue Thiers,Boulogne-Billancourt,92100,restaurant,ramen,sans_dessert_probable,cuisine ramen,48.8332013,2.2512698
+92,Good Morning Vietnam,60 Rue de Sèvres,Boulogne-Billancourt,92100,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8331989,2.2287893
+92,Grill Antalya Boulogne,76 Route de la Reine,Boulogne-Billancourt,92100,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8397901,2.2405429
+92,Himalayan Fusion,54 Avenue Pierre Lefaucheux,Boulogne-Billancourt,92100,restaurant,indian,sans_dessert_probable,cuisine indian,48.8263479,2.2373283
+92,Italia Caffé,229 Boulevard Jean Jaurès,Boulogne-Billancourt,92100,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8304133,2.2455409
+92,Montecatini,11 Rue Bartholdi,Boulogne-Billancourt,92100,restaurant,italian_pizza;pizza,sans_dessert_probable,cuisine italian_pizza;pizza,48.8451023,2.2427871
+92,Peppe,104 Rue du Point du Jour,Boulogne-Billancourt,92100,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8294067,2.2484565
+92,Shiki,53 Rue Gallieni,Boulogne-Billancourt,92100,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8375339,2.2480786
+92,Super Bowl,42 Rue des Peupliers,Boulogne-Billancourt,92100,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8340648,2.2549966
+92,Tokoyama,56 Rue de Sèvres,Boulogne-Billancourt,92100,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8336213,2.2285811
+92,Bo Boun Bar,19 bis Boulevard Carnot,Bourg-la-Reine,92340,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.778357,2.3197619
+92,Hatori,5 Avenue du Général Leclerc,Bourg-la-Reine,92340,restaurant,asian;japanese;sushi,sans_dessert_probable,cuisine asian;japanese;sushi,48.7874648,2.3187228
+92,New Daikichi,3 Rue de la Bièvre,Bourg-la-Reine,92340,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7821451,2.3172725
+92,New Paradis du Parc,131 Avenue du Général Leclerc,Bourg-la-Reine,92340,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7771485,2.3145831
+92,La Scampia,Avenue Roger Salengro,Chaville,92370,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8152403,2.1938458
+92,Le Palais du Maharajah,2049 Avenue Roger Salengro,Chaville,92370,restaurant,indian,sans_dessert_probable,cuisine indian,48.8052016,2.1838596
+92,RIMA,1004 Avenue Roger Salengro,Chaville,92370,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8125875,2.1917681
+92,Village Bonheur,27 Rue de Jouy,Chaville,92370,restaurant,thai;vietnamese;chinese,sans_dessert_probable,cuisine thai;vietnamese;chinese,48.8001685,2.1864456
+92,Basilic & Co,48 Cours du Commerce,Châtenay-Malabry,92290,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7647454,2.2875215
+92,Chez Lily,84 Rue Jean Longuet,Châtenay-Malabry,92290,restaurant,chinese;asian,sans_dessert_probable,cuisine chinese;asian,48.7678038,2.2796485
+92,Le San Antonio,6 Rue du Docteur Le Savoureux,Châtenay-Malabry,92290,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.7667793,2.2791112
+92,Aoyama,134 Avenue de Paris,Châtillon,92320,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8083588,2.2965605
+92,Five Pizza Original Châtillon,86/88 Avenue de Paris,Châtillon,92320,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8069682,2.2941376
+92,Iki Sushi,10 Boulevard de Vanves,Châtillon,92320,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8044336,2.2883769
+92,Le neuf de Thaï,12 Avenue de Paris,Châtillon,92320,restaurant,thai,sans_dessert_probable,cuisine thai,48.8043894,2.2896818
+92,Bella Gusto,3 Clos du Breuil,Clamart,92140,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.7801936,2.2414152
+92,La Mezza Luna,18 Rue de Versailles,Clamart,92140,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.7826584,2.2480583
+92,Sendoh Burger,118 Boulevard Jean Jaurès,Clichy,92110,restaurant,burger;korean;japanese;bao,sans_dessert_probable,cuisine burger;korean;japanese;bao,48.9056052,2.3018989
+92,Woodiz Clichy,40 Boulevard du Général Leclerc,Clichy,92110,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.901866,2.3147713
+92,ZD Poke,19 Boulevard Victor Hugo,Clichy,92110,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8974192,2.3101383
+92,Chicken 4 Seasons,6 Avenue Jean Jaurès,Colombes,92700,restaurant,portuguese;french,sans_dessert_probable,nom,48.9321796,2.2596197
+92,Farina,2 Avenue de l'Agent Sarre,Colombes,92700,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9238214,2.2604956
+92,L'Olympic,63 Boulevard de Valmy,Colombes,92700,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.9282233,2.2539015
+92,L'annexe,5 Place Maurice Chavany,Colombes,92700,restaurant,french;burger;fro,sans_dessert_probable,cuisine french;burger;fro,48.9234202,2.255879
+92,Monday's,325 Rue d'Estienne d'Orves,Colombes,92700,restaurant,burger;kebab;asian,sans_dessert_probable,cuisine burger;kebab;asian,48.9098928,2.233338
+92,New Wok,73 Boulevard Charles de Gaulle,Colombes,92700,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9110647,2.2330798
+92,Raja,14 Avenue de l'Agent Sarre,Colombes,92700,restaurant,indian,sans_dessert_probable,cuisine indian,48.9238938,2.2611971
+92,Vinobah,98 Rue du Maréchal Joffre,Colombes,92700,restaurant,indian,sans_dessert_probable,cuisine indian,48.9209064,2.2594778
+92,Amaterasu,13 Place des Corolles,Courbevoie,92400,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8906337,2.245246
+92,Dynasty,Square des Saisons,Courbevoie,92400,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.890256,2.2521253
+92,Kisoro Courbevoie,62 Avenue de la République,Courbevoie,92400,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.901523,2.2515733
+92,Les Copains Toqués,15 Place des Corolles,Courbevoie,92400,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.8907014,2.2452952
+92,Matsuri,70-72 Esplanade La Défense,Courbevoie,92400,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8904294,2.2445433
+92,Muzi,47 Avenue Gambetta,Courbevoie,92400,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8933589,2.2463607
+92,Pizza San Marco,60 Rue du Capitaine Guynemer,Courbevoie,92400,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8965241,2.2453002
+92,QG,37 Place des Saisons,Courbevoie,92400,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8897459,2.252474
+92,Vietnam Kitchen,Rue de Bezons,Courbevoie,92400,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8929631,2.2531678
+92,Washi,25 Rue Edith Cavell,Courbevoie,92400,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.902348,2.268756
+92,Sitar,8 Rue Marx Dormoy,Fontenay-aux-Roses,92260,restaurant,indian,sans_dessert_probable,cuisine indian,48.790501,2.2922183
+92,Yamato,114 Rue Boucicaut,Fontenay-aux-Roses,92260,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7935931,2.2844949
+92,Meytiz Pizza,12 Rue Rossignol Dubost,Gennevilliers,92230,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9189631,2.3082459
+92,Ayomi,16 Rue Maurice Berteaux,Issy-les-Moulineaux,92130,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.82882,2.2673295
+92,Daso,1 Rue Minard,Issy-les-Moulineaux,92130,restaurant,korean,sans_dessert_probable,cuisine korean,48.8260618,2.2784894
+92,La Gondola,2 Avenue Jean Jaurès,Issy-les-Moulineaux,92130,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8239919,2.2735811
+92,Pizza Hut,37 Avenue Victor Cresson,Issy-les-Moulineaux,92130,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8222502,2.2667371
+92,Sushiken,12 Rue Ernest Renan,Issy-les-Moulineaux,92130,restaurant,sushi;japanese;asian,sans_dessert_probable,cuisine sushi;japanese;asian,48.8295798,2.2833908
+92,Mannat,11 Grande Rue,Le Plessis-Robinson,92350,restaurant,indian,sans_dessert_probable,cuisine indian,48.7803507,2.2620646
+92,Golosino,10 Rue Raspail,Levallois-Perret,92300,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8961231,2.2933011
+92,Thaï Basilic,30 Rue d'Alsace,Levallois-Perret,92300,restaurant,thai,sans_dessert_probable,cuisine thai,48.8918315,2.2967658
+92,Della Nonna,57 Avenue Pierre Larousse,Malakoff,92240,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8217862,2.3042439
+92,Taste of Tibet,154 Boulevard Gabriel Péri,Malakoff,92240,restaurant,nepalese;indian;tibetan,sans_dessert_probable,cuisine nepalese;indian;tibetan,48.8195444,2.3066797
+92,Brasserie La Forêt,2 Place Louise Poitevin,Meudon,92360,restaurant,beef_bowl;coffee_shop;french;vietnamese,sans_dessert_probable,cuisine beef_bowl;coffee_shop;french;vietnamese,48.7839206,2.2256658
+92,Cappa2,7 Galerie du Patio,Meudon,92360,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7869308,2.2272993
+92,Korner Spéciale,23 Rue Claude Dalsème,Meudon,92190,restaurant,burger;american;sandwich;hot_dog,sans_dessert_probable,cuisine burger;american;sandwich;hot_dog,48.8143989,2.2408949
+92,La Petite Cantine,1 Rue Monge,Meudon,92190,restaurant,french;mediterranean;african,sans_dessert_probable,cuisine french;mediterranean;african,48.80372,2.2391375
+92,Lovely Thaï,8 Rue Saint-Exupéry,Meudon,92360,restaurant,thai,sans_dessert_probable,cuisine thai,48.7894514,2.2266062
+92,Pizza Bell',1 Rue de Vélizy,Meudon,92190,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.820612,2.2278117
+92,Refant,16 Rue Marcel Allégot,Meudon,92190,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8208533,2.2280055
+92,Rui Xin – Spécialités Chinoises,6 Galerie des Étoiles,Meudon,92360,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7870106,2.2273359
+92,707,2 Rue Théophile Gautier,Montrouge,92120,restaurant,burger;steak_house,sans_dessert_probable,cuisine burger;steak_house,48.8187805,2.3236487
+92,Ajap,12 Rue Barbès,Montrouge,92120,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8172878,2.3270014
+92,Dal Rosso,88 Avenue Aristide Briand,Montrouge,92120,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8151978,2.3254661
+92,Hubao burger,65 Boulevard Romain Rolland,Montrouge,92120,restaurant,burger,sans_dessert_probable,cuisine burger,48.8206096,2.3214393
+92,Ishikawa,5 Rue Théophile Gautier,Montrouge,92120,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8186532,2.3242461
+92,La Calypsia,25 Avenue de la République,Montrouge,92120,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8204084,2.3209443
+92,Maruyama,125 Avenue de la République,Montrouge,92120,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8124876,2.3160824
+92,Mei Wei,124 Avenue Henri Ginoux,Montrouge,92120,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8134721,2.319719
+92,Poulet Braisé,9 Rue Camille Pelletan,Montrouge,92120,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.8165338,2.3097872
+92,Sakura Sushi,41 Avenue Pierre Brossolette,Montrouge,92120,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8217083,2.3135975
+92,Simple Sushi,53-55 Rue Fénelon,Montrouge,92120,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8108498,2.3136914
+92,The Himalayan,38 Avenue Henri Ginoux,Montrouge,92120,restaurant,indian,sans_dessert_probable,cuisine indian,48.8192937,2.3232019
+92,Viet Quan,9 Rue Gabriel Péri,Montrouge,92120,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8175965,2.3243246
+92,Atelier Bey,60 Rue Salvador Allende,Nanterre,92000,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8949813,2.2221176
+92,Petit Chef,43 Rue Henri Barbusse,Nanterre,,restaurant,japanese;chinese;asian,sans_dessert_probable,cuisine japanese;chinese;asian,48.8907271,2.1940647
+92,Rajpoot Nanterre,79 Avenue du Maréchal Joffre,Nanterre,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8841377,2.1928448
+92,Samourai,22 Avenue Georges Clemenceau,Nanterre,92000,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8867983,2.2023616
+92,Suprême Pizza,14 Rue de l'Église,Nanterre,92000,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8905151,2.1967823
+92,Tablapizza Nanterre,85 Avenue du Maréchal Joffre,Nanterre,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8840092,2.1924864
+92,Orient Extrême,2 Place Parmentier,Neuilly-sur-seine,92200,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.88055,2.2788548
+92,Arroy Thaï,Rue Jean Jaurès,Puteaux,92800,restaurant,thai,sans_dessert_probable,cuisine thai,48.8797522,2.2366821
+92,Boieldieu de Chine,67 Jardins Boieldieu,Puteaux,92800,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8889181,2.2386297
+92,Duke,35 Cours Michelet,Puteaux,92800,restaurant,burger,sans_dessert_probable,cuisine burger,48.88811,2.247871
+92,Kaphao,1 Rue Arago,Puteaux,92800,restaurant,thai,sans_dessert_probable,cuisine thai,48.8839364,2.2445716
+92,Kupbap,45 Rue Roque de Fillol,Puteaux,92800,restaurant,korean,sans_dessert_probable,cuisine korean,48.8851321,2.244285
+92,Le Babour,34 Rue Godefroy,Puteaux,92800,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8820356,2.2409258
+92,Le Petit Thaï,2 Rue de l'Oasis,Puteaux,92800,restaurant,thai,sans_dessert_probable,cuisine thai,48.8851354,2.2426866
+92,Lotus Bleu,107 Rue Jean Jaurès,Puteaux,92800,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8819456,2.2393188
+92,Matsuri,2 Parvis de la Défense,Puteaux,92800,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.892149,2.2395206
+92,Mayur,54 Rue Jean Jaurès,Puteaux,92800,restaurant,indian,sans_dessert_probable,cuisine indian,48.8841303,2.2453184
+92,Pho 39,79 Rue de la République,Puteaux,92800,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8858885,2.2431587
+92,Wako,49 Bis Rue Marius Jacotot,Puteaux,92800,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8849085,2.2422864
+92,Diwali,21 Avenue de Colmar,Rueil-Malmaison,92500,restaurant,indian,sans_dessert_probable,cuisine indian,48.8870006,2.1801666
+92,Don Pepe,101 Avenue Paul Doumer,Rueil-Malmaison,92500,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8797288,2.1805802
+92,Hokiko,22 Avenue du Maréchal Joffre,Rueil-Malmaison,92000,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.88589,2.1967855
+92,Le Bonheur de Chine,2 Allée Aristide Maillol,Rueil-Malmaison,92500,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8651226,2.2062536
+92,Nagoya,8 Boulevard du Maréchal Joffre,Rueil-Malmaison,92500,restaurant,korean;japanese,sans_dessert_probable,cuisine korean;japanese,48.8794754,2.1831701
+92,Net Viet,1 Rue Jacques Daguerre,Rueil-Malmaison,92500,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8892588,2.1701691
+92,Pizza Hut,92 Avenue Paul Doumer,Rueil-Malmaison,92500,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8817693,2.1854378
+92,Pizza Phone 2,106 Avenue Albert 1er,Rueil-Malmaison,92500,restaurant,italian,sans_dessert_probable,nom,48.8861763,2.1715083
+92,Snack Coté Jardin,119 Avenue Paul Doumer,Rueil-Malmaison,92500,restaurant,snack;kebab;burger,sans_dessert_probable,cuisine snack;kebab;burger,48.8790624,2.1787704
+92,II Cararosso,17 Rue du Mont Valérien,Saint-Cloud,92210,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.853441,2.2156148
+92,Nhà Quê,18 Rue Royale,Saint-Cloud,92210,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8421556,2.2202775
+92,Bann Thaï,20 Avenue Raymond Poincaré,Sceaux,92330,restaurant,thai,sans_dessert_probable,cuisine thai,48.7816091,2.3011756
+92,Avi Ravi,9 Rue Pasteur,Suresnes,92150,restaurant,indian,sans_dessert_probable,cuisine indian,48.8605602,2.2225103
+92,Délices de l'Himalaya,100 Rue Sadi Carnot,Vanves,92170,restaurant,indian;nepalese,sans_dessert_probable,cuisine indian;nepalese,48.8247036,2.295397
+92,Herushi,55 Rue Jean Jaurès,Vanves,92170,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8250299,2.2935253
+92,Izu Sushi,32 Rue Jules Michelet,Vanves,92170,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8231968,2.2927204
+92,L'Uliveto,9 Rue Jean Jaurès,Vanves,92170,restaurant,pizza;pasta;italian,sans_dessert_probable,cuisine pizza;pasta;italian,48.8239997,2.2966687
+92,Taormina,52 Rue Jean Bleuzen,Vanves,92170,restaurant,pizza;pasta,sans_dessert_probable,cuisine pizza;pasta,48.8220652,2.294191
+92,Étoile du bonheur,11 Rue Ernest Laval,Vanves,92170,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8201864,2.2923006
+92,Il Caravaggio,17 Allée de Saint-Cucufa,Vaucresson,92420,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8453616,2.1741567
+92,Sushi Hanaka,22-92 Boulevard Gallieni,Villeneuve-la-Garenne,92390,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.926835,2.3310274
+92,World Wok,94 Boulevard Gallieni,Villeneuve-la-Garenne,92390,restaurant,chinese;asian;sushi,sans_dessert_probable,cuisine chinese;asian;sushi,48.9271172,2.3304755
+93,0'213,,,,restaurant,pizza;chicken;burger;grill,sans_dessert_probable,cuisine pizza;chicken;burger;grill,48.8843854,2.4037075
+93,Afrik'N Fusion,,,,restaurant,african,sans_dessert_probable,cuisine african,48.9490625,2.3440264
+93,Afrikitchen,27 Rue François Mitterrand,,93170,restaurant,african,sans_dessert_probable,cuisine african,48.8767175,2.4228573
+93,Akemi,19 Avenue du Consul Général Nordling,,93190,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9182443,2.5360288
+93,Akita,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8783848,2.4116921
+93,Alimentari,6 Place du Marché,,93100,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8580829,2.4341808
+93,Allo Pizza 93,,,,restaurant,italian,sans_dessert_probable,nom,48.8956816,2.4611867
+93,Altra Italia Pizzeria,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.877231,2.4457981
+93,Annai,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9212891,2.4115079
+93,Antik,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.952961,2.3364314
+93,Apsara - Chez Lili,12 Boulevard Chanzy,,93100,restaurant,vietnamese;chinese,sans_dessert_probable,cuisine vietnamese;chinese,48.8585024,2.4352277
+93,Ashok Samrat,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9469226,2.4371291
+93,Asie Daily,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9027589,2.3747174
+93,Au Marahja,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9022005,2.3766899
+93,Au Soleil du Viet Nam,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.9104433,2.3378268
+93,Aux 4 Frères,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9104422,2.4369699
+93,BOLKIRI Bondy Street Food Viêt,10 Rue Louis-Auguste Blanqui,,93140,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.90016,2.4797355
+93,Baber,142 Avenue du 8 Mai 1945,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9482195,2.4382513
+93,Bait Burger,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.9549873,2.3334213
+93,Banh Mi,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.9905651,2.5214229
+93,Bella Rosa,,,,restaurant,pizza;sandwich,sans_dessert_probable,cuisine pizza;sandwich,48.9360481,2.427311
+93,Benji,,,,restaurant,american;sandwich,sans_dessert_probable,cuisine american;sandwich,48.9186026,2.3547817
+93,Big Greedy,13 Rue du 11 Novembre,,93600,restaurant,burger,sans_dessert_probable,cuisine burger,48.9323967,2.4945034
+93,Bolkiri,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.9676975,2.3623637
+93,Buff Burger,,,,restaurant,,sans_dessert_probable,nom,48.9309809,2.3561533
+93,Bô Wok,,,,restaurant,chinese;japanese,sans_dessert_probable,cuisine chinese;japanese,48.8497022,2.5336803
+93,Cap Sud,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9418474,2.5744659
+93,Chez Ali Aksu,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.921487,2.4110533
+93,Chez Suzanne,,,,restaurant,african,sans_dessert_probable,cuisine african,48.9367376,2.3547724
+93,Chez Yao,,,,restaurant,chinese;asian,sans_dessert_probable,cuisine chinese;asian,48.8825801,2.4778853
+93,Chinatown II,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9385055,2.4608421
+93,Cité de Chine,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9433413,2.5063134
+93,Coreegal,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.8563443,2.416608
+93,Croq'o'pain,,,,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.9374977,2.3596182
+93,Crêp & Pizz,,,,restaurant,pizza;crepe,sans_dessert_probable,cuisine pizza;crepe,48.9517093,2.3390898
+93,Da Enzo,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8554303,2.4324705
+93,Dardachat,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8525884,2.4260275
+93,Dare Wok,46 Avenue Henri Barbusse,,93700,restaurant,asian,sans_dessert_probable,nom,48.9167224,2.445136
+93,Delice Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9079714,2.3818247
+93,Di Tutto Un Po,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8842686,2.4037596
+93,Didim,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9092034,2.3710277
+93,Dream Sushi,4 Place des Pianos,,93200,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9198181,2.3430471
+93,Dream Sushi,8 Rue de la République,,93100,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8531826,2.4225041
+93,Délice Sushi,,,,restaurant,,sans_dessert_probable,nom,48.8823802,2.4779749
+93,Délice de condorcet,10 Rue Condorcet,,75009,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8589073,2.4456926
+93,Délices D'Asie,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8909007,2.4026892
+93,Délices Wok,97,,93000,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9045601,2.4392757
+93,Délices d'Aubervilliers,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9139045,2.3825734
+93,Edo Man,34 Avenue du Maréchal Foch,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8624771,2.5040908
+93,Edogawa,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9135985,2.3259349
+93,Enjoy Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.899995,2.566515
+93,Euro Pizza Rapido,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8802727,2.5437775
+93,Everest,52 Rue Carnot,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8554596,2.4413122
+93,Farmento,Promenade Jean Rostand,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9087233,2.4544409
+93,Festin de chine,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9053581,2.3310059
+93,Food Gallery,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.9499272,2.3299321
+93,Gangnam Grillades,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.8629692,2.4412733
+93,Golden Wok,,,,restaurant,asian,sans_dessert_probable,nom,48.8957032,2.4251246
+93,Gourmet Grill,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.9197361,2.3438262
+93,Gourmet Istanbul,46,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9154325,2.3691148
+93,Grill Istambul,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.893963,2.4180743
+93,Gujarat,35,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8650796,2.4431137
+93,Hee Korean Chef,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.8531163,2.4232455
+93,Hodori,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.878319,2.479407
+93,Hoki Sushi,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8536105,2.5162706
+93,Hola pizza,8 Rue Paul Bert,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9012661,2.5660865
+93,Horatu,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8964694,2.4017544
+93,Hoshizora,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9092892,2.4527609
+93,INCHEON,12 Rue Danton,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.8966687,2.3991192
+93,Il caffe di Roma,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8457622,2.529588
+93,Indian Street Food,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.905009,2.3312996
+93,Indian Tandoori Masala,,,,restaurant,indian;burger,sans_dessert_probable,cuisine indian;burger,48.868205,2.4182269
+93,Indiana,,,,restaurant,mexican,sans_dessert_probable,cuisine mexican,48.9125057,2.3287584
+93,Ivoire Gourmand,,,,restaurant,african,sans_dessert_probable,cuisine african,48.9359247,2.3472505
+93,Izgara,27 Rue de Lisbonne,,93110,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8809913,2.4710862
+93,Jap N'Wok,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9452082,2.5660358
+93,Jardin d'Asie,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9274896,2.49048
+93,Jour,8 Rue Jean-Philippe Rameau,,93200,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.9210774,2.3552498
+93,Kamran,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9151616,2.3671977
+93,Kashmir Café,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8583934,2.4378204
+93,Kathmandu,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8829268,2.5119724
+93,Kebab 4b,147,,,restaurant,kebab;pizza;burger;sandwich,sans_dessert_probable,cuisine kebab;pizza;burger;sandwich,48.8670883,2.5597254
+93,Kilim,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9325444,2.5377243
+93,Kim Yang 2,55 Boulevard du Général Leclerc de Hauteclocque,,93260,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8811715,2.4258773
+93,Koko 72,72 Rue Robespierre,,93100,restaurant,korean,sans_dessert_probable,cuisine korean,48.8510748,2.4244391
+93,Kolya,,,,restaurant,african,sans_dessert_probable,cuisine african,48.9056424,2.3252372
+93,Krishna Bhavan,,,,restaurant,indian;sri_lankan,sans_dessert_probable,cuisine indian;sri_lankan,48.9191839,2.4134246
+93,Kyoto,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8556291,2.4231915
+93,L'Italiano,24 Rue de l'Industrie,,93200,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9247115,2.3455333
+93,L4F,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8900554,2.4030884
+93,LBR,Boulevard de la Libération,,93200,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.925914,2.3421606
+93,LE KALLIO,191 Avenue de Stalingrad,,93240,restaurant,coffee_shop;pizza,sans_dessert_probable,cuisine coffee_shop;pizza,48.9587709,2.3976332
+93,La Bottega Italiana,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9285289,2.4984998
+93,La Dolce Vita,8 Place des Pianos,,93200,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9198163,2.342696
+93,La Romana,,,,restaurant,pasta;pizza,sans_dessert_probable,cuisine pasta;pizza,48.9136943,2.3824936
+93,La Source du Bel'R,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8609331,2.4596796
+93,La Villa Di Giovanni,36 Avenue Aristide Briand,,,restaurant,pizza;pasta,sans_dessert_probable,cuisine pizza;pasta,48.9132388,2.5245036
+93,La famille,18 Rue Jean-Philippe Rameau,,93210,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.9209414,2.3529155
+93,La pause gourmande,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8984703,2.5483011
+93,Le Bonaberi,27,,,restaurant,african,sans_dessert_probable,cuisine african,48.9163139,2.3352437
+93,Le Cercle Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9497317,2.5666656
+93,Le Front Populaire,1-3 Rue des Fillettes,,93210,restaurant,french;burger;tartines;salad;world_food,sans_dessert_probable,cuisine french;burger;tartines;salad;world_food,48.9071123,2.365698
+93,Le Fu Gou,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9108146,2.3576291
+93,Le Galanga,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8950686,2.4177746
+93,Le Gramophone,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8641518,2.444981
+93,Le Kashmir,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.919493,2.3433712
+93,Le Kolam Aulany,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.952412,2.485323
+93,Le Milano,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9193258,2.3630408
+93,Le Mirabella,11,,,restaurant,pizza;pasta,sans_dessert_probable,cuisine pizza;pasta,48.9308581,2.3542081
+93,Le Must,,,,restaurant,burger;chicken,sans_dessert_probable,cuisine burger;chicken,48.9358567,2.3437676
+93,Le Nagoya,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.905214,2.3317704
+93,Le Neuf 3,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9359293,2.3672806
+93,Le Nouveau Centenaire,45 Avenue Pasteur,,,restaurant,african,sans_dessert_probable,cuisine african,48.8651638,2.4370236
+93,Le Patio,,,,restaurant,pizza;salad;burger;tapas,sans_dessert_probable,cuisine pizza;salad;burger;tapas,48.8576523,2.4332266
+93,Le Pinicchio,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9431725,2.5064925
+93,Le Resto,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8785054,2.4495918
+93,Le SAO,24-26,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.936791,2.3601245
+93,Le Sultan,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8725592,2.5299397
+93,Le Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8418157,2.5483205
+93,Le Tiger,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8533837,2.4485499
+93,Le Titanic,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8909248,2.4018717
+93,Le Traiteur libanais,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8565292,2.4164988
+93,Le bonheur,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8595889,2.4382456
+93,Les Delices de Bombay,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8984717,2.519346
+93,Les délices d'Adana,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8954237,2.4270417
+93,Leterrible,,,,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.9661021,2.5715867
+93,Lilas Exquis,145 Rue de Paris,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8801647,2.4171069
+93,Lodoss Chicken,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.89274,2.4102479
+93,Lolo,45 Rue Armand Carrel,,93100,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8516046,2.4182543
+93,MIRU AKI,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8957513,2.4260345
+93,MZ Grill,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9121699,2.4368917
+93,Mama Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.9096857,2.3791328
+93,Mankal,58 Avenue Henri Barbusse,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.9393072,2.4619405
+93,Marlotti,8 Rue des Blés,,93210,restaurant,italian;pasta;pizza,sans_dessert_probable,cuisine italian;pasta;pizza,48.9125855,2.3609278
+93,Massala Lounge,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8491255,2.5637402
+93,Master Poulet Saint-Ouen-Sur-Seine,70 Boulevard Jean Jaurès,,93400,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.912692,2.3344027
+93,Mezzo,6 Rue Jean-Philippe Rameau,,93210,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9211087,2.3559713
+93,Miam-Maim d'Asie,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9109528,2.3333038
+93,Momy Resto,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9329617,2.3510581
+93,Nagoya Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9342444,2.4256042
+93,Namaste Himalaya,49 Boulevard de la Liberté,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8804528,2.4210803
+93,Namaste India,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9486443,2.4386751
+93,Namasté Népal,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8844622,2.4348488
+93,Nawab,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9046846,2.3907876
+93,New Kyoto,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8636733,2.44403
+93,New Royal Taste of India,178 Avenue du 8 Mai 1945,,93150,restaurant,indian,sans_dessert_probable,cuisine indian,48.9499534,2.4398648
+93,New Tokyo,131,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9052677,2.3233715
+93,Ninja ren,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.853097,2.4263253
+93,Nobi Nobi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9057341,2.446751
+93,O Durüm,32 Boulevard Jean Jaurès,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.9142327,2.3363275
+93,O Pacha,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9284701,2.4521434
+93,O'Papa,26,,,restaurant,grill;pizza;burger,sans_dessert_probable,cuisine grill;pizza;burger,48.9110934,2.3367742
+93,O'Villaggio,28 Rue du Capitaine Dreyfus,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8587051,2.4386477
+93,O'boulevard,,,,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.9502906,2.56831
+93,Odawara,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.918802,2.3425025
+93,Oishi Sushi,33 Rue Victor Hugo,,93500,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8944782,2.4050999
+93,Okane,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9142042,2.3440005
+93,Okinawa,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8544196,2.4196917
+93,Okinawa,2 Rue Florian,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8944649,2.4016859
+93,One Up,,,,restaurant,burger;asian,sans_dessert_probable,cuisine burger;asian,48.936108,2.3429788
+93,Osaka,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9366521,2.3611801
+93,Osaka,112 Rue Gabriel Husson,,,restaurant,sushi;japanese,sans_dessert_probable,cuisine sushi;japanese,48.8806411,2.4368586
+93,Ozo grill,,,,restaurant,turkish;kebab;pizza,sans_dessert_probable,cuisine turkish;kebab;pizza,48.9213289,2.4115476
+93,Panjab,19 Avenue Paul Vaillant-Couturier,,93150,restaurant,indian,sans_dessert_probable,cuisine indian,48.9289227,2.4783529
+93,Pho Awl Montreuil,,,,restaurant,chinese;thai;vietnamese,sans_dessert_probable,cuisine chinese;thai;vietnamese,48.8666397,2.4448122
+93,Pizza Bella,,,,restaurant,,sans_dessert_probable,nom,48.9160759,2.3768467
+93,Pizza Casa Valentino,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8546558,2.5215963
+93,Pizza Centre Milano,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.855287,2.4231109
+93,Pizza Chadok,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8564939,2.4279698
+93,Pizza Hut,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9105808,2.333159
+93,Pizza Hut,18 Rue de Paris,,93800,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9531819,2.3124808
+93,Pizza Jara,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9300763,2.4314756
+93,Pizza News,9 Place Gaston Bussière,,94270,restaurant,burger;pizza;sandwich,sans_dessert_probable,cuisine burger;pizza;sandwich,48.9372799,2.5294064
+93,Pizza Pidé,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9104042,2.4369871
+93,Pizza Veronica,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9333541,2.4963873
+93,Pizza di Roma,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8411721,2.548333
+93,PizzaExpress,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.85667,2.5316601
+93,Planète Istanbul,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8834444,2.4415116
+93,Poke N'you,,,,restaurant,asian;hawaiian,sans_dessert_probable,nom,48.9196167,2.3958376
+93,Poke sushi,,,,restaurant,asian,sans_dessert_probable,nom,48.8850428,2.4357415
+93,Poulet Braisé,,,,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.9082258,2.3327711
+93,Poulet Braisé & Pizza Romain,,,,restaurant,chicken;pizza,sans_dessert_probable,cuisine chicken;pizza,48.8930902,2.4379968
+93,Restaurant Constantinople,230 Boulevard Anatole France,,93200,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9171113,2.3398748
+93,Restaurant DEM,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8840139,2.4404355
+93,Restaurant Grill Antep,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8949609,2.4252037
+93,Restaurant Grill Mazlum,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9180443,2.4180632
+93,Restaurant La Mama,3,,,restaurant,african,sans_dessert_probable,cuisine african,48.8959057,2.4255842
+93,Restaurant Liberté,192 Rue Étienne Marcel,,,restaurant,turkish;salad;greek,sans_dessert_probable,cuisine turkish;salad;greek,48.8571713,2.4221581
+93,Restaurant Peri,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9051161,2.3313325
+93,Restaurant Yankadi,,,,restaurant,african,sans_dessert_probable,cuisine african,48.9162846,2.3841284
+93,Resto Chennai,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9066961,2.4429721
+93,Rio Dos Camaraos,,,,restaurant,african,sans_dessert_probable,cuisine african,48.8534291,2.426153
+93,Royal Bangkok,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.9431149,2.4968942
+93,Royal Epinay,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9569263,2.3095997
+93,Royal Indien,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8820926,2.5256605
+93,Royal Kyoto,1 Avenue du Général Leclerc,,93270,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9373336,2.52905
+93,Royal Tokyo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9318868,2.4933942
+93,SUSHI Kyo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9019716,2.3302469
+93,Saiko Ramen,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9039084,2.3212226
+93,Saiyan Food,39 Rue des Bruyères,,93260,restaurant,american;burger;japanese;sushi;thai,sans_dessert_probable,cuisine american;burger;japanese;sushi;thai,48.8764588,2.4148283
+93,Sakura,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8904602,2.5115093
+93,Sakura Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8588372,2.4356407
+93,Samah,11 Avenue du Consul Général Nordling,,93190,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.9185489,2.536635
+93,Samsara,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9377825,2.4614966
+93,Samurai,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9655483,2.3005813
+93,Saphir,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.9131753,2.3657247
+93,Saveur Famille,124 Boulevard Henri Barbusse,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8704921,2.4402879
+93,Saïgon-Bonjour,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8437347,2.5775903
+93,Shasha,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8429409,2.5601302
+93,Sher Khan,99 Rue de Paris,,93100,restaurant,indian;sandwich,sans_dessert_probable,cuisine indian;sandwich,48.8577692,2.4343655
+93,Sonar Bangla,87 Avenue Édouard Vaillant,,93500,restaurant,indian,sans_dessert_probable,cuisine indian,48.9029106,2.3925491
+93,Street Poulet Thaï,,,,restaurant,,sans_dessert_probable,nom,48.8433735,2.5771834
+93,Stunning Land,149 Rue de Paris,,93000,restaurant,indian,sans_dessert_probable,cuisine indian,48.9019577,2.4555244
+93,Sugar Hot,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.9463083,2.4995487
+93,Sushi Asahi,146;148 Avenue du 8 Mai 1945,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9484586,2.4384678
+93,Sushi Bar 123,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.862065,2.443917
+93,Sushi Best,,,,restaurant,,sans_dessert_probable,nom,48.9163245,2.4447836
+93,Sushi Bou,138 Rue Saint-Denis,,93100,restaurant,sushi;japanese;asian;thai,sans_dessert_probable,cuisine sushi;japanese;asian;thai,48.8758102,2.4499191
+93,Sushi Royal,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8545288,2.5206282
+93,Sushi Shop,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9129615,2.3297758
+93,Sushi Street,,,,restaurant,,sans_dessert_probable,nom,48.914476,2.4613728
+93,Sushi Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.9529901,2.3164611
+93,Sushi Wasabi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9138473,2.3573554
+93,Taf et Maffé,,,,restaurant,african,sans_dessert_probable,cuisine african,48.9136291,2.3664822
+93,Taj Mahal,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9448442,2.4352568
+93,Takos and Burger,,,,restaurant,fast_food;tacos;burger,sans_dessert_probable,cuisine fast_food;tacos;burger,48.9276497,2.4376234
+93,Taksim Grill,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.9058079,2.4423578
+93,Terminal Cook,,,,restaurant,pizza;burger;sandwich,sans_dessert_probable,cuisine pizza;burger;sandwich,48.8674911,2.4164966
+93,Thai Marceau,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8950368,2.4196107
+93,Thai Wok,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.912496,2.3584524
+93,Thaï Et Sushi,90 Boulevard de la Boissière,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8779448,2.4577805
+93,Thaï Marceau,2 Place Johan Barthold Jongkind,,93500,restaurant,thai,sans_dessert_probable,cuisine thai,48.8950454,2.4196083
+93,The Art,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9067449,2.3352663
+93,The Bake House,,,,restaurant,indian;sri_lankan,sans_dessert_probable,cuisine indian;sri_lankan,48.9236402,2.4140416
+93,Thevy Mahal,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.9168848,2.3580847
+93,Time off,,,,restaurant,thai;japanese,sans_dessert_probable,cuisine thai;japanese,48.8795204,2.4218664
+93,Timgad,222 Rue de Paris,,93100,restaurant,chicken;sandwich,sans_dessert_probable,cuisine chicken;sandwich,48.8553143,2.4202383
+93,Tokyoyaki,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9153486,2.3588431
+93,Tosan,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8412492,2.5431456
+93,Victoria Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9085627,2.3328694
+93,Viet Grill,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8463654,2.5527388
+93,Villa 27,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9089672,2.398189
+93,Wasabi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9076991,2.494086
+93,Wok Cantine,,,,restaurant,asian,sans_dessert_probable,nom,48.9045792,2.3291458
+93,Wok Grill Épinay,97 Avenue de Lattre de Tassigny,,93800,restaurant,asian,sans_dessert_probable,nom,48.9574549,2.3090666
+93,Wok Thaï Food,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.9112536,2.3999957
+93,Wok'n Roll,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9506208,2.4876498
+93,Wolf Time,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9127878,2.4156931
+93,Wood fire,224 Rue de Paris,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8553244,2.4203083
+93,Yitao Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8417767,2.5477731
+93,Yo! Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,49.0044138,2.5647092
+93,Yokina,237 Avenue du Président Wilson,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.915996,2.3572144
+93,Yookoso,21 bis Boulevard Paul Vaillant-Couturier,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8644599,2.4423816
+93,Yummy,31 Boulevard Ornano,,93200,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9184408,2.3445313
+93,kimiy,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9169614,2.358074
+93,À Bientôt Pizza,20 Rue Gabrielle Josserand,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.9037132,2.3947521
+93,Bonnes Saveurs,105 Avenue Victor Hugo,Aubervilliers,93300,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.9066658,2.3755496
+93,Hayal,105 Avenue de la République,Aubervilliers,93300,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9045695,2.3913324
+93,Izgara,41 Avenue de la République,Aubervilliers,93300,restaurant,kebab;turkish,sans_dessert_probable,cuisine kebab;turkish,48.9109089,2.3852292
+93,Kaishu,95 Avenue Jean Jaurès,Aubervilliers,93300,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9058786,2.3941648
+93,Layali Beirut,3 Rue Charron,Aubervilliers,93300,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.9146754,2.3840229
+93,Little burger,3 Rue du Long Sentier,Aubervilliers,93300,restaurant,,sans_dessert_probable,nom,48.915015,2.392621
+93,Restaurant Istanbul,146 Avenue Victor Hugo,Aubervilliers,93300,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9121871,2.380075
+93,Chez Laxmi,8 Rue Hoche,Bagnolet,93170,restaurant,indian;pakistani,sans_dessert_probable,cuisine indian;pakistani,48.8693636,2.4169057
+93,Lawale Simbo,181 Rue Robespierre,Bagnolet,93170,restaurant,african,sans_dessert_probable,cuisine african,48.8588932,2.4212103
+93,Le Dynastie,90 Avenue Gallieni,Bagnolet,93170,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.8621642,2.4159401
+93,Melting Pot,43 Avenue du Général de Gaulle,Bagnolet,93170,restaurant,pizza;burger;thai;indian;italian,sans_dessert_probable,cuisine pizza;burger;thai;indian;italian,48.864373,2.4174041
+93,Toma Sushi,Avenue de la République,Bagnolet,93170,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8627341,2.4152051
+93,Amani Restaurant,19 Boulevard Lénine,Bobigny,93000,restaurant,pizza;kebab;burger;tacos;wings,sans_dessert_probable,cuisine pizza;kebab;burger;tacos;wings,48.9067181,2.4434455
+93,BCHEF,27 Rue Aretha Franklin,Bobigny,93000,restaurant,burger,sans_dessert_probable,cuisine burger,48.9056408,2.4463697
+93,Fukumi Sushi,235 Avenue Paul Vaillant-Couturier,Bobigny,93000,restaurant,chinese;japanese,sans_dessert_probable,cuisine chinese;japanese,48.9076128,2.4559854
+93,La Molisana,13 Rue de l'Égalité,Bobigny,93000,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.9098628,2.4479581
+93,New Rabana,4 Rue des Peupliers,Bobigny,93000,restaurant,indian;sri_lankaise,sans_dessert_probable,cuisine indian;sri_lankaise,48.9060185,2.4647419
+93,Pizza Hut,197 Avenue Jean Jaurès,Drancy,93700,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.916381,2.4584071
+93,Pizza di Napoli,134 Boulevard de la Résistance,Gournay-sur-Marne,93460,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8545867,2.5731061
+93,AVA Restaurant,10 Quai du Châtelier,L'Île-Saint-Denis,93450,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.9230986,2.3318437
+93,Koseli Buffet,197 Avenue Paul Vaillant Couturier,La Courneuve,93350,restaurant,indian,sans_dessert_probable,cuisine indian,48.9288051,2.4186663
+93,Vinci,167 Av. Paul Vaillant Couturier,La Courneuve,93120,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.9265557,2.4163283
+93,Aux 2 Frères,39 Avenue Henri Barbusse,Le Blanc-Mesnil,93150,restaurant,burger;kebab;pizza,sans_dessert_probable,cuisine burger;kebab;pizza,48.9378561,2.4597467
+93,Amutti tratorria,16 Rue Honoré d'Estienne d'Orves,Le Pré-Saint-Gervais,93310,restaurant,italian;pizza;sandwich,sans_dessert_probable,cuisine italian;pizza;sandwich,48.885663,2.4023191
+93,FujiYama,11 Rue Gabriel Péri,Le Pré-Saint-Gervais,93310,restaurant,japanese;sushi,sans_dessert_probable,cuisine japanese;sushi,48.8856686,2.4048712
+93,Nagano,5/16 Avenue Faidherbe,Le Pré-Saint-Gervais,93310,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8793563,2.4117339
+93,O.B.U.,16 Rue Honoré d'Estienne d'Orves,Le Pré-Saint-Gervais,93310,restaurant,burger,sans_dessert_probable,cuisine burger,48.8856557,2.4023973
+93,Pizza BG,185 Rue de Paris,Les Lilas,93260,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8812343,2.4206116
+93,Pizza Live's,110 Avenue Émile Gérard,Livry-Gargan,93190,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9187372,2.5206301
+93,Big Bowl Ramen,12 Rue du Capitaine Dreyfus,Montreuil,93100,restaurant,asian;noodle,sans_dessert_probable,cuisine asian;noodle,48.8583162,2.437656
+93,Curry house,72 Rue Beaumarchais,Montreuil,93100,restaurant,indian,sans_dessert_probable,cuisine indian,48.8544343,2.4301937
+93,Faso-dibi,23 Avenue Jean Moulin,Montreuil,93100,restaurant,african,sans_dessert_probable,cuisine african,48.859808,2.4491622
+93,L'allocodrôme d'Abidjan,90 Rue Pierre de Montreuil,Montreuil,93100,restaurant,african;chicken;fish,sans_dessert_probable,cuisine african;chicken;fish,48.8633433,2.4616086
+93,La Bottega della Pizza,34 Boulevard Rouget de Lisle,Montreuil,93100,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8602051,2.4387901
+93,La Casa,18 Boulevard Rouget de Lisle,Montreuil,93100,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8612874,2.4402608
+93,Otto,41 Boulevard Rouget de Lisle,Montreuil,93100,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8592325,2.4382449
+93,Sushi Kendo,19 Boulevard Rouget de Lisle,Montreuil,93100,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8607424,2.4400599
+93,Vapored,Rue de Valmy,Montreuil,93100,restaurant,asian;vietnamese,sans_dessert_probable,cuisine asian;vietnamese,48.8509489,2.418581
+93,Wok AWL,53 Boulevard Paul Vaillant-Couturier,Montreuil,93100,restaurant,asian;chinese,sans_dessert_probable,cuisine asian;chinese,48.8667139,2.4444991
+93,Xanthos,30 Rue du Capitaine Dreyfus,Montreuil,93100,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8588066,2.4388564
+93,Ynagi Sushi Ramen,223 Rue Étienne Marcel,Montreuil,93100,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.855896,2.4172943
+93,Ô Saveur,32 Boulevard Paul Vaillant-Couturier,Montreuil,93100,restaurant,turkish;kebab,sans_dessert_probable,cuisine turkish;kebab,48.86543,2.4438597
+93,Pho Pasteur - L’Obus de 1870,2 Rue Gambetta,Neuilly-sur-Marne,93330,restaurant,asian,sans_dessert_probable,nom,48.8563,2.5329334
+93,Wok Grill Neuilly,2 Boulevard du Maréchal Foch,Neuilly-sur-Marne,93330,restaurant,asian,sans_dessert_probable,nom,48.853757,2.5212638
+93,Brasserie GIOIA CUCINA ITALIANA,2 Avenue du Général de Gaulle,Noisy-le-Grand,93160,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.8486878,2.5579855
+93,Chani,14 Avenue Émile Cossonneau,Noisy-le-Grand,93160,restaurant,indian,sans_dessert_probable,cuisine indian,48.848776,2.5543541
+93,Go Lyeo,32 Clos des Cascades,Noisy-le-Grand,93160,restaurant,korean,sans_dessert_probable,cuisine korean,48.8416342,2.5483297
+93,HANCHI,6 Bis Boulevard du Mont d'Est,Noisy-le-Grand,93160,restaurant,korean,sans_dessert_probable,cuisine korean,48.8412783,2.5426516
+93,La Casa,150 Avenue Médéric,Noisy-le-Grand,93160,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.8293779,2.5754564
+93,Le Rialto,78-82 Avenue Médéric,Noisy-le-Grand,93160,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8292109,2.5658347
+93,Le Saphir,3 Avenue Émile Cossonneau,Noisy-le-Grand,93160,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8490942,2.5539833
+93,Les Délices de Bodrum,104 Avenue Émile Cossonneau,Noisy-le-Grand,93160,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.849295,2.5665676
+93,Maharajah Darbar,9 Porte de Neuilly,Noisy-le-Grand,93160,restaurant,indian,sans_dessert_probable,cuisine indian,48.8428109,2.5445931
+93,Nem Viet,8 Porte de Neuilly,Noisy-le-Grand,93160,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8429016,2.544729
+93,Pizza Thaï,9 Allée du Bataillon Hildevert,Noisy-le-Grand,93160,restaurant,,sans_dessert_probable,nom,48.8434357,2.5780424
+93,Sushi Izu,8 Avenue Émile Cossonneau,Noisy-le-Grand,93160,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8487956,2.5539488
+93,Sushiwan,10 Porte de Neuilly,Noisy-le-Grand,93160,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8427118,2.5444679
+93,Thaï Bento,75 Avenue Médéric,Noisy-le-Grand,93160,restaurant,thai,sans_dessert_probable,cuisine thai,48.8293286,2.5668
+93,Thaï Ming,12 Boulevard du Mont d'Est,Noisy-le-Grand,93160,restaurant,thai,sans_dessert_probable,cuisine thai,48.8429266,2.5450783
+93,Kessari Inde,21 Boulevard de la République,Noisy-le-Sec,93130,restaurant,indian,sans_dessert_probable,cuisine indian,48.8951374,2.4625252
+93,Chez Lalabou,49 Rue du Pré-Saint-Gervais,Pantin,93500,restaurant,african,sans_dessert_probable,cuisine african,48.8888107,2.4036542
+93,Epices & Délices,50 Rue Denis Papin,Pantin,93500,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.902537,2.3982023
+93,Gangnam,140 Avenue Jean Lolive,Pantin,93500,restaurant,korean,sans_dessert_probable,cuisine korean,48.8934881,2.4155161
+93,Le Palais d'Istanbul,2 Avenue Édouard Vaillant,Pantin,93500,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8970374,2.4002722
+93,Olabar,54 Rue Jules Auffret,Pantin,93500,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8892153,2.4100059
+93,Pierre Sang Express Pantin,2 Rue du Congo,Pantin,93500,restaurant,asian;korean,sans_dessert_probable,cuisine asian;korean,48.8935758,2.3994881
+93,Pizza Delizia,26 Rue Hoche,Pantin,93500,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8929244,2.4019361
+93,Pizzeria Bella Italia,29 Rue Magenta,Pantin,93500,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.900651,2.3933969
+93,Restaurant Lakshmi,37 Rue du Pré-Saint-Gervais,Pantin,93500,restaurant,indian,sans_dessert_probable,cuisine indian,48.8893879,2.4035017
+93,Saint-Matthieu Pizzeria,6 Avenue Édouard Vaillant,Pantin,93500,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8972028,2.4000062
+93,Sushi Lin,167 Avenue Jean Lolive,Pantin,93500,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.893869,2.415648
+93,Taj Mahal,177 Avenue Jean Lolive,Pantin,93500,restaurant,indian,sans_dessert_probable,cuisine indian,48.8940327,2.4166431
+93,Thaï Marceau,40 Rue Hoche,Pantin,93500,restaurant,thai,sans_dessert_probable,cuisine thai,48.8946143,2.4016094
+93,Tombik Kebab,70 Rue Victor Hugo,Pantin,93500,restaurant,kebab;turkish,sans_dessert_probable,cuisine kebab;turkish,48.893329,2.4113005
+93,Étoile de Pantin,151 Avenue Jean Lolive,Pantin,93500,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8934918,2.413438
+93,Panda,112 Avenue Lénine,Pierrefitte-sur-Seine,93380,restaurant,chinese;asian;wok,sans_dessert_probable,cuisine chinese;asian;wok,48.9560581,2.3563057
+93,Rawal Spécialités Pakistanaises,18 Avenue Laennec,Pierrefitte-sur-Seine,93380,restaurant,indian;pakistani,sans_dessert_probable,cuisine indian;pakistani,48.9618956,2.3706036
+93,Rosny Wok & Grill,,Rosny sous Bois,,restaurant,,sans_dessert_probable,nom,48.8852939,2.4812124
+93,RBAN,26 Rue du Général Leclerc,Rosny-sous-Bois,93110,restaurant,pizza;burger;sandwich;kebab,sans_dessert_probable,cuisine pizza;burger;sandwich;kebab,48.8704726,2.4879707
+93,fresh and pop,15 Allée Gabriel Zirnhelt,Rosny-sous-Bois,93110,restaurant,burger;chicken,sans_dessert_probable,cuisine burger;chicken,48.8779872,2.4790394
+93,Allo Pizza,87 Rue de Strasbourg,Saint-Denis,93200,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9367901,2.3708084
+93,Friends Cosy Corner Restaurant,13 bis Boulevard Carnot,Saint-Denis,93200,restaurant,burger,sans_dessert_probable,cuisine burger,48.9383167,2.3546239
+93,Hinata,1 Place du Cornillon,Saint-Denis,93200,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9255502,2.363806
+93,MG18,18 Rue Brise Échalas,Saint-Denis,93200,restaurant,african,sans_dessert_probable,cuisine african,48.9374126,2.3457443
+93,New Marahaja Grill,16 Rue Jesse Owens,Saint-Denis,93200,restaurant,indian;pakistani,sans_dessert_probable,cuisine indian;pakistani,48.9252957,2.3648052
+93,PIZZA TIME,98 Avenue du Président Wilson,Saint-Denis,93210,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9067987,2.3588907
+93,Shake shake,67 Boulevard Ornano,Saint-Denis,93200,restaurant,burger;sandwich,sans_dessert_probable,cuisine burger;sandwich,48.9142937,2.344484
+93,Chicken Spot,,Saint-Denis La Plaine,93210,restaurant,,sans_dessert_probable,nom,48.916474,2.3629073
+93,Restaurant ACK,51 Rue des Graviers,Saint-Ouen-sur-Seine,93400,restaurant,african;antillaise;congolaise,sans_dessert_probable,cuisine african;antillaise;congolaise,48.9027574,2.3516781
+93,Pizza Five,26 Boulevard Maxime Gorki,Stains,93240,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9519736,2.3847545
+93,Class Bouff,80 Avenue Henri Barbusse,Tremblay-en-France,93290,restaurant,kebab;pasta;pizza;sandwich;turkish,sans_dessert_probable,cuisine kebab;pasta;pizza;sandwich;turkish,48.9593062,2.5721812
+93,La tour de Pizza,Onzième Avenue,Tremblay-en-France,93290,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9620046,2.5712889
+93,Le Bon Poulet,53T Avenue Henri Barbusse,Tremblay-en-France,93290,restaurant,,sans_dessert_probable,nom,48.9622288,2.5707483
+93,Maxi Tacos,110 Avenue Salvador Allende,Tremblay-en-France,93290,restaurant,,sans_dessert_probable,nom,48.9606324,2.5707188
+93,O'salon,5 Place Henri Barbusse,Tremblay-en-France,93290,restaurant,japanese;sushi;taiwanese,sans_dessert_probable,cuisine japanese;sushi;taiwanese,48.9610308,2.5711982
+93,Oh Sushi,82 Avenue Henri Barbusse,Tremblay-en-France,93290,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.9592216,2.5722125
+93,TAKSIM,4 Avenue du Général de Gaulle,Vaujours,93410,restaurant,greek;turkish,sans_dessert_probable,cuisine greek;turkish,48.9426779,2.5690587
+93,Lo Stivale,1 Rue Montel,Villemomble,93250,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.8881378,2.5106499
+93,Mangez-Moi,,Villemomble,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8830395,2.5136761
+93,Takara,,Villemomble,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8845462,2.5070513
+93,Punjab Palace,07 Avenue Jean Fourgeaud,Villepinte,93420,restaurant,indian;diner,sans_dessert_probable,cuisine indian;diner,48.9632706,2.5529407
+93,Chez Anna et Boris,144 Avenue Joffre,Épinay-sur-Seine,93800,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.9623255,2.2942352
+93,Shah Nawaz,15 Avenue Salvador Allende,Épinay-sur-Seine,93800,restaurant,indian,sans_dessert_probable,cuisine indian,48.9572135,2.3087269
+94,A folé,6 Rue Roger Salengro,,94270,restaurant,african,sans_dessert_probable,cuisine african,48.8145519,2.3616085
+94,Aarush,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8450748,2.4349945
+94,African Evasion,37 Boulevard Rabelais,,,restaurant,african,sans_dessert_probable,cuisine african,48.8066762,2.4787344
+94,Al Amir,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8472681,2.4714358
+94,Allenby,,,94220,restaurant,burger,sans_dessert_probable,cuisine burger,48.8278377,2.4034794
+94,Allo Pizza 94,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7836784,2.3794775
+94,Ambiance Asie,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.792733,2.3643754
+94,Asian Food by Baze,45 Avenue Maurice Thorez,,94200,restaurant,ramen;thai,sans_dessert_probable,cuisine ramen;thai,48.8191013,2.3744322
+94,Asie Douceur,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8479918,2.4463121
+94,Atelier du Liban,29 Avenue Victor Hugo,,94600,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7675291,2.4158503
+94,Au Poulet Braisé,89 Avenue Maurice Thorez,,94200,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.8172259,2.3762735
+94,Authentic Bento,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8488378,2.4232232
+94,Aux Délices de Charentong,,,,restaurant,chinese;japanese,sans_dessert_probable,cuisine chinese;japanese,48.8187923,2.4177828
+94,Aux gourmands d'Asie,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8191239,2.5316489
+94,Ayuko,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7738044,2.3398851
+94,Baan Nat,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8092177,2.3289111
+94,Baan Thais,2 Rue Mirabeau,,94200,restaurant,thai,sans_dessert_probable,cuisine thai,48.8170803,2.3794406
+94,Babeco,,,,restaurant,barbecue;korean,sans_dessert_probable,cuisine barbecue;korean,48.779847,2.4565723
+94,Bangkok,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.7669289,2.363212
+94,Bangkok Factory,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.7685894,2.4193859
+94,Beitna,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8470754,2.4515233
+94,Bella Maria,3 Rue Auguste Daix,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7543034,2.320521
+94,Bella Rosa,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.835743,2.4750994
+94,Belmondo,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.7877955,2.5372902
+94,Bharati,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8023825,2.4326
+94,Bien Nang,97 Avenue Maurice Thorez,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8169905,2.3764697
+94,Bollywood,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7799278,2.4561934
+94,Bonheur Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.7975593,2.4559189
+94,Boraq,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7933912,2.3957565
+94,Boum Boum Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7876083,2.4823421
+94,Bozen,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8451681,2.4308016
+94,California Sushi,,,,restaurant,japanese;thai,sans_dessert_probable,cuisine japanese;thai,48.8122171,2.5111864
+94,Cappadoce,,,,restaurant,burger;fries,sans_dessert_probable,cuisine burger;fries,48.8469751,2.4703474
+94,Casa Presto,14,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7998658,2.4011194
+94,Casatino,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8012177,2.3798231
+94,Chang,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7939907,2.5146229
+94,Cheng thai,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8454007,2.4352808
+94,Chez Antoine,137 Rue de Chevilly,,94240,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7733877,2.353165
+94,Chez Yang,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8466493,2.4347992
+94,Chez Yang 878,,,,restaurant,asian;chinese,sans_dessert_probable,cuisine asian;chinese,48.7852982,2.328114
+94,Chicken & Grill,,,,restaurant,,sans_dessert_probable,nom,48.7671028,2.4159283
+94,Chicken Hawai,,,,restaurant,,sans_dessert_probable,nom,48.8165129,2.3995896
+94,Chicken's King,,,,restaurant,,sans_dessert_probable,nom,48.8118832,2.3613932
+94,Chingu,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.8452928,2.4324602
+94,Coq and Co,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8099994,2.359172
+94,Croq'o'pain,,,,restaurant,sandwich,sans_dessert_probable,cuisine sandwich,48.814597,2.4594112
+94,Côté Wok,,,,restaurant,asian,sans_dessert_probable,nom,48.767602,2.4870185
+94,Côté Zen,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7803537,2.5730325
+94,Deux amis,17 Avenue Carnot,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7331277,2.4488462
+94,Dewran,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.775126,2.4569085
+94,Didi Saigon,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8269849,2.5283041
+94,Dream Sushi,31-33 Place Louis XIII,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7508803,2.3456258
+94,Dream Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8117467,2.3308938
+94,Ducky's,,,,restaurant,chinese;asian,sans_dessert_probable,cuisine chinese;asian,48.7709305,2.407309
+94,Duo Cai Xi Gu,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7790672,2.338609
+94,Délice Chine Thai,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7857752,2.3915998
+94,Dürüm & Brunch,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8465218,2.429318
+94,Eat'sushi,,,,restaurant,,sans_dessert_probable,nom,48.8199329,2.4754773
+94,El Gringo,,,,restaurant,mexican,sans_dessert_probable,cuisine mexican,48.8451288,2.4341858
+94,En faim !,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8459683,2.4182943
+94,Fivepizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8239346,2.5432244
+94,For Tai,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8472236,2.4716066
+94,Founerou Gourmand,,,,restaurant,african,sans_dessert_probable,cuisine african,48.8153535,2.3934125
+94,Free Pizza,,,,restaurant,,sans_dessert_probable,nom,48.7971035,2.5483192
+94,French Toque,,,,restaurant,burger,sans_dessert_probable,cuisine burger,48.7916719,2.5134297
+94,Fu Ji,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7916328,2.5133038
+94,Fuji,35,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8034659,2.4041577
+94,Fujiyama,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8381784,2.4870084
+94,Fuwasaki,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8458789,2.4705969
+94,Ganesh,20 Place d'Adamville - Kennedy,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7935242,2.4862507
+94,Garam Masala,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8533574,2.4838077
+94,Gohan Food fusion,,,,restaurant,burger;noodles,sans_dessert_probable,cuisine burger;noodles,48.8173865,2.3727529
+94,Good Thai,50 Avenue Pierre Semard,,94200,restaurant,thai,sans_dessert_probable,cuisine thai,48.8188403,2.3805441
+94,Gourmet Royal,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7699499,2.5202737
+94,Graceland,28,,,restaurant,vietnamese;asian,sans_dessert_probable,cuisine vietnamese;asian,48.8149415,2.3459014
+94,Grazie Mille,59,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7904129,2.3216775
+94,Grenade,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8262444,2.4066753
+94,Hayaci Sushi,,,,restaurant,,sans_dessert_probable,nom,48.8458973,2.4282742
+94,Hoki Yaki,33 Avenue Aristide Briand,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7994936,2.32339
+94,Hokkaido,73,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7907479,2.4650969
+94,Hong Foc,,,,restaurant,chinese;thai,sans_dessert_probable,cuisine chinese;thai,48.7897739,2.4660472
+94,Hong Fu,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.79323,2.5141692
+94,House Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8016663,2.4216722
+94,Huatian Restaurant,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8160428,2.4108916
+94,I'Food,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8108414,2.3911974
+94,Ichikawa,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8454167,2.4275751
+94,Indian Man Mahal,,,,restaurant,chinese;indian;thai,sans_dessert_probable,cuisine chinese;indian;thai,48.7952136,2.3672053
+94,Istanbul,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8526306,2.484668
+94,Jade d'Asie,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8096109,2.5734435
+94,Jaffna,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8501593,2.4309347
+94,Jardin du prince,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7944482,2.4639268
+94,Jasuko,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8153257,2.4287654
+94,Jian Hao,,,,restaurant,chinese;thai;vietnamese,sans_dessert_probable,cuisine chinese;thai;vietnamese,48.8509422,2.4749973
+94,Junmai Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8080775,2.3911502
+94,Jōzu Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8531232,2.4579747
+94,Kaona,30 Avenue Pierre Semard,,94200,restaurant,thai;lao,sans_dessert_probable,cuisine thai;lao,48.8198348,2.3798497
+94,Karibu,,,,restaurant,african,sans_dessert_probable,cuisine african,48.8110948,2.3844749
+94,Kariya Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.7937359,2.4345435
+94,Kintaro,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8461248,2.4233803
+94,Kinzan,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7909182,2.3923754
+94,Kriish,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8192497,2.4167004
+94,L'Artusi,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7959649,2.4837722
+94,L'Itlalien,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8032,2.5381194
+94,L'Orchidée,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8582022,2.4915442
+94,L'alfresca,,,,restaurant,pizza;burger;tacos,sans_dessert_probable,cuisine pizza;burger;tacos,48.7937306,2.3361368
+94,L'atelier du burger,,,,restaurant,,sans_dessert_probable,nom,48.8148208,2.4025126
+94,L'impérial,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7750387,2.4566149
+94,L'île de Mandarin,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7800058,2.328109
+94,LV,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8132432,2.393853
+94,La Conca d'Oro,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8504779,2.4461404
+94,La Mamma,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8003549,2.4226135
+94,La Perla,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7931425,2.5158467
+94,La Perle du Bosphore,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7946957,2.3634367
+94,La Petite Table de Saigon,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8154385,2.4441738
+94,La Rogina,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.804139,2.4200015
+94,La Rose de l'Inde,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8066959,2.4785743
+94,La Santa Cruz,,,,restaurant,mexican,sans_dessert_probable,cuisine mexican,48.8271627,2.5433133
+94,La Saporita,50,,,restaurant,pizza;pasta,sans_dessert_probable,cuisine pizza;pasta,48.8219379,2.4200083
+94,La Sienna,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8044361,2.4076752
+94,La Sénégalaise,Galerie Rouget de Lisle,,94600,restaurant,african,sans_dessert_probable,cuisine african,48.764354,2.4077658
+94,La Toscane,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.815365,2.360932
+94,La Téranga,,,,restaurant,african,sans_dessert_probable,cuisine african,48.7719514,2.5095955
+94,La Victoria Mammamia,1 Rue Paul Langevin,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.766933,2.3626571
+94,La Villa Céleste,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8072257,2.508325
+94,La Villa du Prince,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.759817,2.500781
+94,La canTine,,,94300,restaurant,burger;french;regional,sans_dessert_probable,cuisine burger;french;regional,48.8468435,2.4281068
+94,La route des Indes,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8482628,2.4510522
+94,Le 81,,,,restaurant,kebab;pizza,sans_dessert_probable,cuisine kebab;pizza,48.8036946,2.364556
+94,Le Banh Mi,1 Rue de la Fraternité,,94300,restaurant,,sans_dessert_probable,nom,48.8488283,2.4325727
+94,Le Bonheur de Chine,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7873582,2.5305978
+94,Le Capitole,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8106768,2.3913963
+94,Le Constantinople,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8101618,2.361937
+94,Le Griffé,,,,restaurant,african;sénégalaise,sans_dessert_probable,cuisine african;sénégalaise,48.8232325,2.4945657
+94,Le Kouilou,9,,,restaurant,african;congolaise,sans_dessert_probable,cuisine african;congolaise,48.7841486,2.4039244
+94,Le Lac de l'Himalaya,18bis Esplanade des Abymes,,94000,restaurant,nepalese;indian,sans_dessert_probable,cuisine nepalese;indian,48.773327,2.4569847
+94,Le Lorada,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.795796,2.3250858
+94,Le Majestic,,,,restaurant,burge;sandwich;tacos,sans_dessert_probable,cuisine burge;sandwich;tacos,48.8049061,2.3642009
+94,Le Mezzé du Village,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7577843,2.3860338
+94,Le Mumtaz,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8491606,2.4165683
+94,Le Pacha,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.792863,2.3654607
+94,Le Palace de Chine,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7695662,2.4224293
+94,Le Palais du Prince,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7875026,2.5091635
+94,Le Pavillon Céleste,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8257808,2.4073707
+94,Le Plaza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8155033,2.3602627
+94,Le Punjab,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.82079,2.4862594
+94,Le Rialto,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7960411,2.5337722
+94,Le Roi du Poulet,,,,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.857406,2.4710696
+94,Le Roi du Poulet,93,,94500,restaurant,chicken;portuguese,sans_dessert_probable,cuisine chicken;portuguese,48.8121565,2.537099
+94,Le Rustic,151 Rue de Bicêtre,,94240,restaurant,pasta;pizza,sans_dessert_probable,cuisine pasta;pizza,48.7784589,2.3546675
+94,Le Saïgonnais,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8234023,2.5413855
+94,Le Village du bonheur,7 Rue d'Estienne d'Orves,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7918119,2.462949
+94,Le barbeuk,17 Avenue Carnot,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.733125,2.4487725
+94,Le palace d'Asie,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7817072,2.3724575
+94,Leonardo,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.796433,2.4758425
+94,Les Merveilles de Chine,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7278865,2.5365392
+94,Les Saveurs du Penjab,,,,restaurant,pakistani;indian,sans_dessert_probable,cuisine pakistani;indian,48.8470085,2.4708472
+94,Les délices,,,,restaurant,kebab;turkish,sans_dessert_probable,cuisine kebab;turkish,48.8287041,2.4021929
+94,Lucky Box,1 ter Rue Pierre et Marie Curie,,,restaurant,japanese;chinese,sans_dessert_probable,cuisine japanese;chinese,48.8156979,2.3767049
+94,Lumières d'Asie,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.76056,2.3329107
+94,Lydoko,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8069191,2.3628893
+94,Léa,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8275552,2.4046186
+94,L’Instant Wok,,,,restaurant,asian,sans_dessert_probable,nom,48.7868636,2.4464855
+94,Mag Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8219331,2.4981258
+94,Maison Lynel,,,94300,restaurant,indian,sans_dessert_probable,cuisine indian,48.8460379,2.4308243
+94,Maison de Jasmin,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7746288,2.4429555
+94,Mak-Andal BBQ,,,,restaurant,african;caribbean,sans_dessert_probable,cuisine african;caribbean,48.7905974,2.4653496
+94,Mamma Gusto,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.742892,2.4008023
+94,Marou,,,,restaurant,korean,sans_dessert_probable,cuisine korean,48.7715486,2.3383858
+94,Massala Café,53,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.818879,2.3746749
+94,Matisse Food Ivry,,,,restaurant,burger;kebab;sandwich,sans_dessert_probable,cuisine burger;kebab;sandwich,48.8177134,2.3731023
+94,Matsuri,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.845052,2.4352487
+94,Matuya,41 Rue Diderot,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8508393,2.4402249
+94,Minato,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7661494,2.3352076
+94,Miyako,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.794686,2.3357077
+94,Mood Food,,,,restaurant,pizza;burger,sans_dessert_probable,cuisine pizza;burger,48.8207398,2.4860504
+94,Nabab,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8105114,2.3290076
+94,Nepali Saranji,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8231764,2.5405726
+94,New Wako,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8035467,2.4443454
+94,Nikayo,224 Rue Diderot,,94120,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8496034,2.455671
+94,Nina Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8416956,2.4174871
+94,O Libanais,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8120956,2.4720848
+94,O'80,80 Boulevard de Verdun,,94120,restaurant,burger;french;grill;kebab,sans_dessert_probable,cuisine burger;french;grill;kebab,48.854172,2.4691314
+94,O'Kashmir,,,,restaurant,pakistani;indian,sans_dessert_probable,cuisine pakistani;indian,48.7975675,2.3296067
+94,O'Qik's,58 Avenue Maurice Thorez,,,restaurant,chicken;pizza,sans_dessert_probable,cuisine chicken;pizza,48.8170771,2.375971
+94,Okinawa,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8155682,2.3446923
+94,On dîne à la Cheminée,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8490745,2.4223214
+94,Orien'table,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7933698,2.4618782
+94,Osaka,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7704869,2.5221019
+94,Pacific,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7955627,2.3914788
+94,Pad Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8481762,2.4227821
+94,Pak Kashmir,79 Avenue Danielle Casanova,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8138309,2.3851343
+94,Palais de Cachan,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7999675,2.3236258
+94,Pamukkale,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8466904,2.4708536
+94,Pastavino,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.7925534,2.3653121
+94,Pedro Poulet,,,,restaurant,regional,sans_dessert_probable,nom,48.7801065,2.5762505
+94,Pizza Casa Presto,138 Avenue Franklin Roosevelt,,94550,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7695464,2.3654415
+94,Pizza Express,,,,restaurant,,sans_dessert_probable,nom,48.7633027,2.402795
+94,Pizza Hut,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7978957,2.4926619
+94,Pizza Hut,119,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.788935,2.466954
+94,Pizza Hut,2,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8378524,2.4935692
+94,Pizza Il Pescatore,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7800031,2.3249716
+94,Pizza La Scala,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8272526,2.5457944
+94,Pizza Larris,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8556375,2.478052
+94,Pizza Sushi,,,,restaurant,pizza;sushi,sans_dessert_probable,cuisine pizza;sushi,48.7806316,2.4644073
+94,Pizza Time,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7682072,2.3707496
+94,Pizza Trio,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7815641,2.3944511
+94,Pizza Uno,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7642334,2.3178548
+94,Pizza de Venise,,,,restaurant,italian,sans_dessert_probable,nom,48.8000439,2.4292908
+94,Pizza del Piano,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7637484,2.4042416
+94,Pizza il Naturale,,,,restaurant,italian,sans_dessert_probable,nom,48.7567428,2.3725325
+94,Pizza le Tanos,,,,restaurant,,sans_dessert_probable,nom,48.8047628,2.3694834
+94,Pizza service,48,,,restaurant,,sans_dessert_probable,nom,48.8038819,2.4046973
+94,PizzaExpress,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7588517,2.4094618
+94,Pizzeria,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7980046,2.4865256
+94,Pizzeria 44,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8373526,2.5208904
+94,Pizzeria Fratelli,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7880648,2.4258334
+94,Pizzeria Pasqualina,84 Rue Jean Le Galleu,,,restaurant,pizza;italian,sans_dessert_probable,cuisine pizza;italian,48.8108413,2.3796908
+94,Planet Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.838295,2.4876496
+94,Planète Pizza,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7715953,2.4005568
+94,Poulet Braisé,,,,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.8198022,2.4839866
+94,Pronto Pizza,4,,,restaurant,,sans_dessert_probable,nom,48.807233,2.3355965
+94,Pum Thaï,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.7578001,2.387136
+94,Quick Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8105517,2.3290781
+94,Rajpoot,37,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7907606,2.3984402
+94,Renine,20,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.850718,2.4380396
+94,Restaurant Japonais Zaki,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7616816,2.4140581
+94,Restaurant Kohistan,,,,restaurant,indian;pakistani,sans_dessert_probable,cuisine indian;pakistani,48.8459777,2.4685538
+94,Restaurant New Achiana,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8194416,2.4902487
+94,Restaurant Sympathique,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8362194,2.5205597
+94,Resto Pizza,15,,,restaurant,,sans_dessert_probable,nom,48.8073011,2.3345758
+94,Ri Xin,,,,restaurant,chinese;japanese,sans_dessert_probable,cuisine chinese;japanese,48.8463926,2.4381051
+94,Royal Chili,3 Avenue Carnot,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7331197,2.4472654
+94,Royal Rajpoot,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8033529,2.4847841
+94,Royal Volonté,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8367158,2.4825709
+94,Royal d'Asie,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7546627,2.3218328
+94,Royal de Boissy,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.760599,2.4991095
+94,Royal de Bry,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8393261,2.5227222
+94,Royal de Chine,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7396992,2.424444
+94,Saga Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8467126,2.4513774
+94,Saigon Bistro,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.808024,2.3319823
+94,San Severo,,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7816268,2.3416432
+94,Santa Maria,,,,restaurant,italian;pasta;pizza,sans_dessert_probable,cuisine italian;pasta;pizza,48.7797087,2.396173
+94,Sashimi-Ya,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8198111,2.4838605
+94,Saveur du Liban,,,,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.7980633,2.4837998
+94,Sen Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7775221,2.5117171
+94,Shangaï Express,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8542948,2.4854032
+94,Shiv Sankar,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7984976,2.4233927
+94,Shushi Yaki,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8098618,2.471412
+94,Sile,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8173492,2.3986584
+94,Sohana,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7697444,2.521479
+94,Sola Ramen,,,,restaurant,ramen,sans_dessert_probable,cuisine ramen,48.7795197,2.4562338
+94,Song Hoa,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8449623,2.4629572
+94,Specho,,,,restaurant,ramen,sans_dessert_probable,cuisine ramen,48.8477867,2.4406732
+94,Speed Rabbit Pizza,24,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7897424,2.3896716
+94,Station Krishna Vincennes,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8487188,2.4328142
+94,Street Wok,,,,restaurant,thai;indian;vietnamese,sans_dessert_probable,cuisine thai;indian;vietnamese,48.8499237,2.4559057
+94,Sumaya,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8161649,2.367549
+94,Super Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8435737,2.4859464
+94,Sushi & Thaï,,,,restaurant,asian,sans_dessert_probable,nom,48.8501135,2.4510401
+94,Sushi 123,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8461616,2.4192892
+94,Sushi Charles VII,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8368197,2.4856501
+94,Sushi Château,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8516892,2.4384865
+94,Sushi Clémenceau,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8109875,2.4434471
+94,Sushi Edokko,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8183348,2.3978986
+94,Sushi Kami,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8189024,2.4173805
+94,Sushi Kyo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7945973,2.3607336
+94,Sushi Kyoto,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8064218,2.3637208
+94,Sushi Rolls,57,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8150894,2.3495013
+94,Sushi Samouraï,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7980177,2.495215
+94,Sushi Sei,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8448561,2.4374702
+94,Sushi Seva,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8165156,2.4635969
+94,Sushi Soleil,58 Rue Jean Lurçat,,94800,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7844015,2.3711366
+94,Sushi Wasabi 9,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8233045,2.5407249
+94,Sushi Wasabi IV,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8197792,2.4842918
+94,Sushi Yatomi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8050734,2.4692777
+94,Sushi Yu,,,,restaurant,asian,sans_dessert_probable,nom,48.8173024,2.3720451
+94,Sushi Yumito,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8129926,2.402497
+94,Sushi d'Ivry,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.814681,2.4026758
+94,Sushi de Marne,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8154847,2.4446652
+94,Sweet Time,,,,restaurant,burger;french,sans_dessert_probable,cuisine burger;french,48.8364939,2.4817622
+94,Sésame et Sel,13 Rue Roger Salengro,,94270,restaurant,korean,sans_dessert_probable,cuisine korean,48.8148081,2.3620218
+94,Tagawa,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7648336,2.4085898
+94,Taj Mahal,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8506924,2.456591
+94,Taj Mahal,41,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.8315026,2.5336333
+94,Tamarin,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8451527,2.4384096
+94,Tamaya,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7566738,2.3725973
+94,Tambour d'Afrique,31 Avenue Laplace,,94110,restaurant,african,sans_dessert_probable,cuisine african,48.8075171,2.3316953
+94,Tandoori Kitchen 786,,,,restaurant,indian,sans_dessert_probable,cuisine indian,48.7948386,2.3215793
+94,Thaï' Ming,,,,restaurant,thai,sans_dessert_probable,cuisine thai,48.8519186,2.4886146
+94,Titan,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.8485781,2.4339011
+94,Tokioyo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8052886,2.4875062
+94,Tokyo,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.780936,2.341656
+94,Tokyo Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.847168,2.4715644
+94,Tomokazu,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7858206,2.4951208
+94,Traiteur Cuisine Asia Mixte,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7935647,2.3958949
+94,Ubud,1 bis Avenue de Paris,,,restaurant,thai;balinese,sans_dessert_probable,cuisine thai;balinese,48.8448903,2.4340636
+94,Umut,,,,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7938348,2.43399
+94,Val di Comino,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.7839377,2.3387738
+94,Viet Gourmet,,,,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8167151,2.3671375
+94,Village du Pacha,,,,restaurant,kebab,sans_dessert_probable,cuisine kebab,48.81459,2.3605822
+94,Vittorino,,,,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.7937083,2.3358485
+94,Wang Du,,,,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7787976,2.3355642
+94,Woodiz,8 Place Léon Gambetta,,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8141786,2.4020994
+94,Yama Yen,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7701089,2.521571
+94,Yo'k Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8178585,2.3980529
+94,Yoshinoya,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8059131,2.4650023
+94,Yoshiya Sushi,,,,restaurant,asian,sans_dessert_probable,nom,48.7981334,2.4797986
+94,Yumi Sushi,,,,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.7924969,2.5166691
+94,Zen Sushi,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.849936,2.4566953
+94,sushi choisy,,,,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7613111,2.4109841
+94,Chicken Corner,92 Rue Paul Vaillant Couturier,Alfortville,94140,restaurant,,sans_dessert_probable,nom,48.8102235,2.4168983
+94,Grill Istanbul,21 Rue Charles de Gaulle,Alfortville,94140,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8146309,2.4149154
+94,Kyotorama,34 Rue Véron,Alfortville,94140,restaurant,asian;japanese,sans_dessert_probable,cuisine asian;japanese,48.8136524,2.4139108
+94,La Rôtisserie,12 Rue de Seine,Alfortville,94140,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.8099774,2.4149915
+94,Pizza Blanqui,71 Quai Blanqui,Alfortville,94140,restaurant,pizza;italian;italian_pizza,sans_dessert_probable,cuisine pizza;italian;italian_pizza,48.8004396,2.4179915
+94,Restaurant Cappadoce,89 Rue Paul Vaillant Couturier,Alfortville,94140,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8103462,2.4170207
+94,Sushi d'Alfortville,19 Rue Véron,Alfortville,94140,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8146701,2.4140452
+94,IT Trattoria,Place de la Vache Noire,Arcueil,94110,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8105261,2.329253
+94,Istanbul Grill,2 Avenue Laplace,Arcueil,94110,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8071229,2.3359302
+94,Com Pho Mi,73 Avenue Aristide Briand,Cachan,94230,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.7970628,2.3224702
+94,Mehman,3 Avenue Louis Georgeon,Cachan,94230,restaurant,indian,sans_dessert_probable,cuisine indian,48.7923277,2.3371365
+94,Minato 8,175 Avenue Aristide Briand,Cachan,94230,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7904764,2.3198909
+94,Pepe Tacos,4 Rue de la Grange Ory,Cachan,94230,restaurant,mexican,sans_dessert_probable,cuisine mexican,48.8007174,2.3240932
+94,Resto U L'Arlequin - Pizzeria,60 Rue Camille Desmoulins,Cachan,94230,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7911203,2.3293119
+94,Régal Thaï,15 Avenue Aristide Briand,Cachan,94230,restaurant,thai,sans_dessert_probable,cuisine thai,48.8004885,2.3238062
+94,Toyama,8 Place Jacques Carat,Cachan,94230,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7930127,2.33617
+94,Wok Eatime,22 Avenue Louis Georgeon,Cachan,94230,restaurant,asian,sans_dessert_probable,nom,48.7935668,2.3347886
+94,Bager Grill House,55 Rue Louis Talamoni,Champigny-sur-Marne,94500,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.8131742,2.5130918
+94,Bangkok Factory,31 Rue Jean Jaurès,Champigny-sur-Marne,94500,restaurant,thai,sans_dessert_probable,cuisine thai,48.815314,2.5059481
+94,Bol'ly,41 Rue Jean Jaurès,Champigny-sur-Marne,94500,restaurant,indian,sans_dessert_probable,cuisine indian,48.8151459,2.5065675
+94,Five Pizza,62 Rue Jean Jaurès,Champigny-sur-Marne,94500,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8145558,2.5076587
+94,La Bonne Braise,35 Rue Jean Jaurès,Champigny-sur-Marne,94500,restaurant,chicken,sans_dessert_probable,cuisine chicken,48.8152514,2.5061733
+94,Le Trotteur,9 Avenue Roger Salengro,Champigny-sur-Marne,94340,restaurant,french;burger;pizza,sans_dessert_probable,cuisine french;burger;pizza,48.820154,2.4818473
+94,Pizza Hut,69 Rue Louis Talamoni,Champigny-sur-Marne,94500,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8130796,2.5133908
+94,Sushi Chez Li,95 Avenue de la République,Champigny-sur-Marne,94500,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8239665,2.509912
+94,Tokyo Sushi,111 Avenue Roger Salengro,Champigny-sur-Marne,94500,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8179261,2.4945899
+94,Alfred Burger,18 Avenue Jean Jaurès,Charenton-le-Pont,94220,restaurant,,sans_dessert_probable,nom,48.8229562,2.41376
+94,Bella Vita,71 Rue de Paris,Charenton-le-Pont,94220,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8207105,2.4137284
+94,Folie Liberté,137 Rue de Paris,Charenton-le-Pont,94220,restaurant,pizza;tapas;french,sans_dessert_probable,cuisine pizza;tapas;french,48.8258219,2.4066625
+94,Royal Wok,56 Quai des Carrières,Charenton-le-Pont,94220,restaurant,asian,sans_dessert_probable,nom,48.8196644,2.4062701
+94,Sōdai,3 Place des Marseillais,Charenton-le-Pont,94220,restaurant,fusion;japanese,sans_dessert_probable,cuisine fusion;japanese,48.8261537,2.405809
+94,Zensushi,9 Quai des Carrières,Charenton-le-Pont,94220,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8179629,2.4181402
+94,Woodiz,182 Boulevard Jean Mermoz,Chevilly-Larue,94550,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7650869,2.3345076
+94,Calice Alto,2 Rue Louise Michel,Choisy-le-Roi,94600,restaurant,italian;pizza;pasta;steak_house;fish,sans_dessert_probable,cuisine italian;pizza;pasta;steak_house;fish,48.7663365,2.4070243
+94,Le Blanqui,31 Rue Auguste Blanqui,Choisy-le-Roi,94600,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7670867,2.4047685
+94,Le Roi Indien,14 Rue Louise Michel,Choisy-le-Roi,94600,restaurant,indian,sans_dessert_probable,cuisine indian,48.7658265,2.4052569
+94,Le Soleil,1 Avenue de la République,Choisy-le-Roi,94600,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7616932,2.4076648
+94,Raja Chola,30 bis Avenue Victor Hugo,Choisy-le-Roi,94600,restaurant,indian;sri-lankaise;french,sans_dessert_probable,cuisine indian;sri-lankaise;french,48.7677274,2.417724
+94,Fou-Lo,16 Rue de Joly,Créteil,94000,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7909593,2.4630703
+94,Le Maloney (Café le Baron),71 Rue du Général Leclerc,Créteil,94000,restaurant,african,sans_dessert_probable,cuisine african,48.790846,2.4649194
+94,Loulou Pizza,75 Rue de Mesly,Créteil,94000,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.788416,2.461868
+94,Monte Cristo,5 Avenue de la République,Fontenay-sous-Bois,94120,restaurant,italian;italian_pizza;pizza;pasta,sans_dessert_probable,cuisine italian;italian_pizza;pizza;pasta,48.8499992,2.4564616
+94,Constantibople,33 Rue Henri Barbusse,Fresnes,94260,restaurant,turkish,sans_dessert_probable,cuisine turkish,48.7580746,2.3229829
+94,Tacos Numéro 1,1A Rue Jean Moulin,Fresnes,94260,restaurant,mexican,sans_dessert_probable,cuisine mexican,48.7665103,2.3235963
+94,15 Baht,43 Rue Benoît Malon,Gentilly,94250,restaurant,thai,sans_dessert_probable,cuisine thai,48.8159257,2.3416717
+94,Chez Ellie,155 Avenue Paul Vaillant-Couturier,Gentilly,94250,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8168273,2.3324589
+94,Chiche ou Pois Chiche,162 Rue Gabriel Péri,Gentilly,94250,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.805717,2.3449525
+94,Japjap Sushi,34 Avenue Raspail,Gentilly,94250,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8144272,2.350044
+94,Kenko Poke,16 Avenue Jean Jaurès,Gentilly,94250,restaurant,,sans_dessert_probable,nom,48.814056,2.3498622
+94,Mi Casa,157 Avenue Paul Vaillant-Couturier,Gentilly,94250,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8168355,2.3323541
+94,My House,22 bis Avenue Paul Vaillant-Couturier,Gentilly,94250,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8151255,2.3458468
+94,Pho Bonjour de Gentilly,32 Avenue Raspail,Gentilly,94250,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8144687,2.3502411
+94,Roberto,8 Rue Robert Marchand,Gentilly,94250,restaurant,pizza;pasta,sans_dessert_probable,cuisine pizza;pasta,48.815782,2.3492752
+94,Al Dabké,1 Rue Robespierre,Ivry-sur-Seine,94200,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8107821,2.3842
+94,Bangkok,4 Avenue de Verdun,Ivry-sur-Seine,94200,restaurant,thai,sans_dessert_probable,cuisine thai,48.8168999,2.366984
+94,Bay Side,1-5 Rue Jean-Jacques Rousseau,Ivry-sur-Seine,94200,restaurant,pizza;burger;salad,sans_dessert_probable,cuisine pizza;burger;salad,48.8210605,2.3909085
+94,Bolkiri,58T Avenue Maurice Thorez,Ivry-sur-Seine,94200,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8168926,2.3761116
+94,Ici c'est fait maison,33 Rue Pierre et Marie Curie,Ivry-sur-Seine,94200,restaurant,kebab;burger,sans_dessert_probable,cuisine kebab;burger,48.8130032,2.370906
+94,Le Bouquet,39 Avenue Danielle Casanova,Ivry-sur-Seine,94200,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.817567,2.3817484
+94,Okahashi,75 Avenue Maurice Thorez,Ivry-sur-Seine,94200,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8178977,2.375616
+94,Rana,8 Rue Galilée,Ivry-sur-Seine,94200,restaurant,indian,sans_dessert_probable,cuisine indian,48.8150729,2.4024271
+94,Tokyo Sushi,41 Rue Marat,Ivry-sur-Seine,94200,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8092143,2.3867319
+94,Yam,43 Avenue Maurice Thorez,Ivry-sur-Seine,94200,restaurant,burger;sandwich,sans_dessert_probable,cuisine burger;sandwich,48.819151,2.374389
+94,Bo Bun Bar,9 Rue Bourgeot,L'Haÿ-les-Roses,94240,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.7787927,2.3360761
+94,Thaï La Varenne,2 Rue Georges Clemenceau,La Varenne Saint Hilaire,94210,restaurant,thai,sans_dessert_probable,cuisine thai,48.7927884,2.5168753
+94,Tasty Crousty,98 Avenue de Fontainebleau,Le Kremlin Bicêtre,94270,restaurant,chicken;thai,sans_dessert_probable,cuisine chicken;thai,48.8100685,2.3619706
+94,Asie B7,16 Avenue Eugène Thomas,Le Kremlin-Bicêtre,94270,restaurant,chinese;japanese,sans_dessert_probable,cuisine chinese;japanese,48.8099728,2.3598708
+94,Le Cèdre,2 Rue Roger Salengro,Le Kremlin-Bicêtre,94270,restaurant,lebanese,sans_dessert_probable,cuisine lebanese,48.8145177,2.3613442
+94,Rajapreuk,37 Rue Roger Salengro,Le Kremlin-Bicêtre,94270,restaurant,thai,sans_dessert_probable,cuisine thai,48.8151327,2.3643699
+94,Seoul Gang,18 Avenue de Fontainebleau,Le Kremlin-Bicêtre,94270,restaurant,korean,sans_dessert_probable,cuisine korean,48.8149548,2.3604535
+94,Wilaya,13 Rue Roger Salengro,Le Kremlin-Bicêtre,94270,restaurant,arab;sandwich;steak_house,sans_dessert_probable,cuisine arab;sandwich;steak_house,48.8148747,2.36223
+94,Le Monde de la Pizza,103 Avenue Pierre Brossolette,Le Perreux sur Marne,94170,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8350286,2.5038992
+94,BO Sushi,171 Avenue Ledru-Rollin,Le Perreux-sur-Marne,94170,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8429109,2.5027717
+94,Bro's and Co,105 Avenue du Général de Gaulle,Le Perreux-sur-Marne,94170,restaurant,pasta;pizza,sans_dessert_probable,cuisine pasta;pizza,48.840731,2.5063152
+94,Burger parisien,199 Avenue Pierre Brossolette,Le Perreux-sur-Marne,94170,restaurant,burger,sans_dessert_probable,cuisine burger,48.8344135,2.5146801
+94,Le Cerf-Volant,159 Boulevard d'Alsace-Lorraine,Le Perreux-sur-Marne,94170,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8517607,2.5074684
+94,Les Saveurs d'Asie,106 Avenue du Général de Gaulle,Le Perreux-sur-Marne,94170,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8417999,2.5053873
+94,Radha,18bis Avenue Ledru-Rollin,Le Perreux-sur-Marne,94170,restaurant,indian,sans_dessert_probable,cuisine indian,48.8390847,2.4959451
+94,Sushi 8,195 Boulevard d'Alsace-Lorraine,Le Perreux-sur-Marne,94170,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8524476,2.5108707
+94,Sushi Wasabi,48 Avenue Ledru-Rollin,Le Perreux-sur-Marne,94170,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8410378,2.4982392
+94,Tokyo Sushi,26 Boulevard d'Alsace-Lorraine,Le Perreux-sur-Marne,94170,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.84922,2.496702
+94,Delice De Plessis,9 Avenue du Général de Gaulle,Le Plessis-Trévise,94420,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8104774,2.5729264
+94,Hotimes,11 Avenue du Général de Gaulle,Le Plessis-Trévise,94420,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8104351,2.573037
+94,Koyama Sushi,14 Avenue du Général de Gaulle,Le Plessis-Trévise,94420,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8092944,2.5751792
+94,Le Trévise,20 Avenue Ardouin,Le Plessis-Trévise,94420,restaurant,brasserie;pizza;couscous,sans_dessert_probable,cuisine brasserie;pizza;couscous,48.8107357,2.5720397
+94,Plessis Sushi,3 Avenue Thérèse,Le Plessis-Trévise,94420,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8092811,2.5743526
+94,Restaurant Rajasthan,11 Avenue du Général de Gaulle,Le Plessis-Trévise,94420,restaurant,indian,sans_dessert_probable,cuisine indian,48.810359,2.57323
+94,Sunset Pizza,,Le Plessis-Trévise,,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.809269,2.5752348
+94,Tokyo Sushi,3 Place de Verdun,Le Plessis-Trévise,94420,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8056784,2.5845779
+94,Adith,10 bis Avenue Descartes,Limeil-Brévannes,94450,restaurant,indian,sans_dessert_probable,cuisine indian,48.7413894,2.4782591
+94,La Bonne Pizza,13 Place Arthur Rimbaud,Limeil-Brévannes,94450,restaurant,,sans_dessert_probable,nom,48.7523659,2.4735825
+94,Le Président,1 Avenue du Président Wilson,Limeil-Brévannes,94450,restaurant,burger;french;steak_house,sans_dessert_probable,cuisine burger;french;steak_house,48.7515045,2.4907521
+94,Restaurant Giuseppe,6 Allée des Cavaliers,Maisons-Alfort,94700,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8141385,2.420338
+94,Sumaya,175 Avenue du Général Leclerc,Maisons-Alfort,94700,restaurant,japanese;korean,sans_dessert_probable,cuisine japanese;korean,48.8073382,2.4383723
+94,Wawa Smash Burger,46 bis Avenue du Général de Gaulle,Maisons-Alfort,94700,restaurant,,sans_dessert_probable,nom,48.813477,2.4212252
+94,Bharati,2 Boulevard Gallieni,Nogent-sur-Marne,94130,restaurant,indian,sans_dessert_probable,cuisine indian,48.8379231,2.4875614
+94,Nagoya,57 Boulevard de Strasbourg,Nogent-sur-Marne,94130,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8394211,2.4798371
+94,Palais Royal de Nogent,5 Avenue de Joinville,Nogent-sur-Marne,94130,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8343118,2.4729859
+94,Shuriken Sushi,96 Avenue du Général de Gaulle,Ormesson-sur-Marne,94490,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.7903293,2.5347656
+94,W&G Saveurs Gourmandes,61 Route de Provins,Ormesson-sur-Marne,94490,restaurant,japanese;chinese;indian,sans_dessert_probable,cuisine japanese;chinese;indian,48.7942927,2.5531981
+94,Pho'66,66 Avenue Lucien Grelinger,Rungis,94150,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.750024,2.3482788
+94,Rustik,4 Rue de Traversière,Rungis,94150,restaurant,burger,sans_dessert_probable,cuisine burger,48.7463836,2.3533853
+94,Jian Hong,129 Avenue Gallieni,Saint-Mandé,94160,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8461214,2.4169933
+94,Kyoto Sushi,23 Avenue Joffre,Saint-Mandé,94160,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8481176,2.4175014
+94,L'Ambassade de Pékin,6 Avenue Joffre,Saint-Mandé,94160,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.8471786,2.4177925
+94,Planet Sushi,8 Avenue du Général de Gaulle,Saint-Mandé,94160,restaurant,sushi,sans_dessert_probable,cuisine sushi,48.8455744,2.417416
+94,Carnot Thaï,83 Avenue Carnot,Saint-Maur-des-Fossés,94100,restaurant,asian;thai,sans_dessert_probable,cuisine asian;thai,48.7967488,2.4871241
+94,Insieme Pizzeria Ristorante,11bis Boulevard de Créteil,Saint-Maur-des-Fossés,94100,restaurant,italian;pizza;pasta,sans_dessert_probable,cuisine italian;pizza;pasta,48.7988857,2.4741236
+94,Saigon 2 K,18 Rue de la Varenne,Saint-Maur-des-Fossés,94100,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8078326,2.4734136
+94,Sushi Paradise,1 bis Rue des Remises,Saint-Maur-des-Fossés,94100,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8072874,2.473942
+94,The Crazy Naan,18 Rue de la Varenne,Saint-Maur-des-Fossés,94100,restaurant,indian,sans_dessert_probable,cuisine indian,48.8077914,2.4734521
+94,Le Palais de Thiais,7 Rue Robert Laporte,Thiais,94320,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7646098,2.389846
+94,Maison d'aki,12 Rue des Oliviers,Thiais,94320,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.7499815,2.3855754
+94,Chez Lu Cheng,Rue Jean Jaurès,Villejuif,94800,restaurant,chinese,sans_dessert_probable,cuisine chinese,48.7908696,2.3665581
+94,Délice Pizza,104 Rue Jean Jaurès,Villejuif,94800,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7901578,2.3665293
+94,O'Terminus,24 Avenue de la République,Villejuif,94800,restaurant,kebab;burger,sans_dessert_probable,cuisine kebab;burger,48.7886167,2.3645892
+94,Restaurant thaïlandais Khankluay,125 Rue Jean Jaurès,Villejuif,94800,restaurant,thai,sans_dessert_probable,cuisine thai,48.7909678,2.3667904
+94,Espace Pizza Service,6 Rue Marcel Risser,Villeneuve-le-Roi,94290,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.735397,2.4195503
+94,Geppetto,50 Rue du Maréchal Lyautey,Villeneuve-le-Roi,94290,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.7307727,2.4185722
+94,Shiva,Rue du Maréchal Lyautey,Villeneuve-le-Roi,94290,restaurant,indian,sans_dessert_probable,cuisine indian,48.7305093,2.4186098
+94,Taste of India,63 Rue du Général de Gaulle,Villeneuve-le-Roi,94290,restaurant,indian,sans_dessert_probable,cuisine indian,48.7350106,2.4208439
+94,Aloy Thaï,21 Rue de Lagny,Vincennes,94300,restaurant,thai,sans_dessert_probable,cuisine thai,48.8489843,2.424137
+94,Chez Antoine,2 Avenue de la République,Vincennes,94300,restaurant,italian;pizza,sans_dessert_probable,cuisine italian;pizza,48.8463904,2.4291208
+94,Chez les sœurs,175 Rue de Fontenay,Vincennes,94300,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.84863,2.4295716
+94,La Planch'A Pizza,23 Rue de Montreuil,Vincennes,94300,restaurant,pizza,sans_dessert_probable,cuisine pizza,48.8480006,2.4345439
+94,Mây Bay,33 Rue des Laitières,Vincennes,94300,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8474184,2.4228611
+94,Pho Vincennes,3 Avenue de la République,Vincennes,94300,restaurant,vietnamese,sans_dessert_probable,cuisine vietnamese,48.8464712,2.4288957
+94,Shinkyo,170bis Avenue de Paris,Vincennes,94300,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8465106,2.4191624
+94,SushiFun,172 Rue de Fontenay,Vincennes,94300,restaurant,japanese;asian;sushi,sans_dessert_probable,cuisine japanese;asian;sushi,48.8485543,2.4344492
+94,Yun Sushi,26 Rue des Laitières,Vincennes,94300,restaurant,asian;japanese,sans_dessert_probable,cuisine asian;japanese,48.8476485,2.4230146
+94,Bento Sushi Bar,44 Avenue de la République,Vitry-sur-Seine,94400,restaurant,japanese,sans_dessert_probable,cuisine japanese,48.8011526,2.399133
+94,Chicken Time,,Vitry-sur-Seine,94400,restaurant,,sans_dessert_probable,nom,48.8012492,2.4025744
+94,Wok Grill,Rue Eugène Hénaff,Vitry-sur-Seine,94400,restaurant,asian,sans_dessert_probable,nom,48.7940249,2.4169141
