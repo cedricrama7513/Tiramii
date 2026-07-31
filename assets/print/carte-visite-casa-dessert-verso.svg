@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="88mm" height="58mm" viewBox="0 0 1039 685">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9b6a18"/>
+      <stop offset=".35" stop-color="#f1cf73"/>
+      <stop offset=".68" stop-color="#c28a2a"/>
+      <stop offset="1" stop-color="#f3d27d"/>
+    </linearGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b7b7b7"/>
+      <stop offset=".45" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#c9c9c9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Format Vistaprint : 88 x 58 mm, fond perdu inclus. -->
+  <rect width="1039" height="685" fill="#111112"/>
+
+  <g text-anchor="middle">
+    <text x="519.5" y="139" fill="url(#gold)"
+          font-family="Georgia, 'Times New Roman', serif"
+          font-size="61" letter-spacing="9">CASA DESSERT</text>
+    <text x="519.5" y="190" fill="url(#silver)"
+          font-family="Georgia, 'Times New Roman', serif"
+          font-size="27" letter-spacing="2">Cr&#233;ateur de tiramisus</text>
+    <line x1="260" y1="235" x2="779" y2="235"
+          stroke="#c99a3d" stroke-width="3"/>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="34">
+    <g fill="none" stroke="#d4a64e" stroke-width="3">
+      <circle cx="295" cy="319" r="21"/>
+      <circle cx="295" cy="392" r="21"/>
+      <circle cx="295" cy="465" r="21"/>
+      <circle cx="295" cy="538" r="21"/>
+    </g>
+    <g fill="#d4a64e" font-size="22" font-weight="700" text-anchor="middle">
+      <text x="295" y="327">T</text>
+      <text x="295" y="400">E</text>
+      <text x="295" y="473">W</text>
+      <text x="295" y="546">@</text>
+    </g>
+    <g fill="#f0eee9">
+      <text x="344" y="330">07 43 46 24 15</text>
+      <text x="344" y="403">cedricrama.pro@gmail.com</text>
+      <text x="344" y="476">casadessert.fr</text>
+      <text x="344" y="549">@casadessert__</text>
+    </g>
+  </g>
+</svg>
