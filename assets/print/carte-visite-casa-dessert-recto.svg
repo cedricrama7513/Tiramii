@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88mm" height="58mm" viewBox="0 0 1039 685">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9b6a18"/>
+      <stop offset=".35" stop-color="#f1cf73"/>
+      <stop offset=".68" stop-color="#c28a2a"/>
+      <stop offset="1" stop-color="#f3d27d"/>
+    </linearGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a8a8a8"/>
+      <stop offset=".38" stop-color="#ffffff"/>
+      <stop offset=".72" stop-color="#c7c7c7"/>
+      <stop offset="1" stop-color="#f1f1f1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Format Vistaprint : 88 × 58 mm, fond perdu inclus. -->
+  <rect width="1039" height="685" fill="#111112"/>
+
+  <g text-anchor="middle">
+    <text x="465" y="390" fill="url(#silver)"
+          font-family="Georgia, 'Times New Roman', serif" font-size="292">C</text>
+    <text x="588" y="442" fill="url(#gold)"
+          font-family="Georgia, 'Times New Roman', serif" font-size="292">D</text>
+
+    <text x="519.5" y="548" font-family="Arial, Helvetica, sans-serif"
+          font-size="49" letter-spacing="13">
+      <tspan fill="url(#silver)" font-weight="300">CASA </tspan>
+      <tspan fill="url(#gold)" font-weight="700">DESSERT</tspan>
+    </text>
+  </g>
+</svg>
