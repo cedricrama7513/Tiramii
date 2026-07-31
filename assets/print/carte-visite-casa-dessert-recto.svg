@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="88mm" height="58mm" viewBox="0 0 1039 685">
   <defs>
     <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
@@ -14,7 +15,7 @@
     </linearGradient>
   </defs>
 
-  <!-- Format Vistaprint : 88 × 58 mm, fond perdu inclus. -->
+  <!-- Format Vistaprint : 88 x 58 mm, fond perdu inclus. -->
   <rect width="1039" height="685" fill="#111112"/>
 
   <g text-anchor="middle">

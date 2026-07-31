@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="88mm" height="58mm" viewBox="0 0 1039 685">
   <defs>
     <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
@@ -13,7 +14,7 @@
     </linearGradient>
   </defs>
 
-  <!-- Format Vistaprint : 88 × 58 mm, fond perdu inclus. -->
+  <!-- Format Vistaprint : 88 x 58 mm, fond perdu inclus. -->
   <rect width="1039" height="685" fill="#111112"/>
 
   <g text-anchor="middle">
@@ -22,7 +23,7 @@
           font-size="61" letter-spacing="9">CASA DESSERT</text>
     <text x="519.5" y="190" fill="url(#silver)"
           font-family="Georgia, 'Times New Roman', serif"
-          font-size="27" letter-spacing="2">Créateur de tiramisus</text>
+          font-size="27" letter-spacing="2">Cr&#233;ateur de tiramisus</text>
     <line x1="260" y1="235" x2="779" y2="235"
           stroke="#c99a3d" stroke-width="3"/>
   </g>
