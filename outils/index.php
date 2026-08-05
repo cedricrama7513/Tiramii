@@ -40,6 +40,17 @@ $xlsV = $xlsOk ? (string) filemtime($xlsPath) : '';
   <p style="font-size:.88rem">Saisissez CA et charges mois par mois → marge, bénéfice et seuil de rentabilité calculés.</p>
   <?php endif; ?>
   <?php
+  $mascaPdf = 'fournisseurs-mascarpone-casa-dessert.pdf';
+  $mascaPath = __DIR__ . DIRECTORY_SEPARATOR . $mascaPdf;
+  if (is_readable($mascaPath)):
+    $mascaV = (string) filemtime($mascaPath);
+  ?>
+  <a class="dl tertiary" href="<?= htmlspecialchars($mascaPdf . '?v=' . $mascaV, ENT_QUOTES, 'UTF-8') ?>" download="<?= htmlspecialchars($mascaPdf, ENT_QUOTES, 'UTF-8') ?>">
+    Fournisseurs mascarpone moins cher (PDF)
+  </a>
+  <p style="font-size:.88rem">Comparatif prix HT + contacts (Mozzalat, Rungis, Bellon…) pour baisser le coût matière.</p>
+  <?php endif; ?>
+  <?php
   $planPdf = 'plan-action-ca-casa-dessert.pdf';
   $planPath = __DIR__ . DIRECTORY_SEPARATOR . $planPdf;
   if (is_readable($planPath)):
