@@ -1,11 +1,4 @@
 import { defineAgent } from "@grok/agent-sdk";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../..",
-);
 
 export default defineAgent({
   model: {
@@ -14,8 +7,5 @@ export default defineAgent({
       { id: "reasoning_effort", value: "high" },
       { id: "fast", value: "true" },
     ],
-  },
-  local: {
-    cwd: repoRoot,
   },
 });
