@@ -1,0 +1,13 @@
+---
+description: Trésorerie Casa Dessert — registre des entrées/sorties et génération du fichier Excel, données jamais committées
+globs: tools/tresorerie.py,tools/tresorerie-data/**
+alwaysApply: false
+---
+
+# Trésorerie
+
+- Script : `tools/tresorerie.py` (dépendance : `pip install -r tools/requirements.txt`, xlsxwriter). Commandes : `init`, `config`, `add`, `list`, `build`.
+- Registre : `tresorerie.json` dans `$TRESORERIE_DIR` (défaut `tools/tresorerie-data/`, ignoré par git). Champs d'un mouvement : `date`, `libelle`, `type` (`entree` / `sortie`), `montant` (positif), `categorie`, `tiers`, `moyen`, `note`.
+- **Le dépôt est public** : ne jamais committer le registre ni le `.xlsx` de trésorerie, ne jamais les placer dans `outils/` (publié sur casadessert.fr) ni citer de montants dans commits ou PR. `tools/` et `a-telecharger/` sont exclus du déploiement, mais restent visibles sur GitHub.
+- Fichier Excel : feuilles `Synthèse` (solde, mois par mois pour l'année en B10), `Mouvements` (solde cumulé ligne à ligne), `Par catégorie`. Formules natives avec valeurs en cache, compatibles Excel Mac en français. Le fichier est régénéré en entier : aucune saisie manuelle.
+- Modifier le script : tester avec un registre jetable (`TRESORERIE_DIR=/tmp/...`), relire le `.xlsx` avec `openpyxl` (formules et valeurs), puis committer seulement le script et la doc.

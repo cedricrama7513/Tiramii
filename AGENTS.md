@@ -32,12 +32,13 @@ Pour tester en local : PHP 8 + MySQL, importer `database.sql` puis `database_pro
 
 ## Agents spécialisés
 
-Trois agents sont définis dans `.cursor/agents/`, chacun avec une règle associée dans `.cursor/rules/` :
+Quatre agents sont définis dans `.cursor/agents/`, chacun avec une règle associée dans `.cursor/rules/` :
 
 | Agent | Domaine |
 |-------|---------|
 | `admin-commandes` | `admin.php`, commandes particuliers, stock, livraison, onglet Livreur, notifications |
 | `pro-b2b` | Comptes pro, boutique pro, commandes pro, devis, CA et factures pro |
 | `outils-excel` | Tableurs et PDF de `outils/` et `a-telecharger/`, scripts de génération dans `tools/` |
+| `tresorerie` | Registre des entrées/sorties et fichier Excel de trésorerie (`tools/tresorerie.py`) ; données jamais committées, le dépôt est public |
 
 Hors de ces domaines (site vitrine, SEO, prospection), suivre les conventions ci-dessus.
