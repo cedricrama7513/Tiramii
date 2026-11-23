@@ -74,6 +74,7 @@ jobs:
             **/.git*/**
             **/node_modules/**
             **/.cursor/**
+            AGENTS.md
             **/a-telecharger/**
             **/tools/**
             **/.env
@@ -105,6 +106,7 @@ jobs:
             --exclude=.github
             --exclude=node_modules
             --exclude=.cursor
+            --exclude=/AGENTS.md
             --exclude=a-telecharger
             --exclude=tools
             --exclude=config/config.php
