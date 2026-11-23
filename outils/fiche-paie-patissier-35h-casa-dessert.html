@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bulletin de paie — Casa Dessert — Octobre 2026</title>
+<style>
+  @page { size: A4; margin: 8mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9.5px; color: #111;
+    background: #e8eef5;
+  }
+  .sheet {
+    max-width: 800px; margin: 0 auto;
+    background: repeating-linear-gradient(
+      90deg,
+      #f7f9fc 0px, #f7f9fc 18px,
+      #eef3f9 18px, #eef3f9 36px
+    );
+    border: 1px solid #9aa8b8;
+    padding: 10px 12px 14px;
+  }
+  .top { display: flex; justify-content: space-between; gap: 12px; }
+  .employer, .employee { width: 48%; }
+  .employer .name, .employee .name { font-weight: 700; font-size: 12px; text-transform: uppercase; }
+  .muted { color: #333; line-height: 1.35; }
+  .period {
+    text-align: right; font-size: 11px; font-weight: 700;
+    margin-top: 4px;
+  }
+  .badge {
+    display: inline-block; background: #1a3a6b; color: #fff;
+    font-weight: 700; font-size: 11px; padding: 4px 10px; margin: 8px 0 6px;
+    letter-spacing: .3px;
+  }
+  .meta {
+    display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 4px 10px; border: 1px solid #7a8ea3; padding: 6px 8px;
+    background: rgba(255,255,255,.55); margin-bottom: 8px;
+  }
+  .meta b { display: block; font-size: 8px; color: #445; text-transform: uppercase; }
+  table.pay {
+    width: 100%; border-collapse: collapse; background: rgba(255,255,255,.7);
+  }
+  table.pay th, table.pay td {
+    border: 1px solid #8a9bb0; padding: 2px 4px; vertical-align: top;
+  }
+  table.pay th {
+    background: #d9e3ef; font-size: 8px; text-transform: uppercase;
+  }
+  table.pay .sec { background: #cfdceb; font-weight: 700; }
+  table.pay .tot { background: #b9c9dc; font-weight: 700; }
+  .num { text-align: right; white-space: nowrap; }
+  .neg { color: #8b0000; }
+  .footer {
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 10px; margin-top: 8px;
+  }
+  .box {
+    border: 1px solid #7a8ea3; padding: 6px 8px;
+    background: rgba(255,255,255,.65);
+  }
+  .net {
+    background: #12325c; color: #fff; font-weight: 700;
+    font-size: 13px; padding: 8px 10px; margin-top: 6px;
+    display: flex; justify-content: space-between;
+  }
+  .warn {
+    margin-top: 8px; font-size: 8px; color: #444;
+    border-top: 1px dashed #99a; padding-top: 6px;
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { border: none; max-width: none; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="top">
+    <div class="employer">
+      <div class="name">CASA DESSERT</div>
+      <div class="muted">
+        Cedric Ramahefaharison<br>
+        Entrepreneur individuel<br>
+        59 rue de la Colonie<br>
+        75013 Paris<br>
+        SIREN 944 172 139 — SIRET 94417213900012<br>
+        APE 10.71C — Conv. boulangerie-pâtisserie artisanale
+      </div>
+    </div>
+    <div class="employee">
+      <div class="name">[NOM PRÉNOM SALARIÉ]</div>
+      <div class="muted">
+        [Adresse salarié]<br>
+        75013 Paris<br>
+        Matricule : CD-PAT-001<br>
+        N° SS : [À COMPLÉTER]<br>
+        Date d’entrée : [À COMPLÉTER]
+      </div>
+      <div class="period">
+        Du 01 octobre 2026 au 31 octobre 2026<br>
+        Paiement le 31/10/2026
+      </div>
+    </div>
+  </div>
+
+  <div class="badge">BULLETIN DE PAIE</div>
+
+  <div class="meta">
+    <div><b>Emploi</b>Pâtissier / préparateur desserts</div>
+    <div><b>Classification</b>Non cadre</div>
+    <div><b>Horaire</b>35,00 h / semaine</div>
+    <div><b>Salaire mensuel</b>2 916,67 €</div>
+    <div><b>Établissement</b>Labo Casa Dessert — Paris 13e</div>
+    <div><b>Statut</b>CDI temps plein</div>
+    <div><b>Heures mois</b>151,67 h</div>
+    <div><b>Taux horaire</b>19,23 €</div>
+  </div>
+
+  <table class="pay">
+    <thead>
+      <tr>
+        <th style="width:42%">Désignation</th>
+        <th>Nombre ou base</th>
+        <th>Taux</th>
+        <th>Part salarié</th>
+        <th>Part employeur</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="sec"><td colspan="5">Rémunération</td></tr>
+      <tr>
+        <td>Salaire de base</td>
+        <td class="num">151,67</td>
+        <td class="num">19,230</td>
+        <td class="num">2 916,67</td>
+        <td class="num"></td>
+      </tr>
+      <tr>
+        <td>Heures supplémentaires / divers (ex.)</td>
+        <td class="num">—</td>
+        <td class="num"></td>
+        <td class="num">59,62</td>
+        <td class="num"></td>
+      </tr>
+      <tr class="tot">
+        <td>Rémunération brute</td>
+        <td class="num"></td><td class="num"></td>
+        <td class="num">2 976,29</td>
+        <td class="num"></td>
+      </tr>
+
+      <tr class="sec"><td colspan="5">Santé</td></tr>
+      <tr>
+        <td>Sécurité sociale — maladie</td>
+        <td class="num">2 976,29</td>
+        <td class="num">13,00 %</td>
+        <td class="num"></td>
+        <td class="num">386,92</td>
+      </tr>
+      <tr>
+        <td>Complémentaire santé (exemple)</td>
+        <td class="num">1,00</td>
+        <td class="num"></td>
+        <td class="num neg">− 25,00</td>
+        <td class="num">50,00</td>
+      </tr>
+
+      <tr class="sec"><td colspan="5">Accidents du travail — Maladies professionnelles</td></tr>
+      <tr>
+        <td>Accidents du travail</td>
+        <td class="num">2 976,29</td>
+        <td class="num">1,50 %</td>
+        <td class="num"></td>
+        <td class="num">44,64</td>
+      </tr>
+
+      <tr class="sec"><td colspan="5">Retraite</td></tr>
+      <tr>
+        <td>Vieillesse plafonnée</td>
+        <td class="num">2 976,29</td>
+        <td class="num">6,90 % / 8,55 %</td>
+        <td class="num neg">− 205,36</td>
+        <td class="num">254,47</td>
+      </tr>
+      <tr>
+        <td>Vieillesse déplafonnée</td>
+        <td class="num">2 976,29</td>
+        <td class="num">0,40 % / 2,11 %</td>
+        <td class="num neg">− 11,91</td>
+        <td class="num">62,80</td>
+      </tr>
+      <tr>
+        <td>Agirc-Arrco tranche 1</td>
+        <td class="num">2 976,29</td>
+        <td class="num">3,15 % / 4,72 %</td>
+        <td class="num neg">− 93,75</td>
+        <td class="num">140,48</td>
+      </tr>
+      <tr>
+        <td>CEG tranche 1</td>
+        <td class="num">2 976,29</td>
+        <td class="num">0,86 % / 1,29 %</td>
+        <td class="num neg">− 25,60</td>
+        <td class="num">38,39</td>
+      </tr>
+
+      <tr class="sec"><td colspan="5">Famille — Ass. chômage — Autres</td></tr>
+      <tr>
+        <td>Allocations familiales</td>
+        <td class="num">2 976,29</td>
+        <td class="num">5,25 %</td>
+        <td class="num"></td>
+        <td class="num">156,26</td>
+      </tr>
+      <tr>
+        <td>Assurance chômage / AGS</td>
+        <td class="num">2 976,29</td>
+        <td class="num">4,25 %</td>
+        <td class="num"></td>
+        <td class="num">126,49</td>
+      </tr>
+      <tr>
+        <td>CSG déductible</td>
+        <td class="num">2 924,21</td>
+        <td class="num">6,80 %</td>
+        <td class="num neg">− 198,85</td>
+        <td class="num"></td>
+      </tr>
+      <tr>
+        <td>CSG/CRDS non déductibles</td>
+        <td class="num">2 924,21</td>
+        <td class="num">2,90 %</td>
+        <td class="num neg">− 84,80</td>
+        <td class="num"></td>
+      </tr>
+      <tr>
+        <td>Formation / FNAL / CSA / dialogue</td>
+        <td class="num">2 976,29</td>
+        <td class="num">0,966 %</td>
+        <td class="num"></td>
+        <td class="num">28,75</td>
+      </tr>
+
+      <tr class="tot">
+        <td>Total cotisations</td>
+        <td class="num"></td><td class="num"></td>
+        <td class="num neg">− 645,27</td>
+        <td class="num">1 289,20</td>
+      </tr>
+
+      <tr class="sec"><td colspan="5">Avantages / retenues</td></tr>
+      <tr>
+        <td>Titres-restaurant (22 j × part sal.)</td>
+        <td class="num">22,00</td>
+        <td class="num">4,00 €</td>
+        <td class="num neg">− 88,00</td>
+        <td class="num">132,00</td>
+      </tr>
+
+      <tr class="tot">
+        <td>Net imposable</td>
+        <td class="num"></td><td class="num"></td>
+        <td class="num">2 415,82</td>
+        <td class="num"></td>
+      </tr>
+      <tr>
+        <td>Impôt sur le revenu prélevé à la source</td>
+        <td class="num">2 415,82</td>
+        <td class="num">4,60 %</td>
+        <td class="num neg">− 111,13</td>
+        <td class="num"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div class="box">
+      <div><b>Congés payés</b></div>
+      <div>Solde CP en cours : 2,50 j</div>
+      <div>Solde CP acquis : 0,00 j</div>
+      <div>JRTT : —</div>
+      <div style="margin-top:6px"><b>Mode de paiement</b> : Virement</div>
+      <div>IBAN salarié : [À COMPLÉTER]</div>
+    </div>
+    <div>
+      <div class="box">
+        <div>Montant net social : <b>2 331,02 €</b></div>
+        <div>Net à payer avant impôt : <b>2 243,02 €</b></div>
+      </div>
+      <div class="net">
+        <span>NET À PAYER</span>
+        <span>2 131,89 EUROS</span>
+      </div>
+      <div class="box" style="margin-top:6px">
+        Coût global employeur (indicatif) : <b>4 397,49 €</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn">
+    Document établi pour <b>Casa Dessert</b> sur le modèle d’un bulletin professionnel (période octobre 2026, contrat 35 h).
+    Projet / simulation — à personnaliser (identité salarié, NIR, IBAN, date d’entrée, taux PAS DGFiP, mutuelle réelle)
+    et à faire valider / éditer via un logiciel de paie ou un expert-comptable avant remise officielle.
+  </div>
+</div>
+</body>
+</html>
