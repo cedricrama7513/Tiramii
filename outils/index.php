@@ -40,6 +40,17 @@ $xlsV = $xlsOk ? (string) filemtime($xlsPath) : '';
   <p style="font-size:.88rem">Saisissez CA et charges mois par mois → marge, bénéfice et seuil de rentabilité calculés.</p>
   <?php endif; ?>
   <?php
+  $paiePdf = 'fiche-paie-patissier-35h-casa-dessert.pdf';
+  $paiePath = __DIR__ . DIRECTORY_SEPARATOR . $paiePdf;
+  if (is_readable($paiePath)):
+    $paieV = (string) filemtime($paiePath);
+  ?>
+  <a class="dl tertiary" href="<?= htmlspecialchars($paiePdf . '?v=' . $paieV, ENT_QUOTES, 'UTF-8') ?>" download="<?= htmlspecialchars($paiePdf, ENT_QUOTES, 'UTF-8') ?>">
+    Fiche de paie pâtissier 35 h (PDF)
+  </a>
+  <p style="font-size:.88rem">Bulletin type novembre 2026 (SMIC, 151,67 h) — projet à faire valider par l’expert-comptable.</p>
+  <?php endif; ?>
+  <?php
   $planPdf = 'plan-action-ca-casa-dessert.pdf';
   $planPath = __DIR__ . DIRECTORY_SEPARATOR . $planPdf;
   if (is_readable($planPath)):
