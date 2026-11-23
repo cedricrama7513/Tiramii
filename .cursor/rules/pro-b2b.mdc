@@ -1,0 +1,30 @@
+---
+description: Espace Pro B2B Casa Dessert — comptes pro, boutique et commandes pro, devis, CA et factures pro
+globs: pro*.php,devis.php,devis/**,api/pro*.php,includes/pro_*.php,includes/ensure_pro_prices.php,includes/box_section_pro_fragment.html,templates/pro_shop_base.html,database_pro_b2b.sql
+alwaysApply: false
+---
+
+# Espace Pro (B2B)
+
+## Carte du code
+
+- **Comptes** : `includes/pro_accounts.php` (table `pro_accounts`, statut `pending` / `active` / `suspended`, session `$_SESSION['pro_account_id']`). Inscription `pro-register.php` + `api/pro_register.php`, connexion `pro-login.php` + `api/pro_login.php`. Un compte s'inscrit en `pending` et l'admin l'active dans `admin.php?tab=pro`.
+- **Boutique pro** : il n'y a pas de page séparée ; `index.php` affiche les tarifs pro quand `tiramii_pro_current_account()` renvoie un compte actif (`pro-boutique.php` ne fait que rediriger). Helpers dans `includes/pro_shop_helpers.php`.
+- **Prix pro** : colonne `products.price_pro_eur` (NULL = produit non commandable en pro), saisie dans l'admin. Condition SQL commune : `tiramii_pro_catalog_sql_condition()`.
+- **Commandes pro** : `api/pro_order.php` — compte actif obligatoire, pas de règle de livraison particuliers, enregistrées dans `orders` avec `pro_account_id`.
+- **Devis** : page publique `includes/pro_public_page.php` (servie par `pro.php`, `devis/index.php`, `index.php?page=devis`), version autonome `devis.php` (gardée pour les uploads FTP manuels), API `api/pro-quote.php`, table `pro_quote_requests`, notification `includes/pro_quote_notify.php`.
+- **Leads** : `api/pro_lead.php`, table `pro_leads`, `includes/pro_lead_notify.php`.
+- **Suivi admin** : `includes/pro_b2b.php` — CA par restaurant (`pro_ca_entries`, export CSV), factures PDF (`pro_invoices`, fichiers dans `data/pro_invoices/` protégés par `.htaccess`, nom stocké `[a-f0-9]{32}.pdf`).
+- `includes/pro_client_config.php` : liste des clients pro et données pour le tableur Excel.
+
+## Règles métier
+
+- Le **nom du restaurant** est la clé qui relie `pro_accounts`, `pro_ca_entries`, `pro_invoices` et le tableur Excel. Il doit rester identique partout (clients actuels : « My French factory », « My french Cantine »).
+- Montants pro : `tiramii_pro_parse_amount_eur()` (virgule acceptée, 0,01 à 999 999,99 €).
+- Un compte non `active` ne doit jamais voir les tarifs pro ni pouvoir commander.
+
+## Points d'attention
+
+- Le schéma de `pro_quote_requests` existe en double (`includes/pro_b2b.php` et `devis.php`) : toute modification doit être faite aux deux endroits.
+- Upload de facture : vérifier type PDF et taille, ne jamais réutiliser le nom de fichier fourni par l'utilisateur pour le stockage.
+- Mots de passe : `password_hash` / `password_verify` uniquement.

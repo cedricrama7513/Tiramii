@@ -1,0 +1,41 @@
+---
+description: Outils Casa Dessert — tableurs Excel (rentabilité, suivi factures pro), PDF, scripts de génération
+globs: outils/**,a-telecharger/**,tools/build-*,tools/generate-*,tools/pro-clients.json,tools/export-pro-clients-json.php,tools/requirements.txt
+alwaysApply: false
+---
+
+# Outils Excel et documents
+
+## Carte du code
+
+- `outils/index.php` : page de téléchargement publique (casadessert.fr/outils/).
+- `a-telecharger/` : copies des fichiers à télécharger depuis le dépôt.
+- Les scripts écrivent **dans les deux dossiers** (`outils/` et `a-telecharger/`) : toujours committer les deux copies.
+
+| Fichier généré | Script | Commande |
+|---|---|---|
+| `rentabilite-casa-dessert.xlsx` | `tools/build-rentabilite-xlsx.py` | `python3 tools/build-rentabilite-xlsx.py` |
+| `suivi-factures-restaurants-pro.xlsx` | `tools/build-suivi-factures-xlsx.py` (référence) ou `tools/build-suivi-factures-xls.mjs` | `python3 tools/build-suivi-factures-xlsx.py` |
+| `plan-action-ca-casa-dessert.pdf` | `tools/generate-plan-ca-pdf.mjs` depuis `outils/plan-action-ca-casa-dessert.md` | `node tools/generate-plan-ca-pdf.mjs` (pdfkit) |
+| `restaurants-sans-dessert-92-93-94.pdf` | `tools/generate-restaurants-pdf.py` depuis les CSV de `outils/` | `python3 tools/generate-restaurants-pdf.py` |
+
+Dépendances Python : `pip install -r tools/requirements.txt` (xlsxwriter). Node : `npm install xlsx pdfkit` dans `tools/` (`tools/node_modules/` est ignoré par git).
+
+## Données clients
+
+- `tools/pro-clients.json` alimente le suivi factures : `name`, `sheetName` (31 caractères max, limite Excel), `invoicePrefix`, `monthlyAmounts` (12 valeurs), `paidMonths`, `openingBalance`, `depositMonths`.
+- Il se met à jour depuis la base avec `php tools/export-pro-clients-json.php` (nécessite `config/config.php`) ou depuis admin → Pro → « Exporter pour le tableur Excel ».
+- Les noms de clients doivent correspondre exactement à ceux de l'admin Pro.
+
+## Règles des tableurs
+
+- Utilisateur sur **Excel Mac en français** : les formules doivent être de vraies formules Excel (écrites en anglais dans le fichier, ex. `SUM`, `IF` ; Excel les affiche en `SOMME`, `SI`), et chaque cellule calculée doit avoir une valeur en cache pour s'afficher avant « Activer la modification ».
+- Suivi factures : compte prépayé de 500 €. Solde = solde précédent + versement (D) − facture (C) ; alerte si solde ≤ 0, si facture > 500 € ou encours impayé > 500 €. Un onglet par restaurant + onglet « Synthèse », placé après les onglets clients.
+- Rentabilité : CA et charges mois par mois (colonnes B à M, total en N), marge, bénéfice, seuil de rentabilité.
+- Éviter les formats `.xls` / XML Excel 2003 : ils se sont montrés cassés sur Mac.
+
+## Après modification
+
+1. Régénérer le fichier avec le script, jamais à la main.
+2. Ouvrir le fichier (par exemple avec `openpyxl` en Python) pour contrôler onglets, formules et valeurs.
+3. Mettre à jour le `.md` de documentation correspondant dans `outils/` si les colonnes ou formules changent.
