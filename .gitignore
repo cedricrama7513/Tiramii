@@ -24,3 +24,6 @@ config/*secret*.php
 *.dump
 *.bak
 tools/node_modules/
+
+# Trésorerie : données financières, dépôt public
+tools/tresorerie-data/

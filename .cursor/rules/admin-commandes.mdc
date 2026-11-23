@@ -1,0 +1,30 @@
+---
+description: Admin Casa Dessert — commandes particuliers, stock, livraison, onglet Livreur, notifications
+globs: admin.php,admin.html,includes/admin_*.php,includes/delivery_validation.php,includes/order_notify.php,includes/smtp_send.php,includes/emailjs_send.php,includes/ensure_stock_levels.php,api/order.php,api/state.php,api/sync-reservation.php,tools/delete-*
+alwaysApply: false
+---
+
+# Admin et commandes
+
+## Carte du code
+
+- `admin.php` (~1 550 lignes) : connexion, traitement de tous les POST en haut du fichier, puis rendu HTML. Onglets via `?tab=` : `particulier` (défaut : stock, prix pro, commandes groupées par jour), `livreur`, `stats`, `pro`.
+- `includes/admin_livreur_helpers.php` : tournée du jour (`?tab=livreur&jour=AAAA-MM-JJ`), adresses, liens Waze.
+- `includes/admin_orders_delete.php` : suppression des commandes d'un jour (Europe/Paris).
+- `api/order.php` : commande particulier (CSRF, validation livraison, décrément du stock, notification).
+- `api/sync-reservation.php` et `api/state.php` : réservations de stock temporaires du panier (`stock_reservations`).
+- `includes/delivery_validation.php` : départements autorisés 75, 91, 92, 93, 94 ; hors 75013 et à plus de 10 km de l'atelier, panier minimum 15 € (paramètres dans `config['delivery']`).
+- `includes/order_notify.php` : e-mail au propriétaire (EmailJS, sinon SMTP, sinon `mail()`), SMS Twilio optionnel. Une erreur d'envoi ne doit jamais bloquer la commande.
+
+## Règles métier
+
+- Stock `999` = « Illimité » : le site ne décrémente pas. Stock borné entre 0 et 99 999.
+- `orders.validated_at` peut être absent sur les vieilles bases : tester avec `tiramii_admin_orders_has_validated_at()` avant de l'utiliser.
+- `orders.pro_account_id` non NULL = commande pro ; les stats particuliers doivent les exclure.
+- Les dates de commande sont regroupées par jour en Europe/Paris (`tiramii_admin_livreur_day_key`), pas en UTC.
+
+## Points d'attention
+
+- Chaque nouvelle action POST suit le même gabarit : `isset($_POST['nom_action'])` → contrôle `admin_ok` → `csrf_verify` → traitement → flash + `header('Location: ...')` + `exit`.
+- Les suppressions sont irréversibles (cascade `order_items`) : toujours une confirmation côté formulaire.
+- Ne jamais afficher de données client sans `h()`.
